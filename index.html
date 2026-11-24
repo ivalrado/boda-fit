@@ -266,6 +266,7 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 @keyframes xpup{0%{opacity:0;transform:translateY(10px) scale(.9)}15%{opacity:1;transform:translateY(0) scale(1.05)}70%{opacity:1;transform:translateY(-8px)}100%{opacity:0;transform:translateY(-24px)}}
 .lvlburst{font-size:70px;animation:burst .7s cubic-bezier(.2,1.6,.4,1)}
 @keyframes burst{from{transform:scale(.2) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+.pricetag{color:#fff;font-weight:700;border-bottom:1px dashed var(--sub2);cursor:pointer}
 .info{width:28px;height:28px;flex:none;border-radius:50%;border:1.5px solid var(--sub);background:transparent;color:var(--sub);font:italic 700 14px Georgia,serif;display:grid;place-items:center;padding:0}
 .info:active{background:var(--card3)}
 .foot{font-size:12px;color:var(--sub2);text-align:center;margin:20px 12px 0;line-height:1.5}
@@ -446,7 +447,7 @@ const FOODS = [
 ];
 
 /* ================= Estado ================= */
-const blank = ()=>({settings:{start:96,goalMin:80,goalMax:84,age:27,height:170,sex:'h',wu:'lb',v:4},weights:[],workouts:{},meals:{},cuts:{},water:{},menu:{},shop:{}});
+const blank = ()=>({settings:{start:96,goalMin:80,goalMax:84,age:27,height:170,sex:'h',wu:'lb',budget:600,v:4},weights:[],workouts:{},meals:{},cuts:{},water:{},menu:{},shop:{}});
 function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&typeof r==='object'){const b=blank();const st={...b.settings,...(r.settings||{})};if(!(r.settings&&r.settings.v>=3)){if((st.goalMin===86&&st.goalMax===90)||(st.goalMin===79&&st.goalMax===80)){st.goalMin=80;st.goalMax=84;}st.v=3;}let menu=r.menu||{};if(st.v<4){st.height=170;st.sex=st.sex||'h';menu={};st.v=4;}return {...b,...r,menu,settings:st};}}catch(e){}return blank();}
 let S = load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){toast('⚠️ No se pudo guardar');}if(window.onSaved)window.onSaved();}
@@ -553,6 +554,7 @@ function renderPeso(){
     ${phase()==='mant'?'':`<div class="small muted" style="margin-top:12px;line-height:1.45">Ritmo necesario: <b style="color:#fff">${kg(to90/weeks)} kg/sem</b> para llegar a ${st.goalMax} · <b style="color:#fff">${kg(to86/weeks)} kg/sem</b> para ${st.goalMin}</div>`}
     ${to90/weeks>1?`<div class="small" style="margin-top:10px;line-height:1.45;color:var(--orange)">⚡ Es un ritmo muy exigente. Arriba de ~1 kg por semana cuesta sostenerlo sin perder músculo: no te saltes comidas ni el gym, y si te sientes mal, bájale.</div>`:''}
   </div>
+  ${phase()==='mant'&&st.goalMax>78?`<div class="card" style="border:1px solid rgba(124,77,255,.5)"><b>🎯 ¿Siguiente meta?</b><div class="small muted" style="margin:4px 0 12px;line-height:1.45">Tu peso ideal a largo plazo es de 75–78 kg. Cuando quieras, activa la siguiente meta y la app regresa a la fase de bajar, sin prisa.</div><button class="btn block" data-act="nextgoal">Ir por 78 kg</button></div>`:''}
   <div class="sec">Registrar peso</div>
   <div class="card">
     <div class="grid2">
@@ -561,6 +563,13 @@ function renderPeso(){
     </div>
     <button class="btn block" style="margin-top:12px" data-act="savew">${todayHas?'Actualizar peso de hoy':'Guardar peso'}</button>
     <div class="small muted" style="margin-top:10px;text-align:center">Pésate en ayunas, después del baño, con la misma báscula.</div>
+  </div>
+  <div class="card">
+    ${(()=>{const W=[...(S.waist||[])].sort((a,b)=>a.date<b.date?-1:1),l=W[W.length-1],f=W[0];
+      return `<div class="row between"><b>📏 Cintura</b><span class="small muted">${l?`${kg(l.cm)} cm${W.length>1?` · ${l.cm-f.cm<=0?'−':'+'}${kg(Math.abs(l.cm-f.cm))} cm`:''}`:'Meta: menos de 90 cm'}</span></div>
+      <div class="small muted" style="margin:4px 0 10px;line-height:1.4">Mídete una vez por semana a la altura del ombligo, sin apretar. Es el mejor indicador de grasa abdominal.</div>
+      ${l?`<div class="bar" style="margin:6px 0 4px"><i style="width:${clamp((110-l.cm)/(110-90),0,1)*100}%"></i></div><div class="barlbl"><span>110 cm</span><span>meta 90 cm</span></div>`:''}`;})()}
+    <div class="addrow"><input id="waistIn" inputmode="decimal" placeholder="Cintura en cm"><button class="btn" style="font-size:15px" data-act="savewaist">Guardar</button></div>
   </div>
   <div class="sec">Progreso</div>
   <div class="card">${chartSVG()}
@@ -706,7 +715,7 @@ const ING = {
   pechuga:{n:'Pechuga de pollo (cruda)',k:120,p:22.5,c:0,f:2.6,cat:'prote',buy:'kg',bn:'Pechuga de pollo sin piel'},
   muslo:{n:'Muslo de pollo sin piel (crudo)',k:121,p:19.7,c:0,f:4.1,cat:'prote',buy:'kg',bn:'Muslo de pollo sin piel'},
   atun:{n:'Atún en agua (escurrido)',k:116,p:25.5,c:0,f:0.8,cat:'prote',buy:'lata',g:100,bn:'Atún en agua (lata de 140 g)'},
-  frijol:{n:'Frijoles Isadora peruanos',k:109,p:6,c:10,f:5,cat:'despensa',buy:'bolsa',g:430,bn:'Frijoles Isadora peruanos (bolsa 430 g)'},
+  frijol:{n:'Frijoles Isadora peruanos',k:109,p:6,c:10,f:5,cat:'despensa',buy:'bolsa',g:400,bn:'Frijoles Isadora peruanos (bolsa 400 g)'},
   manzana:{n:'Manzana',k:52,p:0.3,c:13.8,f:0.2,cat:'verdura',buy:'kg',bn:'Manzana'},
   arrachera:{n:'Arrachera marinada (cruda)',k:180,p:19,c:2,f:11,cat:'prote',buy:'kg',bn:'Arrachera marinada'},
   panela:{n:'Queso panela',k:230,p:18,c:3,f:16,cat:'lacteos',buy:'g',bn:'Queso panela'},
@@ -732,6 +741,20 @@ const ING = {
   zanahoria:{n:'Zanahoria',k:41,p:0.9,c:9.6,f:0.2,cat:'verdura',buy:'kg',bn:'Zanahoria'},
   chayote:{n:'Chayote',k:19,p:0.8,c:4.5,f:0.1,cat:'verdura',buy:'kg',bn:'Chayote'},
 };
+/* precio por unidad de compra; src 'heb' = sacado de heb.com.mx, 'aprox' = estimado */
+const PR={
+  huevo:[2.13,'heb','Huevo blanco 30 pz $64'],pechuga:[89.9,'heb','Pechuga sin hueso IQF 1 kg congelada $89.90 (si no hay: medias pechugas HEB $156)'],atun:[18.5,'heb','Atún HCF en agua 140 g'],
+  frijol:[19.9,'heb','Isadora peruanos 400 g'],tortilla:[18.5,'heb','Tortilla de nixtamal HEB 1 kg'],avena:[31,'heb','Avena HCF 1 kg'],
+  leche:[24.9,'heb','Leche light HEB 1.89 L $47'],arrachera:[348,'heb','Arrachera marinada HCF 600 g $209'],buldak:[50,'heb','Buldak 140 g'],
+  panela:[0.234,'heb','Panela Chen granel $234/kg'],tostada:[2.1,'heb','Tostada horneada HEB 200 g $34'],cebolla:[28,'heb','Cebolla blanca'],
+  arroz:[30,'aprox'],aceite:[0.045,'aprox'],platano:[25,'aprox'],manzana:[50,'aprox'],jitomate:[40,'aprox'],tomverde:[35,'aprox'],
+  chile:[0.06,'aprox'],limon:[2,'aprox'],espinaca:[0.06,'aprox'],brocoli:[50,'aprox'],zanahoria:[25,'aprox'],papaya:[30,'aprox'],calabacita:[30,'aprox'],chayote:[25,'aprox'],muslo:[110,'aprox'],
+};
+const OUTCOST={d4:100};
+const price=ig=>{const c=(S.prices||{})[ig];return c!=null?c:(PR[ig]?PR[ig][0]:0);};
+function perGram(ig){const x=ING[ig],p=price(ig);switch(x.buy){case 'kg':case 'L':return p/1000;case 'raw':return p/1000/x.raw;case 'pz':case 'lata':case 'bolsa':return p/x.g;case 'ml':case 'g':return p;default:return 0;}}
+const recCost=id=>REC[id].items.reduce((a,[ig,g])=>a+perGram(ig)*g,0)+(OUTCOST[id]||0);
+const money=n=>'$'+Math.round(n).toLocaleString('es-MX');
 const CATS=[['prote','🥩 Proteína'],['verdura','🥬 Frutas y verduras'],['tortilla','🫓 Tortillería'],['lacteos','🥛 Lácteos'],['despensa','🥫 Despensa']];
 const REC = {
   d1:{m:'desayuno',n:'Huevos a la mexicana con frijoles',items:[['huevo',150],['jitomate',80],['cebolla',30],['chile',5],['frijol',100],['tortilla',60],['aceite',5]],
@@ -750,12 +773,16 @@ const REC = {
       steps:['Escurre bien el atún.','Mézclalo con jitomate, cebolla y chile picados, jugo de limón y sal. Sin mayonesa.','Unta los frijoles en las tostadas y sirve el atún encima.']},
   c4:{m:'comida',sat:1,n:'Buldak con 2 huevos (sábado)',items:[['buldak',140],['huevo',100]],
       steps:['Prepara la sopa como dice el paquete.','Agrégale 2 huevos (cocidos o estrellados en la misma agua): le suman proteína y te llena más.','Una sopa por persona; tómala con agua, no con refresco.']},
+  c5:{m:'comida',n:'Arroz con huevo y frijoles (económica)',items:[['huevo',150],['arroz',150],['frijol',100],['jitomate',60],['tortilla',60]],
+      steps:['Calienta el arroz ya cocido (haz una olla para varios días).','Estrella o revuelve los 3 huevos con sal.','Sirve con frijoles, una salsa rápida de jitomate y las tortillas.']},
   n1:{m:'cena',n:'Pollo deshebrado en salsa verde con frijoles',items:[['pechuga',180],['tomverde',100],['cebolla',20],['chile',5],['frijol',100],['tortilla',90]],
       steps:['Cuece la pechuga en agua con sal 20 minutos y deshébrala (puedes dejarla lista desde la mañana).','Hierve el tomate verde y el chile 8 minutos y licúalos con la cebolla y sal.','Calienta el pollo en la salsa 5 minutos.','Sirve con los frijoles y las tortillas.']},
   n2:{m:'cena',n:'Quesadillas de pollo con panela',items:[['pechuga',120],['panela',60],['tortilla',90],['tomverde',50]],
       steps:['Usa pollo deshebrado o asado ya cocido.','Arma 3 quesadillas con el pollo y la panela en rebanadas.','Dóralas en comal sin aceite y acompaña con salsa verde.']},
   n3:{m:'cena',n:'Atún a la mexicana con tostadas',items:[['atun',150],['jitomate',100],['cebolla',40],['chile',5],['limon',20],['tostada',36],['frijol',100]],
       steps:['Escurre el atún y mézclalo con jitomate, cebolla y chile picados, limón y sal.','Sirve sobre las tostadas con los frijoles. Listo en 5 minutos al llegar del gym.']},
+  n5:{m:'cena',n:'Tacos de huevo con frijoles (económica)',items:[['huevo',150],['tortilla',90],['frijol',100],['tomverde',50]],
+      steps:['Revuelve los 3 huevos con sal.','Arma 3 tacos con frijoles y salsa verde.','Listo en 5 minutos al llegar del gym.']},
   n4:{m:'cena',sat:1,n:'Arrachera con cebollitas (sábado)',items:[['arrachera',200],['tortilla',90],['cebolla',60],['frijol',100],['tomverde',50],['limon',20]],
       steps:['Asa la arrachera en sartén o asador bien caliente, 3–4 minutos por lado.','Asa la cebolla en rodajas junto con la carne.','Arma tacos con salsa verde y limón; frijoles al lado.','Pesa la arrachera cruda: 200 g por persona.']},
 };
@@ -891,29 +918,49 @@ function shopList(mon){const w=weekMenu(mon,false),tot={};
 const shopState=(mon,create)=>{let s=S.shop[mon];if(!s){s={chk:{},have:{}};if(create)S.shop[mon]=s;}return s;};
 function toBuy(ig,g,ss){const b=buyAmt(ig,g),h=num(ss.have[ig])||0;
   let left=Math.max(0,b.q-h);if(b.u==='kg'||b.u==='L')left=roundUp(left,b.u==='kg'?0.25:0.5);return {b,left};}
+function listCost(mon){const ss=shopState(mon,false),list=shopList(mon);let t=0;Object.keys(list).forEach(ig=>{const {left}=toBuy(ig,list[ig],ss);t+=left*price(ig);});
+  const w=weekMenu(mon,false);for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i]&&w[i][m];if(id&&OUTCOST[id])t+=OUTCOST[id];});return t;}
+function fitBudget(mon){const B=S.settings.budget||600,w=weekMenu(mon,true);let guard=0,changed=0;
+  while(listCost(mon)>B&&guard++<40){let best=null,bestSat=null;
+    for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const cur=w[i][m];if(!cur||!REC[cur])return;const cc=recCost(cur),sat=!!REC[cur].sat;
+      RIDS(m).filter(id=>!REC[id].sat).forEach(alt=>{const sv=cc-recCost(alt);if(sv<=0.5)return;
+        let uses=0;for(let j=0;j<7;j++)if(w[j][m]===alt)uses++;if(uses>=3)return;
+        if(sat){if(!bestSat||sv>bestSat.sv)bestSat={i,m,alt,sv};}else if(!best||sv>best.sv)best={i,m,alt,sv};});});
+    const pick=best||bestSat;if(!pick)break;w[pick.i][pick.m]=pick.alt;changed++;}
+  save();return {changed,cost:listCost(mon),B};}
 function renderSuper(){
   const mon=addDays(mondayOf(today()),7*shopWeek),w=weekMenu(mon,false),ss=shopState(mon,false),list=shopList(mon);
   let menu='';
   for(let i=0;i<7;i++){const d=addDays(mon,i);let dk=0;
     const rows=MEALS.map(([m,n,em])=>{const cur=w[i][m]||'';if(cur&&REC[cur])dk+=recMac(cur).k;
       return `<div class="mrow"><span class="em">${em}</span><select data-menu="${mon}|${i}|${m}">${RIDS(m).concat(Object.keys(REC).filter(id=>REC[id].m!==m)).map(id=>`<option value="${id}" ${cur===id?'selected':''}>${REC[id].n}</option>`).join('')}<option value="" ${cur?'':'selected'}>— Fuera / otra cosa</option></select></div>`;}).join('');
-    menu+=`<div class="card mday ${d===today()?'tod':''}"><div class="row between"><b>${DOW[parseKey(d).getDay()]} <span class="muted small">${fmtShort(d)}</span></b><span class="pill gray">${dk} kcal</span></div>${rows}</div>`;}
+    const dc=MEALS.reduce((a,[m])=>a+(w[i][m]&&REC[w[i][m]]?recCost(w[i][m]):0),0);
+    menu+=`<div class="card mday ${d===today()?'tod':''}"><div class="row between"><b>${DOW[parseKey(d).getDay()]} <span class="muted small">${fmtShort(d)}</span></b><span class="pill gray">${dk} kcal · ~${money(dc)}</span></div>${rows}</div>`;}
   const ids=Object.keys(list);let done=0,share=[];
   let groups='';
   CATS.forEach(([cat,cn])=>{const its=ids.filter(i=>ING[i].cat===cat);if(!its.length)return;
     groups+=`<div class="small muted" style="font-weight:800;margin:16px 4px 8px">${cn}</div><div class="card list">`;
-    its.sort((a,b)=>ING[a].bn.localeCompare(ING[b].bn)).forEach(ig=>{const {b,left}=toBuy(ig,list[ig],ss),ok=!!ss.chk[ig]||left===0;if(ok)done++;else share.push(`• ${ING[ig].bn}: ${fmtQ(left,b.u)}`);
+    its.sort((a,b)=>ING[a].bn.localeCompare(ING[b].bn)).forEach(ig=>{const {b,left}=toBuy(ig,list[ig],ss),ok=!!ss.chk[ig]||left===0,cost=left*price(ig);if(ok)done++;else share.push(`• ${ING[ig].bn}: ${fmtQ(left,b.u)} (~${money(cost)})`);
       groups+=`<div class="it shop ${ok?'ok':''}"><button class="ck ${ok?'on':''}" style="margin:0" data-act="shopchk" data-ig="${ig}" data-mon="${mon}">✓</button>
-        <div class="grow"><div class="t">${ING[ig].bn}</div><div class="s">Necesitas ${fmtQ(b.q,b.u)}${left>0&&left<b.q?` · compra <b class="acc">${fmtQ(left,b.u)}</b>`:''}</div></div>
+        <div class="grow"><div class="t">${ING[ig].bn}</div><div class="s">Necesitas ${fmtQ(b.q,b.u)}${left>0&&left<b.q?` · compra <b class="acc">${fmtQ(left,b.u)}</b>`:''} · <span class="pricetag" data-act="price" data-ig="${ig}">${left?money(cost):'$0'}${PR[ig]&&PR[ig][1]==='aprox'&&!(S.prices||{})[ig]?' ≈':''}</span></div></div>
         <div class="have"><input data-have="${mon}|${ig}" inputmode="decimal" value="${esc(ss.have[ig]??'')}" placeholder="tengo"><span>${b.u}</span></div></div>`;});
     groups+='</div>';});
-  window._shareTxt=`🛒 Súper semana del ${fmtShort(mon)}\n`+share.join('\n');
+  const total=listCost(mon),B=S.settings.budget||600,over=total>B;
+  window._shareTxt=`🛒 Súper semana del ${fmtShort(mon)} · ~${money(total)}\n`+share.join('\n');
   document.getElementById('v-super').innerHTML=`
   <div class="eyebrow">Menú y compras</div><h1>Súper</h1>
   <div class="seg"><button class="${shopWeek===0?'on':''}" data-act="sweek" data-v="0">Esta semana</button><button class="${shopWeek===1?'on':''}" data-act="sweek" data-v="1">Próxima semana</button></div>
+  <div class="card" style="margin-top:12px">
+    <div class="row between"><div><div class="small muted" style="font-weight:600">Gasto estimado de la semana</div><div class="kbig">${money(total)}<small> / ${money(B)}</small></div></div>
+    <div style="text-align:right"><div class="small muted" style="font-weight:600">${over?'Te pasas':'Te sobran'}</div><div style="font-size:20px;font-weight:800" class="${over?'red':'acc'}">${money(Math.abs(B-total))}</div></div></div>
+    ${bar(total,B)}
+    <div class="addrow"><input id="budgetIn" inputmode="numeric" placeholder="Presupuesto semanal" value="${B}"><button class="btn ghost" style="font-size:15px" data-act="budget">Guardar</button></div>
+    ${over?`<button class="btn block" style="margin-top:10px" data-act="fitbudget" data-mon="${mon}">🪄 Ajustar el menú a mi presupuesto</button>`:''}
+    <div class="small muted" style="margin-top:10px;line-height:1.4">Precios de HEB San Pedro (Gómez Morín) en noviembre; los que tienen ≈ son aproximados. Toca cualquier precio para corregirlo con lo que pagaste.</div>
+  </div>
   <div class="sec" style="margin-top:14px">Lista de compras <small>${done}/${ids.length} listos</small></div>
   <div class="small muted" style="margin:0 4px;line-height:1.4">Sale del menú de abajo. En <b>Tengo</b> pon lo que ya hay en casa y te dice cuánto comprar; palomea lo que ya echaste al carrito.</div>
-  ${Object.values(w).some(d=>d&&d.desayuno==='d4')?'<div class="small muted" style="margin:10px 4px 0">🌮 La barbacoa del sábado no sale en la lista: esa la compras en la taquería.</div>':''}
+  ${Object.values(w).some(d=>d&&d.desayuno==='d4')?'<div class="small muted" style="margin:10px 4px 0">🌮 La barbacoa del sábado se compra en la taquería: va sumada al gasto (~$100 por 4 taquitos).</div>':''}
   ${groups||'<div class="card empty">No hay recetas en el menú de esta semana.</div>'}
   <div class="grid2" style="margin-top:12px"><button class="btn ghost" data-act="shopshare">📤 Compartir lista</button><button class="btn ghost" data-act="shopreset" data-mon="${mon}">↺ Desmarcar todo</button></div>
   <div class="sec">Menú <small>${fmtShort(mon)} – ${fmtShort(addDays(mon,6))}</small></div>
@@ -1012,7 +1059,7 @@ function computeXP(){
     if((S.water[d]||0)>=WATER_GOAL){xp+=20;water++;}
     if(CUTS.every(c=>(S.cuts[d]||{})[c.id])){xp+=30;clean++;}
     const t=dayTot(d);if(tg&&d<today()&&mc>=3&&t.any&&t.k<=tg.kcal*1.05&&t.k>=tg.kcal*0.7){xp+=50;goodK++;}});
-  xp+=new Set(S.weights.map(w=>w.date)).size*15;
+  xp+=new Set(S.weights.map(w=>w.date)).size*15+(S.waist||[]).length*10;
   const minW=S.weights.length?Math.min(...S.weights.map(w=>w.kg)):S.settings.start,lost=Math.max(0,S.settings.start-minW);
   xp+=Math.floor(lost*200);
   const bs=bestStreak();xp+=bs*20;
@@ -1052,7 +1099,7 @@ function showPlayer(){const g=computeXP(),t=titleOf(g.lvl);const un=ACH.filter(a
   <div class="achs">${ACH.map(a=>{const ok=a[3](g);return `<div class="ach ${ok?'on':''}"><div class="e">${ok?a[0]:'🔒'}</div><b>${a[1]}</b><span>${a[2]}</span></div>`;}).join('')}</div>
   <div class="small muted" style="font-weight:700;margin:16px 2px 8px">CÓMO GANAR XP</div>
   <div class="card list" style="background:var(--card2)">
-    ${[['Serie completada','+5'],['Ejercicio completo','+20'],['Entreno completo','+100'],['Cada día de tu mejor racha','+20'],['Comida registrada (hasta 4/día)','+10'],['Día dentro de tus calorías','+50'],['Meta de agua','+20'],['Día limpio (sin los 5)','+30'],['Pesarte','+15'],['Cada kg bajado','+200']].map(([a,b])=>`<div class="it"><div class="grow">${a}</div><b class="acc">${b} XP</b></div>`).join('')}
+    ${[['Serie completada','+5'],['Ejercicio completo','+20'],['Entreno completo','+100'],['Cada día de tu mejor racha','+20'],['Comida registrada (hasta 4/día)','+10'],['Día dentro de tus calorías','+50'],['Meta de agua','+20'],['Día limpio (sin los 5)','+30'],['Pesarte','+15'],['Medir tu cintura','+10'],['Cada kg bajado','+200']].map(([a,b])=>`<div class="it"><div class="grow">${a}</div><b class="acc">${b} XP</b></div>`).join('')}
   </div>
   <button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`;
   document.getElementById('modal').classList.add('on');}
@@ -1156,12 +1203,20 @@ document.addEventListener('click',ev=>{
     case 'rec':showRec(b.dataset.rid);break;
     case 'picker':pickPor=1;picker(b.dataset.meal);break;
     case 'por':pickPor=+b.dataset.v;picker(b.dataset.meal);break;
+    case 'savewaist':{const v=num(document.getElementById('waistIn').value);if(v==null||v<50||v>200){toast('Escribe tu cintura en cm');return;}
+      S.waist=(S.waist||[]).filter(x=>x.date!==today());S.waist.push({date:today(),cm:Math.round(v*10)/10});save();renderPeso();toast('Cintura guardada ✓');break;}
+    case 'nextgoal':{S.settings.goalMax=78;S.settings.goalMin=75;S.settings.phase='auto';save();renderPeso();toast('🎯 Nueva meta: 78 kg. ¡A la Fase 1 otra vez!');break;}
     case 'pick':{if(b.dataset.today)foodDate=today();logRec(b.dataset.meal,b.dataset.rid,b.dataset.today?1:pickPor);document.getElementById('modal').classList.remove('on');
       if(curTab!=='comida')show('comida');else renderComida();toast(`Agregado ✓ · ${recMac(b.dataset.rid,b.dataset.today?1:pickPor).k} kcal`);break;}
     case 'logmenu':logRec(b.dataset.meal,b.dataset.rid,1);renderComida();toast(`Agregado ✓ · ${recMac(b.dataset.rid).k} kcal`);break;
     case 'water':{const n=clamp(+b.dataset.n,0,20);S.water[foodDate]=n;if(!n)delete S.water[foodDate];save();renderComida();if(n===WATER_GOAL)toast('💧 ¡Meta de agua cumplida!');break;}
     case 'qheight':{const h=num(document.getElementById('qHeight').value);if(h==null||h<130||h>230){toast('Escribe tu estatura en cm');return;}S.settings.height=Math.round(h);save();renderComida();toast(`Tu meta: ${targets().kcal.toLocaleString('es-MX')} kcal al día`);break;}
     case 'sweek':shopWeek=+b.dataset.v;renderSuper();break;
+    case 'budget':{const v=num(document.getElementById('budgetIn').value);if(!v||v<100){toast('Escribe un presupuesto válido');return;}S.settings.budget=Math.round(v);save();renderSuper();toast('Presupuesto guardado ✓');break;}
+    case 'fitbudget':{const r=fitBudget(b.dataset.mon);renderSuper();toast(r.cost<=r.B?`🪄 Listo: ${r.changed} cambios · ~${money(r.cost)}`:`Lo más barato posible: ~${money(r.cost)}`);break;}
+    case 'price':{const ig=b.dataset.ig,x=ING[ig],u={kg:'kg',raw:'kg',L:'litro',ml:'ml',g:'g',pz:'pieza',lata:'lata',bolsa:'bolsa'}[x.buy];
+      const v=prompt(`Precio de ${x.bn} por ${u} (en pesos):`,String(price(ig)));if(v==null)return;const n=num(v);if(n==null||n<0){toast('Precio no válido');return;}
+      S.prices=S.prices||{};S.prices[ig]=n;save();renderSuper();toast('Precio actualizado ✓');break;}
     case 'shopchk':{const ss=shopState(b.dataset.mon,true);ss.chk[b.dataset.ig]=!ss.chk[b.dataset.ig];save();renderSuper();break;}
     case 'shopreset':{const ss=shopState(b.dataset.mon,true);ss.chk={};save();renderSuper();break;}
     case 'shopshare':{const tx=window._shareTxt||'';if(navigator.share)navigator.share({text:tx}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(tx).then(()=>toast('Lista copiada ✓'));break;}
