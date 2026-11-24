@@ -438,7 +438,7 @@ const CUTS = [
 const FOODS = [
   {n:'Huevo',img:FIMG('Eggs'),tg:'≈6 g de proteína c/u',d:'La proteína más barata. 2–3 huevos te aguantan desde las 6 hasta la comida.'},
   {n:'Pollo',img:FIMG('Chicken Breast'),tg:'≈30 g proteína / 100 g',d:'Pechuga o muslo sin piel: asado, deshebrado, en caldo o al horno.'},
-  {n:'Atún',img:FIMG('Tuna'),tg:'≈20 g proteína / lata',d:'En agua y sin mayonesa: a la mexicana con jitomate, cebolla, limón y chile.'},
+  {n:'Atún en sobre',img:FIMG('Tuna'),tg:'≈45 g proteína / sobre jumbo',d:'En agua (natural o con limón), no en aceite. A la mexicana con jitomate, cebolla y chile.'},
   {n:'Frijoles Isadora',img:FIMG('Black Beans'),tg:'≈110 kcal / 100 g',d:'Los peruanos ya vienen listos. Pésalos: 100 g por comida y la bolsa te rinde 4.'},
   {n:'Verduras',img:FIMG('Broccoli'),tg:'Llenan casi sin calorías',d:'Brócoli, zanahoria, ejotes, espinaca o pepino: al vapor, asadas o crudas con limón.'},
   {n:'Avena',img:FIMG('Oats'),tg:'≈150 kcal / ½ taza',d:'En hojuelas, con fruta y canela. Evita la instantánea con azúcar.'},
@@ -567,7 +567,7 @@ function renderPeso(){
   <div class="card">
     ${(()=>{const W=[...(S.waist||[])].sort((a,b)=>a.date<b.date?-1:1),l=W[W.length-1],f=W[0];
       return `<div class="row between"><b>📏 Cintura</b><span class="small muted">${l?`${kg(l.cm)} cm${W.length>1?` · ${l.cm-f.cm<=0?'−':'+'}${kg(Math.abs(l.cm-f.cm))} cm`:''}`:'Meta: menos de 90 cm'}</span></div>
-      <div class="small muted" style="margin:4px 0 10px;line-height:1.4">Mídete una vez por semana a la altura del ombligo, sin apretar. Es el mejor indicador de grasa abdominal.</div>
+      <div class="small muted" style="margin:4px 0 10px;line-height:1.4">Opcional. Mídete una vez por semana a la altura del ombligo, sin apretar. ¿Sin cinta? Rodéate con un cordón, marca dónde se junta y mídelo con un flexómetro o regla.</div>
       ${l?`<div class="bar" style="margin:6px 0 4px"><i style="width:${clamp((110-l.cm)/(110-90),0,1)*100}%"></i></div><div class="barlbl"><span>110 cm</span><span>meta 90 cm</span></div>`:''}`;})()}
     <div class="addrow"><input id="waistIn" inputmode="decimal" placeholder="Cintura en cm"><button class="btn" style="font-size:15px" data-act="savewaist">Guardar</button></div>
   </div>
@@ -714,7 +714,7 @@ const ING = {
   huevo:{n:'Huevo',k:143,p:12.6,c:0.7,f:9.5,cat:'prote',buy:'pz',g:50,bn:'Huevo'},
   pechuga:{n:'Pechuga de pollo (cruda)',k:120,p:22.5,c:0,f:2.6,cat:'prote',buy:'kg',bn:'Pechuga de pollo sin piel'},
   muslo:{n:'Muslo de pollo sin piel (crudo)',k:121,p:19.7,c:0,f:4.1,cat:'prote',buy:'kg',bn:'Muslo de pollo sin piel'},
-  atun:{n:'Atún en agua (escurrido)',k:116,p:25.5,c:0,f:0.8,cat:'prote',buy:'lata',g:100,bn:'Atún en agua (lata de 140 g)'},
+  atun:{n:'Atún en agua en sobre',k:116,p:25.5,c:0,f:0.8,cat:'prote',buy:'pz',g:180,bn:'Atún en agua en sobre jumbo (180 g)'},
   frijol:{n:'Frijoles Isadora peruanos',k:109,p:6,c:10,f:5,cat:'despensa',buy:'bolsa',g:400,bn:'Frijoles Isadora peruanos (bolsa 400 g)'},
   manzana:{n:'Manzana',k:52,p:0.3,c:13.8,f:0.2,cat:'verdura',buy:'kg',bn:'Manzana'},
   arrachera:{n:'Arrachera marinada (cruda)',k:180,p:19,c:2,f:11,cat:'prote',buy:'kg',bn:'Arrachera marinada'},
@@ -743,7 +743,7 @@ const ING = {
 };
 /* precio por unidad de compra; src 'heb' = sacado de heb.com.mx, 'aprox' = estimado */
 const PR={
-  huevo:[2.13,'heb','Huevo blanco 30 pz $64'],pechuga:[89.9,'heb','Pechuga sin hueso IQF 1 kg congelada $89.90 (si no hay: medias pechugas HEB $156)'],atun:[18.5,'heb','Atún HCF en agua 140 g'],
+  huevo:[2.13,'heb','Huevo blanco 30 pz $64'],pechuga:[89.9,'heb','Pechuga sin hueso IQF 1 kg congelada $89.90 (si no hay: medias pechugas HEB $156)'],atun:[38,'heb','Atún en agua sobre jumbo 180 g (Dolores o HCF) $38'],
   frijol:[19.9,'heb','Isadora peruanos 400 g'],tortilla:[18.5,'heb','Tortilla de nixtamal HEB 1 kg'],avena:[31,'heb','Avena HCF 1 kg'],
   leche:[24.9,'heb','Leche light HEB 1.89 L $47'],arrachera:[348,'heb','Arrachera marinada HCF 600 g $209'],buldak:[50,'heb','Buldak 140 g'],
   panela:[0.234,'heb','Panela Chen granel $234/kg'],tostada:[2.1,'heb','Tostada horneada HEB 200 g $34'],cebolla:[28,'heb','Cebolla blanca'],
@@ -757,11 +757,11 @@ const recCost=id=>REC[id].items.reduce((a,[ig,g])=>a+perGram(ig)*g,0)+(OUTCOST[i
 const money=n=>'$'+Math.round(n).toLocaleString('es-MX');
 const CATS=[['prote','🥩 Proteína'],['verdura','🥬 Frutas y verduras'],['tortilla','🫓 Tortillería'],['lacteos','🥛 Lácteos'],['despensa','🥫 Despensa']];
 const REC = {
-  d1:{m:'desayuno',n:'Huevos a la mexicana con frijoles',items:[['huevo',150],['jitomate',80],['cebolla',30],['chile',5],['frijol',100],['tortilla',60],['aceite',5]],
+  d1:{m:'desayuno',n:'Huevos a la mexicana con frijoles',items:[['huevo',200],['jitomate',80],['cebolla',30],['chile',5],['frijol',100],['tortilla',60],['aceite',5]],
       steps:['Pica el jitomate, la cebolla y el chile.','Sofríe la verdura en el aceite 2 minutos.','Agrega los huevos batidos con sal y revuelve hasta que cuajen.','Calienta los frijoles y las tortillas.']},
-  d2:{m:'desayuno',n:'Avena con plátano + 2 huevos cocidos',items:[['avena',60],['leche',250],['platano',100],['huevo',100]],
-      steps:['Cuece la avena en la leche 4–5 minutos con canela al gusto, sin azúcar.','Agrega el plátano en rodajas.','Los huevos: hiérvelos 10 minutos. Deja varios listos desde el domingo y te ahorras tiempo a las 6 am.']},
-  d3:{m:'desayuno',n:'Huevos con espinaca + manzana',items:[['huevo',150],['espinaca',60],['aceite',5],['tortilla',60],['manzana',150]],
+  d2:{m:'desayuno',n:'Avena con plátano + 3 huevos cocidos',items:[['avena',60],['leche',250],['platano',100],['huevo',150]],
+      steps:['Cuece la avena en la leche 4–5 minutos con canela al gusto, sin azúcar.','Agrega el plátano en rodajas.','Los 3 huevos: hiérvelos 10 minutos. Deja varios listos desde el domingo y te ahorras tiempo a las 6 am.']},
+  d3:{m:'desayuno',n:'Huevos con espinaca + manzana',items:[['huevo',200],['espinaca',60],['aceite',5],['tortilla',60],['manzana',150]],
       steps:['Saltea la espinaca en el aceite 1 minuto.','Agrega los huevos batidos con sal y pimienta y revuelve.','Acompaña con las tortillas y la manzana.']},
   d4:{m:'desayuno',sat:1,n:'Taquitos de barbacoa (sábado)',items:[['barbacoa',160],['tortaq',100],['cebolla',20],['tomverde',30]],
       steps:['4 taquitos de barbacoa con cebolla, cilantro y salsa.','Pide tortilla sencilla, no doble ni bañada en grasa.','Consomé sí, pero sin la grasa de encima. Sin refresco: agua o café.']},
@@ -769,8 +769,8 @@ const REC = {
       steps:['Sazona la pechuga con sal, pimienta, ajo en polvo y limón.','Ásala en sartén con el aceite, 5–6 minutos por lado.','Cuece el brócoli y la zanahoria al vapor 6–8 minutos.','Sirve con el arroz (180 g ya cocido; haz una olla para 3 días).']},
   c2:{m:'comida',n:'Tacos de pollo asado con frijoles',items:[['pechuga',200],['tortilla',90],['frijol',100],['jitomate',60],['cebolla',30],['chile',5],['limon',20]],
       steps:['Asa la pechuga sazonada y córtala en tiras.','Haz pico de gallo con jitomate, cebolla, chile y limón.','Arma 3 tacos y acompaña con los frijoles.']},
-  c3:{m:'comida',n:'Tostadas de atún a la mexicana',items:[['atun',200],['jitomate',100],['cebolla',40],['chile',5],['limon',20],['tostada',48],['frijol',100]],
-      steps:['Escurre bien el atún.','Mézclalo con jitomate, cebolla y chile picados, jugo de limón y sal. Sin mayonesa.','Unta los frijoles en las tostadas y sirve el atún encima.']},
+  c3:{m:'comida',n:'Tostadas de atún a la mexicana',items:[['atun',180],['jitomate',100],['cebolla',40],['chile',5],['limon',20],['tostada',48],['frijol',100]],
+      steps:['Usa un sobre jumbo de atún en agua (natural o con limón).','Mézclalo con jitomate, cebolla y chile picados, jugo de limón y sal. Sin mayonesa.','Unta los frijoles en las tostadas y sirve el atún encima.']},
   c4:{m:'comida',sat:1,n:'Buldak con 2 huevos (sábado)',items:[['buldak',140],['huevo',100]],
       steps:['Prepara la sopa como dice el paquete.','Agrégale 2 huevos (cocidos o estrellados en la misma agua): le suman proteína y te llena más.','Una sopa por persona; tómala con agua, no con refresco.']},
   c5:{m:'comida',n:'Arroz con huevo y frijoles (económica)',items:[['huevo',150],['arroz',150],['frijol',100],['jitomate',60],['tortilla',60]],
@@ -779,10 +779,10 @@ const REC = {
       steps:['Cuece la pechuga en agua con sal 20 minutos y deshébrala (puedes dejarla lista desde la mañana).','Hierve el tomate verde y el chile 8 minutos y licúalos con la cebolla y sal.','Calienta el pollo en la salsa 5 minutos.','Sirve con los frijoles y las tortillas.']},
   n2:{m:'cena',n:'Quesadillas de pollo con panela',items:[['pechuga',120],['panela',60],['tortilla',90],['tomverde',50]],
       steps:['Usa pollo deshebrado o asado ya cocido.','Arma 3 quesadillas con el pollo y la panela en rebanadas.','Dóralas en comal sin aceite y acompaña con salsa verde.']},
-  n3:{m:'cena',n:'Atún a la mexicana con tostadas',items:[['atun',150],['jitomate',100],['cebolla',40],['chile',5],['limon',20],['tostada',36],['frijol',100]],
-      steps:['Escurre el atún y mézclalo con jitomate, cebolla y chile picados, limón y sal.','Sirve sobre las tostadas con los frijoles. Listo en 5 minutos al llegar del gym.']},
-  n5:{m:'cena',n:'Tacos de huevo con frijoles (económica)',items:[['huevo',150],['tortilla',90],['frijol',100],['tomverde',50]],
-      steps:['Revuelve los 3 huevos con sal.','Arma 3 tacos con frijoles y salsa verde.','Listo en 5 minutos al llegar del gym.']},
+  n3:{m:'cena',n:'Atún a la mexicana con tostadas',items:[['atun',180],['jitomate',100],['cebolla',40],['chile',5],['limon',20],['tostada',36],['frijol',100]],
+      steps:['Mezcla el sobre de atún en agua con jitomate, cebolla y chile picados, limón y sal.','Sirve sobre las tostadas con los frijoles. Listo en 5 minutos al llegar del gym.']},
+  n5:{m:'cena',n:'Tacos de huevo con frijoles (económica)',items:[['huevo',200],['tortilla',90],['frijol',100],['tomverde',50]],
+      steps:['Revuelve los 4 huevos con sal.','Arma 3 tacos con frijoles y salsa verde.','Listo en 5 minutos al llegar del gym.']},
   n4:{m:'cena',sat:1,n:'Arrachera con cebollitas (sábado)',items:[['arrachera',200],['tortilla',90],['cebolla',60],['frijol',100],['tomverde',50],['limon',20]],
       steps:['Asa la arrachera en sartén o asador bien caliente, 3–4 minutos por lado.','Asa la cebolla en rodajas junto con la carne.','Arma tacos con salsa verde y limón; frijoles al lado.','Pesa la arrachera cruda: 200 g por persona.']},
 };
@@ -796,7 +796,7 @@ function amtTxt(i,g){
   if(i==='tortaq'){const n=g/25;return `${frac(n)} tortillas de taquería`;}
   if(i==='buldak'){const n=g/140;return `${frac(n)} paquete${n===1?'':'s'} · ${g} g`;}
   if(i==='tostada'){const n=g/12;return `${frac(n)} tostada${n===1?'':'s'}`;}
-  if(i==='atun'){const n=g/100;return `${frac(n)} lata${n===1?'':'s'} · ${g} g escurrido`;}
+  if(i==='atun'){const n=g/180;return `${frac(n)} sobre${n===1?'':'s'} jumbo · ${g} g`;}
   if(i==='limon'){const n=g/20;return `${frac(n)} limón${n===1?'':'es'} (jugo)`;}
   if(i==='leche')return `${g} ml`;
   if(i==='aceite')return `${g} g · ${frac(g/5)} cdita`;
@@ -817,7 +817,7 @@ function buyAmt(i,g){const x=ING[i];
 function phase(){const p=S.settings.phase||'auto';if(p!=='auto')return p;return latestW()<=S.settings.goalMax?'mant':'bajar';}
 function targets(){const st=S.settings;if(!st.height)return null;
   const w=latestW(),bmr=10*w+6.25*st.height-5*(st.age||27)+(st.sex==='m'?-161:5),tdee=bmr*1.5;
-  return {kcal:Math.max(1700,Math.round((tdee-(phase()==='mant'?0:750))/50)*50),p:Math.round(1.8*st.goalMax/5)*5,tdee:Math.round(tdee/10)*10};}
+  return {kcal:Math.max(1700,Math.round((tdee-(phase()==='mant'?0:750))/50)*50),p:Math.round(1.6*st.goalMax/5)*5,tdee:Math.round(tdee/10)*10};}
 const WATER_GOAL=10;
 
 /* ================= Comida ================= */
@@ -920,14 +920,16 @@ function toBuy(ig,g,ss){const b=buyAmt(ig,g),h=num(ss.have[ig])||0;
   let left=Math.max(0,b.q-h);if(b.u==='kg'||b.u==='L')left=roundUp(left,b.u==='kg'?0.25:0.5);return {b,left};}
 function listCost(mon){const ss=shopState(mon,false),list=shopList(mon);let t=0;Object.keys(list).forEach(ig=>{const {left}=toBuy(ig,list[ig],ss);t+=left*price(ig);});
   const w=weekMenu(mon,false);for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i]&&w[i][m];if(id&&OUTCOST[id])t+=OUTCOST[id];});return t;}
-function fitBudget(mon){const B=S.settings.budget||600,w=weekMenu(mon,true);let guard=0,changed=0;
+function weekProt(w){let p=0;for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i][m];if(id&&REC[id])p+=recMac(id).p;});return p/7;}
+function fitBudget(mon){const B=S.settings.budget||600,w=weekMenu(mon,true),tg=targets(),floor=Math.min(tg?tg.p:150,weekProt(w))-2;let guard=0,changed=0,blocked=false;
   while(listCost(mon)>B&&guard++<40){let best=null,bestSat=null;
     for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const cur=w[i][m];if(!cur||!REC[cur])return;const cc=recCost(cur),sat=!!REC[cur].sat;
       RIDS(m).filter(id=>!REC[id].sat).forEach(alt=>{const sv=cc-recCost(alt);if(sv<=0.5)return;
         let uses=0;for(let j=0;j<7;j++)if(w[j][m]===alt)uses++;if(uses>=3)return;
+        const dp=(recMac(alt).p-recMac(cur).p)/7;if(weekProt(w)+dp<floor){blocked=true;return;}
         if(sat){if(!bestSat||sv>bestSat.sv)bestSat={i,m,alt,sv};}else if(!best||sv>best.sv)best={i,m,alt,sv};});});
     const pick=best||bestSat;if(!pick)break;w[pick.i][pick.m]=pick.alt;changed++;}
-  save();return {changed,cost:listCost(mon),B};}
+  save();return {changed,cost:listCost(mon),B,blocked,prot:Math.round(weekProt(w))};}
 function renderSuper(){
   const mon=addDays(mondayOf(today()),7*shopWeek),w=weekMenu(mon,false),ss=shopState(mon,false),list=shopList(mon);
   let menu='';
@@ -955,7 +957,8 @@ function renderSuper(){
     <div style="text-align:right"><div class="small muted" style="font-weight:600">${over?'Te pasas':'Te sobran'}</div><div style="font-size:20px;font-weight:800" class="${over?'red':'acc'}">${money(Math.abs(B-total))}</div></div></div>
     ${bar(total,B)}
     <div class="addrow"><input id="budgetIn" inputmode="numeric" placeholder="Presupuesto semanal" value="${B}"><button class="btn ghost" style="font-size:15px" data-act="budget">Guardar</button></div>
-    ${over?`<button class="btn block" style="margin-top:10px" data-act="fitbudget" data-mon="${mon}">🪄 Ajustar el menú a mi presupuesto</button>`:''}
+    <div class="small muted" style="margin-top:10px">💪 Proteína del menú: <b style="color:#fff">~${Math.round(weekProt(w))} g/día</b>${targets()?` · meta ${targets().p} g`:''}</div>
+    ${over?`<button class="btn block" style="margin-top:10px" data-act="fitbudget" data-mon="${mon}">🪄 Ajustar el menú a mi presupuesto</button><div class="small muted" style="margin-top:6px;text-align:center">Solo cambia recetas si no baja tu proteína.</div>`:''}
     <div class="small muted" style="margin-top:10px;line-height:1.4">Precios de HEB San Pedro (Gómez Morín) en noviembre; los que tienen ≈ son aproximados. Toca cualquier precio para corregirlo con lo que pagaste.</div>
   </div>
   <div class="sec" style="margin-top:14px">Lista de compras <small>${done}/${ids.length} listos</small></div>
@@ -966,7 +969,7 @@ function renderSuper(){
   <div class="sec">Menú <small>${fmtShort(mon)} – ${fmtShort(addDays(mon,6))}</small></div>
   <div class="small muted" style="margin:0 4px 10px;line-height:1.4">Cambia cualquier comida y la lista se actualiza sola. Las recetas completas están en Plan.</div>
   ${menu}
-  <div class="foot">Cantidades redondeadas hacia arriba. Frijol y arroz se calculan en crudo (rinden ~2.5× y ~3× al cocerse). La lata de atún de 140 g da ~100 g escurrido.</div>`;
+  <div class="foot">Cantidades redondeadas hacia arriba. Frijol y arroz se calculan en crudo (rinden ~2.5× y ~3× al cocerse). El atún va en sobre jumbo de 180 g, en agua.</div>`;
 }
 
 /* ================= Plan ================= */
@@ -1213,7 +1216,7 @@ document.addEventListener('click',ev=>{
     case 'qheight':{const h=num(document.getElementById('qHeight').value);if(h==null||h<130||h>230){toast('Escribe tu estatura en cm');return;}S.settings.height=Math.round(h);save();renderComida();toast(`Tu meta: ${targets().kcal.toLocaleString('es-MX')} kcal al día`);break;}
     case 'sweek':shopWeek=+b.dataset.v;renderSuper();break;
     case 'budget':{const v=num(document.getElementById('budgetIn').value);if(!v||v<100){toast('Escribe un presupuesto válido');return;}S.settings.budget=Math.round(v);save();renderSuper();toast('Presupuesto guardado ✓');break;}
-    case 'fitbudget':{const r=fitBudget(b.dataset.mon);renderSuper();toast(r.cost<=r.B?`🪄 Listo: ${r.changed} cambios · ~${money(r.cost)}`:`Lo más barato posible: ~${money(r.cost)}`);break;}
+    case 'fitbudget':{const r=fitBudget(b.dataset.mon);renderSuper();toast(r.cost<=r.B?`🪄 Listo: ${r.changed} cambios · ~${money(r.cost)}`:`Para no bajar tu proteína necesitas ~${money(r.cost)}`);break;}
     case 'price':{const ig=b.dataset.ig,x=ING[ig],u={kg:'kg',raw:'kg',L:'litro',ml:'ml',g:'g',pz:'pieza',lata:'lata',bolsa:'bolsa'}[x.buy];
       const v=prompt(`Precio de ${x.bn} por ${u} (en pesos):`,String(price(ig)));if(v==null)return;const n=num(v);if(n==null||n<0){toast('Precio no válido');return;}
       S.prices=S.prices||{};S.prices[ig]=n;save();renderSuper();toast('Precio actualizado ✓');break;}
