@@ -242,6 +242,7 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .have input{width:58px;padding:8px 4px;text-align:center;font-weight:700;font-size:16px}
 .have span{font-size:12px;color:var(--sub);font-weight:700;width:30px}
 .tab{font-size:10px}
+.unitbtn{border:0;background:var(--accbg);color:var(--acc);border-radius:8px;padding:3px 8px;font-weight:800;font-size:11px;letter-spacing:.3px}
 .info{width:28px;height:28px;flex:none;border-radius:50%;border:1.5px solid var(--sub);background:transparent;color:var(--sub);font:italic 700 14px Georgia,serif;display:grid;place-items:center;padding:0}
 .info:active{background:var(--card3)}
 .foot{font-size:12px;color:var(--sub2);text-align:center;margin:20px 12px 0;line-height:1.5}
@@ -306,48 +307,48 @@ const FIMG = n=>IMGS['food_'+n.replace(/ /g,'_')]||'';
 
 const EX = {
   /* Empuje */
-  bbbench:{n:'Press de banca con barra',img:'Barbell_Bench_Press_-_Medium_Grip',type:'str',sets:4,reps:'6–10',rest:120,ref:[40,'lb',6],m:'Pecho, hombro y tríceps',tip:'Omóplatos juntos y pies firmes. Baja la barra controlado a media altura del pecho y empuja. Deja 1–2 reps en reserva (RIR 1–2).'},
-  incham:{n:'Press inclinado en máquina (hammer)',img:'Leverage_Incline_Chest_Press',type:'str',sets:4,reps:'8–12',ref:[35,'lb',7],m:'Pecho alto',tip:'Asiento para que los agarres queden a la altura del pecho alto. Empuja y regresa lento, sin despegar la espalda.'},
-  shham:{n:'Press de hombro en máquina (hammer)',img:'Leverage_Shoulder_Press',type:'str',reps:'12–15',ref:[31,'kg',11],m:'Hombros y tríceps',tip:'Agarres a la altura de las orejas. Empuja sin arquear la espalda baja; puedes llegar cerca del fallo (RIR 0–2).'},
-  slat:{n:'Elevación lateral sentado',img:'Seated_Side_Lateral_Raise',type:'str',reps:'12–15',ref:[20,'lb',13],m:'Hombro lateral',tip:'Sentado y derecho. Sube a los lados hasta la altura de los hombros con los codos un poco flexionados, sin columpiarte.'},
-  clat:{n:'Elevación lateral en polea (1 brazo)',img:'Cable_Seated_Lateral_Raise',type:'str',reps:'8–12',ref:[7,'lb',10],m:'Hombro lateral',tip:'Polea abajo, cable por delante del cuerpo. Sube el brazo hacia un lado hasta la altura del hombro y baja lento. Reps por brazo.'},
-  trisz:{n:'Tríceps en polea con barra',img:'Triceps_Pushdown',type:'str',sets:4,reps:'12–15',ref:[50,'lb',10],m:'Tríceps',tip:'Codos pegados al cuerpo. Empuja hasta estirar por completo y sube controlado; solo se mueve el antebrazo.'},
-  clyt:{n:'Extensión de tríceps acostado en polea',img:'Cable_Lying_Triceps_Extension',type:'str',sets:4,reps:'8–12',ref:[30,'lb',8],m:'Tríceps',tip:'Acostado en la banca con la polea baja detrás de la cabeza. Codos apuntando al techo y fijos; extiende y regresa lento.'},
+  bbbench:{n:'Press de banca con barra',img:'Barbell_Bench_Press_-_Medium_Grip',type:'str',sets:4,reps:'6–10',rest:120,m:'Pecho, hombro y tríceps',tip:'Omóplatos juntos y pies firmes. Baja la barra controlado a media altura del pecho y empuja. Deja 1–2 reps en reserva (RIR 1–2).'},
+  incham:{n:'Press inclinado en máquina (hammer)',img:'Leverage_Incline_Chest_Press',type:'str',reps:'8–12',m:'Pecho alto',tip:'Asiento para que los agarres queden a la altura del pecho alto. Empuja y regresa lento, sin despegar la espalda.'},
+  shham:{n:'Press de hombro en máquina (hammer)',img:'Leverage_Shoulder_Press',type:'str',reps:'12–15',m:'Hombros y tríceps',tip:'Agarres a la altura de las orejas. Empuja sin arquear la espalda baja; puedes llegar cerca del fallo (RIR 0–2).'},
+  slat:{n:'Elevación lateral sentado',img:'Seated_Side_Lateral_Raise',type:'str',reps:'12–15',m:'Hombro lateral',tip:'Sentado y derecho. Sube a los lados hasta la altura de los hombros con los codos un poco flexionados, sin columpiarte.'},
+  clat:{n:'Elevación lateral en polea (1 brazo)',img:'Cable_Seated_Lateral_Raise',type:'str',reps:'8–12',m:'Hombro lateral',tip:'Polea abajo, cable por delante del cuerpo. Sube el brazo hacia un lado hasta la altura del hombro y baja lento. Reps por brazo.'},
+  trisz:{n:'Tríceps en polea con barra',img:'Triceps_Pushdown',type:'str',reps:'12–15',m:'Tríceps',tip:'Codos pegados al cuerpo. Empuja hasta estirar por completo y sube controlado; solo se mueve el antebrazo.'},
+  clyt:{n:'Extensión de tríceps acostado en polea',img:'Cable_Lying_Triceps_Extension',type:'str',reps:'8–12',m:'Tríceps',tip:'Acostado en la banca con la polea baja detrás de la cabeza. Codos apuntando al techo y fijos; extiende y regresa lento.'},
   /* Jalón */
-  pendlay:{n:'Remo Pendlay con barra',img:'Bent_Over_Barbell_Row',type:'str',sets:4,reps:'6–10',rest:120,ref:[85,'lb',8],m:'Espalda',tip:'Torso casi paralelo al piso y espalda recta. Cada rep sale del piso: jala explosivo al abdomen y regresa la barra al suelo.'},
-  wnpd:{n:'Jalón agarre neutro abierto',img:'Wide-Grip_Lat_Pulldown',type:'str',reps:'8–12',ref:[100,'kg',11],m:'Dorsales',tip:'Agarre neutro ancho (palmas viéndose). Saca el pecho y lleva los codos hacia las costillas sin balancearte.'},
-  sapd:{n:'Pullover en polea (brazos rectos)',img:'Straight-Arm_Pulldown',type:'str',sets:4,reps:'12–15',ref:[50,'lb',13],m:'Dorsales',tip:'Inclinado un poco al frente, brazos casi rectos. Baja la barra en arco hasta los muslos apretando la espalda.'},
-  rfly:{n:'Pájaros en máquina',img:'Reverse_Machine_Flyes',type:'str',sets:4,reps:'12–15',ref:[15,'lb',15],m:'Hombro posterior',tip:'Sentado de frente al respaldo. Abre los brazos hacia atrás con los codos casi rectos, sin usar impulso.'},
-  incurl:{n:'Curl inclinado con mancuernas',img:'Incline_Dumbbell_Curl',type:'str',sets:4,reps:'8–12',ref:[22,'lb',7],m:'Bíceps',tip:'Banca a ~70°. Brazos colgando atrás del cuerpo; sube sin adelantar los codos y baja completo.'},
-  cgcurl:{n:'Curl con mancuernas agarre cerrado',img:'Dumbbell_Bicep_Curl',type:'str',reps:'12–15',ref:[20,'lb',12],m:'Bíceps',tip:'Mancuernas juntas al frente. Codos fijos a los lados, sin balancear la espalda.'},
-  dbprea:{n:'Curl predicador con mancuerna',img:'One_Arm_Dumbbell_Preacher_Curl',type:'str',reps:'12–15',ref:[17,'lb',12],m:'Bíceps',tip:'Brazo apoyado en el banco predicador. Sube controlado y baja hasta casi estirar sin soltar la tensión. Reps por brazo.'},
-  rwrist:{n:'Curl inverso de muñeca (1 brazo)',img:'Seated_One-Arm_Dumbbell_Palms-Down_Wrist_Curl',type:'str',reps:'12–15',ref:[5,'kg',17],m:'Antebrazo',tip:'Antebrazo sobre el muslo, palma hacia abajo. Sube y baja solo la muñeca.'},
-  fcurl:{n:'Curl de dedos detrás de la espalda',img:'Standing_Palms-Up_Barbell_Behind_The_Back_Wrist_Curl',type:'str',reps:'12–15',ref:[25,'kg',12],m:'Antebrazo y agarre',tip:'Peso detrás de la espalda con las palmas hacia atrás. Deja rodar el peso hasta los dedos y ciérralos subiendo la muñeca.'},
+  pendlay:{n:'Remo Pendlay con barra',img:'Bent_Over_Barbell_Row',type:'str',sets:4,reps:'6–10',rest:120,m:'Espalda',tip:'Torso casi paralelo al piso y espalda recta. Cada rep sale del piso: jala explosivo al abdomen y regresa la barra al suelo.'},
+  wnpd:{n:'Jalón agarre neutro abierto',img:'Wide-Grip_Lat_Pulldown',type:'str',reps:'8–12',m:'Dorsales',tip:'Agarre neutro ancho (palmas viéndose). Saca el pecho y lleva los codos hacia las costillas sin balancearte.'},
+  sapd:{n:'Pullover en polea (brazos rectos)',img:'Straight-Arm_Pulldown',type:'str',reps:'12–15',m:'Dorsales',tip:'Inclinado un poco al frente, brazos casi rectos. Baja la barra en arco hasta los muslos apretando la espalda.'},
+  rfly:{n:'Pájaros en máquina',img:'Reverse_Machine_Flyes',type:'str',reps:'12–15',m:'Hombro posterior',tip:'Sentado de frente al respaldo. Abre los brazos hacia atrás con los codos casi rectos, sin usar impulso.'},
+  incurl:{n:'Curl inclinado con mancuernas',img:'Incline_Dumbbell_Curl',type:'str',reps:'8–12',m:'Bíceps',tip:'Banca a ~70°. Brazos colgando atrás del cuerpo; sube sin adelantar los codos y baja completo.'},
+  cgcurl:{n:'Curl con mancuernas agarre cerrado',img:'Dumbbell_Bicep_Curl',type:'str',reps:'12–15',m:'Bíceps',tip:'Mancuernas juntas al frente. Codos fijos a los lados, sin balancear la espalda.'},
+  dbprea:{n:'Curl predicador con mancuerna',img:'One_Arm_Dumbbell_Preacher_Curl',type:'str',reps:'12–15',m:'Bíceps',tip:'Brazo apoyado en el banco predicador. Sube controlado y baja hasta casi estirar sin soltar la tensión. Reps por brazo.'},
+  rwrist:{n:'Curl inverso de muñeca (1 brazo)',img:'Seated_One-Arm_Dumbbell_Palms-Down_Wrist_Curl',type:'str',reps:'12–15',m:'Antebrazo',tip:'Antebrazo sobre el muslo, palma hacia abajo. Sube y baja solo la muñeca.'},
+  fcurl:{n:'Curl de dedos detrás de la espalda',img:'Standing_Palms-Up_Barbell_Behind_The_Back_Wrist_Curl',type:'str',reps:'12–15',m:'Antebrazo y agarre',tip:'Peso detrás de la espalda con las palmas hacia atrás. Deja rodar el peso hasta los dedos y ciérralos subiendo la muñeca.'},
   /* Pierna */
-  smsq2:{n:'Sentadilla en Smith',img:'Smith_Machine_Squat',type:'str',reps:'6–10',rest:150,ref:[180,'lb',6],m:'Cuádriceps y glúteos',tip:'Haz 1–2 series de aproximación para ubicar el peso, luego 3 series efectivas. Pies un poco adelante de la barra; baja a paralelo con el pecho arriba.'},
-  bulg:{n:'Sentadilla búlgara con mancuernas',img:'Split_Squat_with_Dumbbells',type:'str',reps:'6–10',ref:[20,'lb',10],m:'Cuádriceps y glúteos',tip:'Pie de atrás apoyado en una banca. Baja recto hasta que la rodilla de atrás casi toque el piso. Deja 2–3 reps en reserva. Reps por pierna.'},
-  legext2:{n:'Extensión de cuádriceps',img:'Leg_Extensions',type:'str',reps:'10',ref:[30,'kg',10],m:'Cuádriceps',tip:'Espalda pegada al respaldo. Sube hasta estirar, aprieta un segundo arriba y baja controlado; puedes llegar al fallo (RIR 0–2).'},
-  hipth:{n:'Hip thrust en Smith',img:'Barbell_Hip_Thrust',type:'str',sets:4,reps:'8–12',ref:[25,'lb',8],m:'Glúteos',tip:'Espalda alta apoyada en la banca, barra sobre la cadera (con protector). Empuja con los talones hasta quedar recto y aprieta glúteo arriba.'},
-  abduc:{n:'Abductores en máquina',img:'Thigh_Abductor',type:'str',reps:'14–16',ref:[13,'kg',17],m:'Glúteo medio',tip:'Espalda pegada al respaldo. Abre las piernas controlado y regresa sin dejar caer el peso.'},
-  lleg2:{n:'Curl femoral acostado',img:'Lying_Leg_Curls',type:'str',sets:4,reps:'8–12',ref:[31,'kg',8],m:'Femorales',tip:'Cadera pegada al cojín. Sube los talones hacia los glúteos y baja lento.'},
+  smsq2:{n:'Sentadilla en Smith',img:'Smith_Machine_Squat',type:'str',reps:'6–10',rest:150,m:'Cuádriceps y glúteos',tip:'Haz 1–2 series ligeras de calentamiento para ubicar el peso, luego las 3 efectivas. Pies un poco adelante de la barra; baja a paralelo con el pecho arriba.'},
+  bulg:{n:'Sentadilla búlgara con mancuernas',img:'Split_Squat_with_Dumbbells',type:'str',reps:'6–10',m:'Cuádriceps y glúteos',tip:'Pie de atrás apoyado en una banca. Baja recto hasta que la rodilla de atrás casi toque el piso. Deja 2–3 reps en reserva. Reps por pierna.'},
+  legext2:{n:'Extensión de cuádriceps',img:'Leg_Extensions',type:'str',reps:'10',m:'Cuádriceps',tip:'Espalda pegada al respaldo. Sube hasta estirar, aprieta un segundo arriba y baja controlado; puedes llegar al fallo (RIR 0–2).'},
+  hipth:{n:'Hip thrust en Smith',img:'Barbell_Hip_Thrust',type:'str',reps:'8–12',m:'Glúteos',tip:'Espalda alta apoyada en la banca, barra sobre la cadera (con protector). Empuja con los talones hasta quedar recto y aprieta glúteo arriba.'},
+  abduc:{n:'Abductores en máquina',img:'Thigh_Abductor',type:'str',reps:'14–16',m:'Glúteo medio',tip:'Espalda pegada al respaldo. Abre las piernas controlado y regresa sin dejar caer el peso.'},
+  lleg2:{n:'Curl femoral acostado',img:'Lying_Leg_Curls',type:'str',reps:'8–12',m:'Femorales',tip:'Cadera pegada al cojín. Sube los talones hacia los glúteos y baja lento.'},
   /* Brazos */
-  dbtri:{n:'Extensión de tríceps con mancuernas acostado',img:'Lying_Dumbbell_Tricep_Extension',type:'str',reps:'8–10',ref:[40,'lb',8],m:'Tríceps',tip:'Acostado, mancuernas arriba con agarre prono. Baja doblando solo los codos hacia los lados de la cabeza y extiende.'},
-  ohtri:{n:'Extensión de tríceps sobre la cabeza en polea',img:'Cable_Rope_Overhead_Triceps_Extension',type:'str',reps:'8–12',ref:[30,'lb',9],m:'Tríceps (cabeza larga)',tip:'De espaldas a la polea, barra o cuerda detrás de la cabeza. Extiende los brazos al frente y arriba con los codos fijos.'},
-  trivb:{n:'Tríceps en polea con barra V',img:'Triceps_Pushdown_-_V-Bar_Attachment',type:'str',sets:4,reps:'12–15',ref:[30,'lb',15],m:'Tríceps',tip:'Codos pegados, empuja hasta estirar y aprieta abajo.'},
-  ccurl:{n:'Curl en polea a un brazo',img:'Standing_One-Arm_Cable_Curl',type:'str',reps:'8–10',ref:[128,'lb',8],m:'Bíceps',tip:'Polea abajo, de lado o de frente. Codo fijo; sube y baja controlado. Reps por brazo.'},
-  ezcurl:{n:'Curl con barra Z agarre cerrado',img:'Close-Grip_EZ_Bar_Curl',type:'str',reps:'8–12',ref:[10,'lb',13],m:'Bíceps',tip:'Agarre cerrado en la barra Z. Codos pegados al cuerpo y sin balanceo.'},
-  mprea:{n:'Curl predicador en máquina',img:'Machine_Preacher_Curls',type:'str',reps:'12–15',ref:[17,'lb',14],m:'Bíceps',tip:'Axilas pegadas al cojín. Sube completo y baja lento hasta casi estirar.'},
-  sbend:{n:'Inclinación lateral en polea',img:'One-Arm_High-Pulley_Cable_Side_Bends',type:'str',reps:'12–15',ref:[0,'kg',13],m:'Oblicuos',tip:'De lado a la polea, inclínate hacia el lado contrario apretando el oblicuo y regresa lento. Reps por lado.'},
-  decsit:{n:'Abdominal declinado con mancuerna',img:'Decline_Crunch',type:'str',reps:'8–10',ref:[12,'lb',10],m:'Abdomen',tip:'En banca declinada, mancuerna arriba con los brazos estirados. Sube enrollando el tronco y baja lento.'},
+  dbtri:{n:'Extensión de tríceps con mancuernas acostado',img:'Lying_Dumbbell_Tricep_Extension',type:'str',reps:'8–10',m:'Tríceps',tip:'Acostado, mancuernas arriba con agarre prono. Baja doblando solo los codos hacia los lados de la cabeza y extiende.'},
+  ohtri:{n:'Extensión de tríceps sobre la cabeza en polea',img:'Cable_Rope_Overhead_Triceps_Extension',type:'str',reps:'8–12',m:'Tríceps (cabeza larga)',tip:'De espaldas a la polea, barra o cuerda detrás de la cabeza. Extiende los brazos al frente y arriba con los codos fijos.'},
+  trivb:{n:'Tríceps en polea con barra V',img:'Triceps_Pushdown_-_V-Bar_Attachment',type:'str',reps:'12–15',m:'Tríceps',tip:'Codos pegados, empuja hasta estirar y aprieta abajo.'},
+  ccurl:{n:'Curl en polea a un brazo',img:'Standing_One-Arm_Cable_Curl',type:'str',reps:'8–10',m:'Bíceps',tip:'Polea abajo, de lado o de frente. Codo fijo; sube y baja controlado. Reps por brazo.'},
+  ezcurl:{n:'Curl con barra Z agarre cerrado',img:'Close-Grip_EZ_Bar_Curl',type:'str',reps:'8–12',m:'Bíceps',tip:'Agarre cerrado en la barra Z. Codos pegados al cuerpo y sin balanceo.'},
+  mprea:{n:'Curl predicador en máquina',img:'Machine_Preacher_Curls',type:'str',reps:'12–15',m:'Bíceps',tip:'Axilas pegadas al cojín. Sube completo y baja lento hasta casi estirar.'},
+  sbend:{n:'Inclinación lateral en polea',img:'One-Arm_High-Pulley_Cable_Side_Bends',type:'str',reps:'12–15',m:'Oblicuos',tip:'De lado a la polea, inclínate hacia el lado contrario apretando el oblicuo y regresa lento. Reps por lado.'},
+  decsit:{n:'Abdominal declinado con mancuerna',img:'Decline_Crunch',type:'str',reps:'8–10',m:'Abdomen',tip:'En banca declinada, mancuerna arriba con los brazos estirados. Sube enrollando el tronco y baja lento.'},
   /* Torso */
-  latrow:{n:'Remo sentado en polea (enfoque dorsal)',img:'Seated_Cable_Rows',type:'str',reps:'8–12',ref:[100,'lb',7],m:'Dorsales',tip:'Jala los codos pegados al cuerpo hacia la cadera, no hacia el pecho. Pecho arriba y sin echarte atrás.'},
-  dbbench:{n:'Press de banca con mancuernas',img:'Dumbbell_Bench_Press',type:'str',reps:'6–10',rest:120,ref:[40,'lb',6],m:'Pecho',tip:'Omóplatos juntos. Baja las mancuernas a los lados del pecho y empuja sin rebotar.'},
-  uhpd:{n:'Jalón agarre supino',img:'Underhand_Cable_Pulldowns',type:'str',reps:'8–12',ref:[100,'lb',8],m:'Dorsales y bíceps',tip:'Palmas hacia ti a la anchura de los hombros. Lleva la barra al pecho bajando los codos.'},
-  dbinc:{n:'Press inclinado con mancuernas',img:'Incline_Dumbbell_Press',type:'str',reps:'8–12',ref:[38,'lb',10],m:'Pecho alto',tip:'Banca a 30–45°. Baja controlado a los lados del pecho y empuja.'},
-  crdf:{n:'Pájaros en polea a 45°',img:'Cable_Rear_Delt_Fly',type:'str',sets:4,reps:'12–15',ref:[15,'lb',15],m:'Hombro posterior',tip:'Poleas cruzadas a la altura del pecho. Abre los brazos hacia atrás y un poco hacia abajo (45°), sin impulso.'},
-  stlat:{n:'Elevación lateral de pie (codos doblados)',img:'Side_Lateral_Raise',type:'str',sets:4,reps:'12–15',ref:[15,'lb',13],m:'Hombro lateral',tip:'Codos doblados a ~90°. Sube los codos a los lados hasta la altura del hombro.'},
-  hirow:{n:'Remo alto en polea a un brazo (con apoyo)',img:'Seated_One-arm_Cable_Pulley_Rows',type:'str',sets:4,reps:'8–12',ref:[40,'lb',8],m:'Espalda alta',tip:'Pecho apoyado. Jala el codo hacia atrás y arriba juntando el omóplato. Reps por brazo.'},
-  inlat:{n:'Elevación lateral inclinado (1 brazo)',img:'One-Arm_Incline_Lateral_Raise',type:'str',sets:4,reps:'8–12',m:'Hombro lateral',tip:'Acostado de lado en una banca inclinada. Sube la mancuerna hasta la vertical y baja lento.'},
+  latrow:{n:'Remo sentado en polea (enfoque dorsal)',img:'Seated_Cable_Rows',type:'str',reps:'8–12',m:'Dorsales',tip:'Jala los codos pegados al cuerpo hacia la cadera, no hacia el pecho. Pecho arriba y sin echarte atrás.'},
+  dbbench:{n:'Press de banca con mancuernas',img:'Dumbbell_Bench_Press',type:'str',reps:'6–10',rest:120,m:'Pecho',tip:'Omóplatos juntos. Baja las mancuernas a los lados del pecho y empuja sin rebotar.'},
+  uhpd:{n:'Jalón agarre supino',img:'Underhand_Cable_Pulldowns',type:'str',reps:'8–12',m:'Dorsales y bíceps',tip:'Palmas hacia ti a la anchura de los hombros. Lleva la barra al pecho bajando los codos.'},
+  dbinc:{n:'Press inclinado con mancuernas',img:'Incline_Dumbbell_Press',type:'str',reps:'8–12',m:'Pecho alto',tip:'Banca a 30–45°. Baja controlado a los lados del pecho y empuja.'},
+  crdf:{n:'Pájaros en polea a 45°',img:'Cable_Rear_Delt_Fly',type:'str',reps:'12–15',m:'Hombro posterior',tip:'Poleas cruzadas a la altura del pecho. Abre los brazos hacia atrás y un poco hacia abajo (45°), sin impulso.'},
+  stlat:{n:'Elevación lateral de pie (codos doblados)',img:'Side_Lateral_Raise',type:'str',reps:'12–15',m:'Hombro lateral',tip:'Codos doblados a ~90°. Sube los codos a los lados hasta la altura del hombro.'},
+  hirow:{n:'Remo alto en polea a un brazo (con apoyo)',img:'Seated_One-arm_Cable_Pulley_Rows',type:'str',reps:'8–12',m:'Espalda alta',tip:'Pecho apoyado. Jala el codo hacia atrás y arriba juntando el omóplato. Reps por brazo.'},
+  inlat:{n:'Elevación lateral inclinado (1 brazo)',img:'One-Arm_Incline_Lateral_Raise',type:'str',reps:'8–12',m:'Hombro lateral',tip:'Acostado de lado en una banca inclinada. Sube la mancuerna hasta la vertical y baja lento.'},
   wcurl:{n:'Curl de muñeca sobre banca (1 brazo)',img:'Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench',type:'str',reps:'12–15',m:'Antebrazo',tip:'Antebrazo apoyado en la banca, palma arriba. Sube y baja solo la muñeca.'},
   rbwc:{n:'Curl inverso de muñeca con barra',img:'Palms-Down_Wrist_Curl_Over_A_Bench',type:'str',reps:'12–15',m:'Antebrazo',tip:'Palmas abajo, antebrazos apoyados. Sube la barra solo con la muñeca.'},
   chestm:{n:'Press de pecho en máquina',img:'Leverage_Chest_Press',type:'str',m:'Pecho, hombro y tríceps',tip:'Ajusta el asiento para que los agarres queden a media altura del pecho. Empuja sin despegar la espalda del respaldo y regresa lento, en 2–3 segundos.'},
@@ -384,11 +385,11 @@ const EX = {
   walk:{n:'Caminata o escaladora',img:'Trail_Running_Walking',type:'cardio',m:'Opcional',target:'40 min caminando o 20 de escaladora',tip:'Paso rápido, que te cueste un poco platicar. Puede ser acompañado, en un parque o en el gym.',fields:[['min','Min','40'],['km','Km','—']]},
 };
 const ROUT = {
-  PU:{name:'Empuje',sub:'Pecho, hombro y tríceps',ex:['bbbench','incham','shham','slat','clat','trisz','clyt','tread']},
-  PL:{name:'Jalón',sub:'Espalda, bíceps y antebrazo',ex:['pendlay','wnpd','sapd','rfly','incurl','cgcurl','dbprea','rwrist','fcurl','stair']},
-  LG:{name:'Pierna',sub:'Cuádriceps, glúteo y femoral',ex:['smsq2','bulg','legext2','hipth','abduc','lleg2','tread']},
-  AR:{name:'Brazos',sub:'Tríceps, bíceps y abdomen',ex:['dbtri','ohtri','trivb','ccurl','ezcurl','mprea','sbend','decsit','stair']},
-  UP:{name:'Torso',sub:'Espalda, pecho y hombro',ex:['latrow','dbbench','uhpd','dbinc','crdf','stlat','hirow','inlat','wcurl','rbwc','tread']},
+  PU:{name:'Empuje',sub:'Pecho, hombro y tríceps',ex:['bbbench','incham','shham','slat','trisz','clyt','tread']},
+  PL:{name:'Jalón',sub:'Espalda y bíceps',ex:['pendlay','wnpd','sapd','rfly','incurl','dbprea','stair']},
+  LG:{name:'Pierna',sub:'Cuádriceps, glúteo y femoral',ex:['smsq2','bulg','legext2','hipth','lleg2','tread']},
+  AR:{name:'Brazos',sub:'Tríceps, bíceps y abdomen',ex:['dbtri','ohtri','ezcurl','mprea','sbend','decsit','stair']},
+  UP:{name:'Torso',sub:'Espalda, pecho y hombro',ex:['latrow','dbbench','uhpd','dbinc','crdf','stlat','tread']},
   U:{name:'Torso',sub:'Pecho, espalda y hombro',ex:['chestm','latpd','shpm','crow','tread']},
   L:{name:'Pierna',sub:'Cuádriceps, femoral y pantorrilla',ex:['legpress','sleg','legext','scalf','stair']},
   P:{name:'Empuje',sub:'Pecho, hombro, tríceps y abdomen',ex:['incm','fly','latr','tri','abm','tread']},
@@ -559,26 +560,28 @@ const hasData=s=>Object.values(s.ex).some(e=>e.done||e.sets.some(x=>x.done||Obje
 function streak(){let k=today(),n=0;if(!dayDone(k))k=addDays(k,-1);for(let g=0;g<500;g++){if(dayDone(k))n++;else if(!optDay(k))break;k=addDays(k,-1);}return n;}
 function bestStreak(){const ds=Object.keys(S.workouts).filter(dayDone).sort();if(!ds.length)return 0;let best=0,run=0;
   for(let k=ds[0],g=0;k<=today()&&g<800;k=addDays(k,1),g++){if(dayDone(k)){run++;best=Math.max(best,run);}else if(!optDay(k)&&k!==today())run=0;}return best;}
+function prevUnit(k,id){const ds=Object.keys(S.workouts).filter(d=>d<k).sort().reverse();for(const d of ds){const e=S.workouts[d].ex[id];if(e&&e.sets.some(x=>x.kg!==''&&x.kg!==undefined))return e.u||null;}return null;}
 function prevSets(k,id){
   const ds=Object.keys(S.workouts).filter(d=>d<k).sort().reverse();
   for(const d of ds){const e=S.workouts[d].ex[id];if(e&&e.sets.some(x=>Object.entries(x).some(([kk,v])=>kk!=='done'&&v!=='')))return e.sets;}
   return null;}
-const WU=()=>S.settings.wu==='kg'?'kg':'lb';
+const WU=id=>{const u=(S.exu||{})[id]||S.settings.wu;return u==='kg'?'kg':'lb';};
 function refW(e){if(!e.ref)return null;const [w,u,r]=e.ref;let v=w;if(u!==WU())v=u==='kg'?w*2.2046:w/2.2046;v=Math.round(v*2)/2;return {kg:String(v),reps:String(r)};}
 function prevTxt(e,ps,i){if(!ps||!ps[i]){const rf=e.type==='str'&&refW(e);return rf?`<span title="Tu marca anterior">📌${rf.kg}×${rf.reps}</span>`:'—';}const p=ps[i];
   if(e.type==='time')return p.sec?p.sec+' s':'—';
   if(p.kg===''&&p.reps==='')return '—';
   return `${p.kg||0}×${p.reps||'?'}`;}
-function volume(s){let v=0;Object.values(s.ex).forEach(e=>e.sets.forEach(x=>{if(x.done&&x.kg!==undefined)v+=(num(x.kg)||0)*(num(x.reps)||0);}));return v;}
+function prevTxtU(e,ps,i,id,k){const t=prevTxt(e,ps,i);const pu=prevUnit(k,id);return pu&&pu!==WU(id)&&t!=='—'?t+' '+pu:t;}
+function volume(s){let v=0;Object.entries(s.ex).forEach(([id,e])=>e.sets.forEach(x=>{if(x.done&&x.kg!==undefined)v+=(num(x.kg)||0)*(num(x.reps)||0)*((e.u||WU(id))==='kg'?2.2046:1);}));return v;}
 
 function exCard(k,id,e,data){
   const ps=prevSets(k,id),ro=k>today()?'disabled':'';
   let rows='';
   if(e.type==='str'){
-    rows=`<div class="sr s5 h"><span>Serie</span><span>Anterior</span><span>${WU()}</span><span>Reps</span><span></span></div>`;
+    rows=`<div class="sr s5 h"><span>Serie</span><span>Anterior</span><span><button class="unitbtn" data-act="unit" data-id="${id}" aria-label="Cambiar unidad">${WU(id)} ⇄</button></span><span>Reps</span><span></span></div>`;
     data.sets.forEach((x,i)=>{const p=(ps&&ps[i])||refW(e);
-      rows+=`<div class="sr s5 ${x.done?'ok':''}"><div class="num">${i+1}</div><div class="prev">${prevTxt(e,ps,i)}</div>
-      <input ${ro} inputmode="decimal" data-set="${id}|${i}|kg" value="${esc(x.kg)}" placeholder="${p&&p.kg!==''?esc(p.kg):WU()}">
+      rows+=`<div class="sr s5 ${x.done?'ok':''}"><div class="num">${i+1}</div><div class="prev">${prevTxtU(e,ps,i,id,k)}</div>
+      <input ${ro} inputmode="decimal" data-set="${id}|${i}|kg" value="${esc(x.kg)}" placeholder="${p&&p.kg!==''?esc(p.kg):WU(id)}">
       <input ${ro} inputmode="numeric" data-set="${id}|${i}|reps" value="${esc(x.reps)}" placeholder="${p&&p.reps!==''?esc(p.reps):(e.reps||'10–12')}">
       <button ${ro} class="ck ${x.done?'on':''}" data-act="setchk" data-id="${id}" data-i="${i}" aria-label="Serie hecha">✓</button></div>`;});
   }else if(e.type==='time'){
@@ -626,10 +629,10 @@ function renderGym(){
       else parts=e.fields.filter(f=>x.sets[0][f[0]]).map(f=>`${x.sets[0][f[0]]} ${f[1].toLowerCase()}`);
       det+=`<div>${x.done?'✅':'▫️'} <b>${e.n}</b>${parts.length?': '+parts.join(', '):''}</div>`;});
     hh+=`<details class="hist"><summary><div class="badge ${['W','S'].includes(ss.r)?'w':''}">${SH[ss.r]||ss.r}</div>
-      <div class="grow" style="flex:1"><div class="t" style="font-weight:650">${ROUT[ss.r].name}</div><div class="s small muted">${relDay(d)} · ${dn}/${ii.length} ejercicios${vol?` · ${Math.round(vol).toLocaleString('es-MX')} ${WU()} vol.`:''}</div></div>
+      <div class="grow" style="flex:1"><div class="t" style="font-weight:650">${ROUT[ss.r].name}</div><div class="s small muted">${relDay(d)} · ${dn}/${ii.length} ejercicios${vol?` · ${Math.round(vol).toLocaleString('es-MX')} lb de volumen`:''}</div></div>
       <span class="pill ${dayDone(d)?'':'gray'}">${dayDone(d)?'Completo':'Parcial'}</span></summary><div class="det">${det}<button class="btn ghost block" style="margin-top:10px;padding:10px" data-act="gday" data-date="${d}">Abrir este día</button></div></details>`;});
   document.getElementById('v-gym').innerHTML=`
-  <div class="eyebrow">5 días · pesas y máquinas · RIR 1–2</div><h1>Gym</h1>
+  <div class="eyebrow">5 días · pesas y máquinas · deja 1–2 reps</div><h1>Gym</h1>
   <div class="card"><div class="streak">
     <div class="flame ${st?'':'off'}">🔥</div>
     <div style="flex:1"><div class="n">${st}</div><div class="small" style="font-weight:650">${st===1?'día seguido':'días seguidos'}</div></div>
@@ -931,7 +934,7 @@ function renderPlan(){
       <div><label class="f">Estatura (cm)</label><input id="sH" inputmode="numeric" value="${st.height||''}" placeholder="175"></div>
       <div><label class="f">Edad</label><input id="sAge" inputmode="numeric" value="${st.age||27}"></div>
     </div>
-    <div class="grid2" style="margin-bottom:10px"><div><label class="f">Peso en el gym</label><select id="sWu"><option value="lb" ${st.wu!=='kg'?'selected':''}>Libras (lb)</option><option value="kg" ${st.wu==='kg'?'selected':''}>Kilos (kg)</option></select></div>
+    <div class="grid2" style="margin-bottom:10px"><div><label class="f">Unidad por defecto (gym)</label><select id="sWu"><option value="lb" ${st.wu!=='kg'?'selected':''}>Libras (lb)</option><option value="kg" ${st.wu==='kg'?'selected':''}>Kilos (kg)</option></select></div>
     <div><label class="f">Sexo</label></div></div>
     <div style="display:none"><label class="f">Sexo (para calcular calorías)</label><select id="sSex"><option value="h" ${st.sex!=='m'?'selected':''}>Hombre</option><option value="m" ${st.sex==='m'?'selected':''}>Mujer</option></select></div>
     <div class="grid3">
@@ -946,7 +949,7 @@ function renderPlan(){
     <div class="grid2"><button class="btn ghost" data-act="export">⬇️ Respaldar</button><button class="btn ghost" data-act="import">⬆️ Restaurar</button></div>
     <button class="btn danger block" style="margin-top:10px" data-act="reset">Borrar todos los datos</button>
   </div>
-  <div class="foot">Plan general de referencia, no sustituye la opinión de un médico o nutriólogo.<br>Imágenes de ejercicios: free-exercise-db (dominio público).</div>`;
+  <div class="foot">En el gym, toca <b>lb ⇄</b> en cualquier ejercicio para cambiarlo a kilos; la app recuerda la unidad de cada máquina.<br><br>Plan general de referencia, no sustituye la opinión de un médico o nutriólogo.<br>Imágenes de ejercicios: free-exercise-db (dominio público).</div>`;
 }
 
 /* ================= Navegación y eventos ================= */
@@ -1020,6 +1023,7 @@ document.addEventListener('click',ev=>{
     case 'gtoday':gymDate=today();renderGym();break;
     case 'setchk':setCheck(b.dataset.id,+b.dataset.i);break;
     case 'exdone':exDone(b.dataset.id);break;
+    case 'unit':{const id=b.dataset.id,nu=WU(id)==='lb'?'kg':'lb';S.exu=S.exu||{};S.exu[id]=nu;const ss=S.workouts[gymDate];if(ss&&ss.ex[id])ss.ex[id].u=nu;save();renderGym();toast(`${EX[id].n}: ahora en ${nu}`);break;}
     case 'zoom':zoom(b.dataset.id);break;
     case 'rest-':restEnd-=15000;tickRest();break;
     case 'rest+':restEnd+=15000;tickRest();break;
@@ -1057,7 +1061,7 @@ document.addEventListener('click',ev=>{
 });
 document.addEventListener('input',ev=>{
   const el=ev.target;
-  if(el.dataset.set){const [id,i,f]=el.dataset.set.split('|');const s=session(gymDate,true);
+  if(el.dataset.set){const [id,i,f]=el.dataset.set.split('|');const s=session(gymDate,true);if(s.ex[id]&&!s.ex[id].u)s.ex[id].u=WU(id);
     if(s.ex[id]&&s.ex[id].sets[+i]){s.ex[id].sets[+i][f]=el.value.replace(',','.').slice(0,6);save();}}
 });
 document.addEventListener('change',ev=>{
