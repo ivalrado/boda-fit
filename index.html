@@ -347,6 +347,27 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .rmon .dmgn.c{color:#ffd60a;font-size:32px}
 .critlbl{position:absolute;left:50%;top:32%;transform:translateX(-50%);font-weight:900;font-size:22px;color:#ffd60a;text-shadow:0 3px 0 #7a4a00,0 0 18px rgba(255,214,10,.6);animation:critpop .9s ease forwards;pointer-events:none;z-index:3;letter-spacing:1px}
 .spark{position:absolute;width:6px;height:6px;background:#ffd60a;border-radius:1px;pointer-events:none;z-index:2;animation:spark .6s ease-out forwards}
+.rbars{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:2px}
+.rbl{font-size:12px;font-weight:800;color:#d1d1d6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rbars .ghp{margin-top:4px}
+.rmon.mlunge{animation:mlunge .45s cubic-bezier(.3,1.6,.5,1)}
+.rhero.ouch .spr{animation:hit .4s}
+.rhero.ko .spr{animation:none;filter:grayscale(1) brightness(.55);transform-origin:50% 100%;transform:scaleY(.38) skewX(12deg)}
+.rhero .dmgn{left:50%;right:auto;top:-10px}
+.rhero .dmgn.h{font-size:30px}
+@keyframes mlunge{0%{transform:none}35%{transform:translateX(-52px) scale(1.06)}100%{transform:none}}
+.rhud{position:fixed;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 6px);z-index:60;background:rgba(20,20,34,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:8px 12px;display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:8px;transform:translateY(-130%);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none}
+.rhud.on{transform:none;opacity:1;pointer-events:auto}
+.rhud .ghp{margin-top:0;height:12px}.rhud .ghp span{font-size:9.5px;line-height:12px}
+.rhud .hs{position:relative;display:grid;place-items:center}
+.rhud .vs{font-size:12px;font-weight:900;color:var(--sub)}
+.rhud .hn{font-size:10.5px;font-weight:800;color:#d1d1d6;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rhud .rint2{grid-column:1/-1;text-align:center;font-size:11.5px;font-weight:800;color:#ffb3ad;margin-top:-2px}
+.rhud .rint2.go{color:#9dffb0}.rhud .rint2:empty{display:none}
+.rhud .dmgn{font-size:18px;top:-8px}
+.rhud .hs.hit .spr,.rhud .hs.ouch .spr{animation:hit .4s}
+body.hudon .toast{top:calc(env(safe-area-inset-top) + 96px)}
+.wn.pre{background:#2a3347;color:#6b7890;opacity:.7}
 .rfoot{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.4}
 @keyframes lunge{0%{transform:none}35%{transform:translateX(52px) scale(1.06)}100%{transform:none}}
 @keyframes critz{0%,100%{scale:1}30%{scale:1.15}}
@@ -434,7 +455,7 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:700;margin:0 0
 .frames img{width:100%;border-radius:14px;background:#fff;aspect-ratio:1/1;object-fit:cover}
 .frames .cap{font-size:11px;color:var(--sub);text-align:center;margin-top:4px;font-weight:700}
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 58px);transform:translate(-50%,-16px);opacity:0;background:rgba(44,44,46,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:90;transition:transform .3s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 8px 24px rgba(0,0,0,.4);white-space:nowrap}
-.toast{pointer-events:none}
+.toast{pointer-events:none;white-space:normal;width:max-content;max-width:min(92vw,420px);text-align:center;border-radius:20px;line-height:1.35}
 .toast.on{transform:translate(-50%,0);opacity:1}
 .toast{transition:transform .3s cubic-bezier(.2,.9,.3,1.2),opacity .25s;z-index:120}
 
@@ -543,7 +564,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125160454';
+const APP_V='20261125161646';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -959,7 +980,9 @@ function exCard(k,id,e,data){
     <div class="sets">${rows}</div></div>`;
 }
 
-function renderGym(){
+function renderGym(){_renderGym();hudCheck();
+  const rd=G().rd&&G().rd[today()];if(gymDate===today()&&rd&&rd.pend&&Date.now()>rd.end+1500&&!(document.getElementById('rest')||{}).classList?.contains('on'))setTimeout(()=>{if(rd.pend)enemyTurn(today(),Date.now()>rd.end+150000);},600);}
+function _renderGym(){
   const t=today(),k=gymDate,s=session(k,false),R=RT(s.r),ids=Object.keys(s.ex).filter(id=>EX[id]);
   const doneN=ids.filter(id=>s.ex[id].done).length;
   const st=streak(),best=bestStreak(),total=Object.keys(S.workouts).filter(dayDone).length;
@@ -991,7 +1014,7 @@ function renderGym(){
     <div class="mid" data-act="gtoday"><b>${relDay(k)}</b><span>${k===t?fmtDate(k):'Toca para volver a hoy'}</span></div>
     <button class="iconbtn" data-act="gnext" aria-label="Día siguiente">›</button>
   </div>
-  ${ids.length?raidCard(k):''}
+  ${ids.length?raidCard(k)+(k===t?raidHud(k):''):''}
   <div class="card"><div class="rhead"><div><h2>${esc(R.name)}</h2><div class="small muted" style="margin-top:3px">${esc(R.sub||'')}</div></div>
     ${ids.length?`<span class="pill">${doneN}/${ids.length}</span>`:'<span style="font-size:28px">💤</span>'}</div>
     ${ids.length?`<div class="prog"><i style="width:${doneN/ids.length*100}%"></i></div>`:''}
@@ -1010,8 +1033,13 @@ function startRest(sec){restEnd=Date.now()+sec*1000;document.getElementById('res
 function stopRest(){clearInterval(restTimer);document.getElementById('rest').classList.remove('on');}
 function tickRest(){const left=Math.max(0,Math.round((restEnd-Date.now())/1000));
   document.getElementById('restT').textContent=`${Math.floor(left/60)}:${pad(left%60)}`;
-  const ri=document.getElementById('rint');if(ri&&!document.querySelector('.rmon.dead')){ri.style.display='';ri.className='rint';ri.textContent=`💢 Recupera aliento · ${Math.floor(left/60)}:${pad(left%60)}`;}
-  if(left<=0){stopRest();sfx('ready');if(ri&&!document.querySelector('.rmon.dead')){ri.className='rint go';ri.textContent='⚔️ ¡Tu turno!';setTimeout(()=>{ri.style.display='none';},2500);}toast('⏱️ Descanso terminado · ¡tu turno!');}}
+  const live=!document.querySelector('.rmon.dead'),ri=document.getElementById('rint'),r2=document.getElementById('rint2'),tt=`💢 Prepara su ataque · ${Math.floor(left/60)}:${pad(left%60)}`;
+  if(ri&&live){ri.style.display='';ri.className='rint';ri.textContent=tt;}if(r2&&live){r2.className='rint2';r2.textContent=tt;}
+  if(left<=0){stopRest();const rd=G().rd&&G().rd[today()];if(rd&&rd.pend){rd.end=Date.now();enemyTurn(today(),false);}
+    setTimeout(()=>{sfx('ready');const a=document.getElementById('rint'),b=document.getElementById('rint2');
+      if(a&&!document.querySelector('.rmon.dead')){a.style.display='';a.className='rint go';a.textContent='⚔️ ¡Tu turno!';setTimeout(()=>{a.style.display='none';},2500);}
+      if(b){b.className='rint2 go';b.textContent='⚔️ ¡Tu turno!';setTimeout(()=>{b.textContent='';},2500);}},450);
+    toast('⏱️ Descanso terminado · ¡tu turno!');}}
 
 /* ================= Nutrición ================= */
 /* valores por 100 g (o 100 ml); referencia: tablas USDA / etiquetas comunes en México */
@@ -1974,16 +2002,39 @@ function raidState(d){const s=S.workouts[d]||session(d,false),ids=Object.keys(s.
       if(e.type==='str'){if(!(id in bc))bc[id]=bestBefore(d,id);const v=e1(x);if(bc[id]>0&&v>bc[id]+0.01){dm=u*2;crits++;bc[id]=v;}}
       dealt+=dm;});});
   return {mon:raidMon(d),max,dealt,crits,done,total,dead:max>0&&dealt>=max,clear:dayDone(d)};}
-let RFX=null;
-function raidAfter(before,d){const a=raidState(d);if(a.dealt>before.dealt){const crit=a.crits>before.crits;RFX={dmg:a.dealt-before.dealt,crit,ts:Date.now()};
+let RFX=null,RFX2=null;
+const rdOf=d=>{const g=G();g.rd=g.rd||{};return g.rd[d]||(g.rd[d]={dmg:0,pend:0,end:0,ot:0,stun:0});};
+const raidHPMax=()=>100+lvU('hp')*10;
+const runEq=()=>{const r=G().run;return r&&!r.dead?r:null;};
+function enemyTurn(d,heavy){const rd=rdOf(d),rs=raidState(d),en=EN[rs.mon],r=runEq();rd.pend=0;
+  if(rs.dead||rs.clear)return;
+  if(rd.stun&&!heavy){rd.stun=0;RFX2={stun:1,ts:Date.now()};save();refreshRaid();toast(`💫 ${en.n} sigue aturdido por tu récord: pierde su turno`);return;}
+  if(Math.random()*100<(r?pAgi(r):5)){RFX2={dodge:1,ts:Date.now()};sfx('dodge');save();refreshRaid();return;}
+  const dmg=Math.max(1,Math.round(en.atk*(heavy?1.7:0.65)*rnd(0.85,1.15))-(r?pDef(r):0)),max=raidHPMax(),alive=rd.dmg<max;
+  rd.dmg=Math.min(max,rd.dmg+dmg);RFX2={pdmg:dmg,heavy,ts:Date.now()};sfx(heavy?'crit':'hurt');save();refreshRaid();
+  if(heavy)toast(`💥 Te tardaste en volver: ${en.n} te dio un golpe fuerte (−${dmg})`);
+  if(alive&&rd.dmg>=max)setTimeout(()=>toast('😵 Te noquearon: el botín baja a la mitad. Termina igual tu rutina.'),500);}
+/* antes de registrar una serie: resuelve el turno pendiente del enemigo */
+function raidPre(d){if(d!==today())return;const rd=rdOf(d),now=Date.now();
+  if(rd.pend){const late=now>rd.end+150000;enemyTurn(d,late);rd.ot=0;}
+  else if(rd.ot&&now>rd.end+150000){rd.ot=0;enemyTurn(d,true);}else rd.ot=0;}
+function raidRestStart(d){if(d!==today())return;const rd=rdOf(d);rd.pend=1;rd.end=restEnd;rd.ot=1;save();}
+function refreshRaid(){if(curTab!=='gym'||gymDate!==today())return;const c=document.getElementById('raidc'),h=document.getElementById('rhud');
+  if(c)c.outerHTML=raidCard(gymDate);if(h)h.outerHTML=raidHud(gymDate);hudCheck();}
+function hudCheck(){const c=document.getElementById('raidc'),h=document.getElementById('rhud');const on=!!(c&&h&&curTab==='gym'&&c.getBoundingClientRect().bottom<70);
+  if(h)h.classList.toggle('on',on);document.body.classList.toggle('hudon',on);}
+window.addEventListener('scroll',()=>{if(curTab==='gym')hudCheck();},{passive:true});
+function raidAfter(before,d){const a=raidState(d);if(a.dealt>before.dealt){const crit=a.crits>before.crits;RFX={dmg:a.dealt-before.dealt,crit,ts:Date.now()};if(crit&&d===today())rdOf(d).stun=1;
     sfx(crit?'crit':'hit');if(a.dead&&!before.dead){sfx('kill',0.25);if(!a.clear)setTimeout(()=>toast(`💥 ¡${EN[a.mon].n} cayó! Termina tu rutina para cobrar el botín`),500);}}
   if(a.clear&&!before.clear){stopRest();setTimeout(()=>raidWin(d),650);}}
 function raidLoot(d){const g=G(),rs=raidState(d);g.raids=g.raids||{};if(g.raids[d])return g.raids[d];try{syncRun();}catch(e){}
-  const gold=20+rs.crits*10,L={gold,crits:rs.crits,items:[]};
+  const rd=rdOf(d),ko=rd.dmg>=raidHPMax(),hpPct=1-rd.dmg/raidHPMax();
+  const gold=Math.round((20+rs.crits*10)*(ko?0.5:1))+(!ko&&hpPct>=0.7?15:0),L={gold,crits:rs.crits,items:[]};
   const r=g.run,inRun=r&&!r.dead&&!r.won&&d>=r.start&&d<=addDays(r.mon,6);
   if(inRun){r.gold+=gold;L.items.push(`🪙 +${gold} oro para tu run`);
-    if(rs.crits){const ch=rollChest(rs.crits>=3?'rare':'common');applyChest(ch);L.items.push(`🎁 Cofre ${ch.tier==='rare'?'raro':'común'}: ${ch.txt}`);}
-    else if(r.potions<3&&Math.random()<0.35){r.potions++;L.items.push('🧪 Una poción');}}
+    if(ko)L.items.push('😵 Te noquearon: botín a la mitad y sin cofre');else if(hpPct>=0.7)L.items.push('🛡️ Defensa sólida (70%+ de vida): +15 oro incluidos');
+    if(rs.crits&&!ko){const ch=rollChest(rs.crits>=3?'rare':'common');applyChest(ch);L.items.push(`🎁 Cofre ${ch.tier==='rare'?'raro':'común'}: ${ch.txt}`);}
+    else if(!ko&&r.potions<3&&Math.random()<0.35){r.potions++;L.items.push('🧪 Una poción');}}
   else{g.souls+=2;L.items.push('👻 +2 almas (tu run de esta semana ya terminó)');}
   if(rs.crits)L.items.unshift(`📈 ${rs.crits} récord${rs.crits>1?'s':''} personal${rs.crits>1?'es':''} = ${rs.crits} crítico${rs.crits>1?'s':''}`);
   g.raids[d]=L;glog(`🏋️ Venciste al jefe del gym: ${EN[rs.mon].n}`);save();return L;}
@@ -1993,23 +2044,34 @@ function raidWin(d){const L=raidLoot(d),m=raidMon(d);sfx('win');
     <div class="loot">${L.items.map(x=>`<div>${x}</div>`).join('')}<div>⭐ XP por cada serie, ya sumada a tu nivel</div></div>
     <button class="btn block" style="margin-top:16px" data-act="closemodal">Continuar</button></div>`);
   setTimeout(()=>sfx('coin'),700);}
-function raidCard(k){const t=today(),rs=raidState(k),en=EN[rs.mon],fx=RFX&&Date.now()-RFX.ts<900?RFX:null,left=Math.max(0,rs.max-rs.dealt);
+function raidCard(k){const t=today(),rs=raidState(k),en=EN[rs.mon],fx=RFX&&Date.now()-RFX.ts<900?RFX:null,fx2=RFX2&&Date.now()-RFX2.ts<900?RFX2:null,left=Math.max(0,rs.max-rs.dealt);
+  const rd=rdOf(k),hmax=raidHPMax(),hp=Math.max(0,hmax-rd.dmg),ko=hp<=0;
   const g=G(),L=g.raids&&g.raids[k];
   const foot=k>t?'Este jefe te espera ese día.':rs.clear?`🏆 Vencido${L?` · ${L.items.filter(x=>!x.startsWith('📈')).map(x=>x.split(' ').slice(0,3).join(' ')).join(' · ')}`:''}`
     :rs.dead?'💥 ¡Ya cayó! Cada serie que falte suma al botín. Termina la rutina para cobrarlo.'
-    :rs.done?`Cada serie es un golpe de 10. Superar tu récord en un ejercicio es <b style="color:#ffd60a">crítico ×2</b>.`
-    :`Marca tu primera serie para atacar. Superar tu récord en un ejercicio es <b style="color:#ffd60a">crítico ×2</b>.`;
+    :ko?'😵 Te noquearon. Termina tu rutina igual: el botín sale a la mitad.'
+    :rs.done?`Cada serie es tu golpe. El enemigo ataca cuando termina tu descanso, y si te tardas más de 2 min en volver, pega más fuerte. Un récord es <b style="color:#ffd60a">crítico ×2</b> y lo aturde.`
+    :`Marca tu primera serie para atacar. El enemigo contraataca en tus descansos. Superar tu récord es <b style="color:#ffd60a">crítico ×2</b>.`;
   const sp=fx?[...Array(fx.crit?10:6)].map((_,i)=>{const a=i/(fx.crit?10:6)*6.28,r=fx.crit?60:38;return `<i class="spark" style="right:${44}px;top:44px;--dx:${Math.round(Math.cos(a)*r)}px;--dy:${Math.round(Math.sin(a)*r)}px;${fx.crit?'':'background:#fff'}"></i>`;}).join(''):'';
-  return `<div class="card raid ${rs.clear?'won':''}">
+  return `<div class="card raid ${rs.clear?'won':''}" id="raidc">
     <div class="rtop"><span class="rtag">${rs.clear?'👑 JEFE VENCIDO':'⚔️ JEFE DEL GYM'}</span><span class="small muted">${rs.done}/${rs.total} golpes${rs.crits?` · <b style="color:#ffd60a">${rs.crits} crítico${rs.crits>1?'s':''}</b>`:''}</span></div>
     <div class="rarena ${fx&&fx.crit?'shake':''}">
-      <div class="rhero ${fx?'lunge':''}">${heroSpr(3.6)}</div>
+      <div class="rhero ${fx?'lunge':''} ${fx2&&fx2.pdmg?'ouch':''} ${ko?'ko':''}">${heroSpr(3.6)}${fx2&&fx2.pdmg?`<div class="dmgn ${fx2.heavy?'h':''}">−${fx2.pdmg}</div>`:''}${fx2&&fx2.dodge?'<div class="dmgn miss">Esquiva</div>':''}</div>
       ${fx&&fx.crit?'<div class="critlbl">¡CRÍTICO!</div>':''}${sp}
-      <div class="rint" id="rint" style="display:none"></div><div class="rmon ${fx?(fx.crit?'hit crit':'hit'):''} ${rs.dead?'dead':''}">${enSpr(rs.mon,4.6)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}</div>
+      <div class="rint" id="rint" style="display:none"></div><div class="rmon ${fx?(fx.crit?'hit crit':'hit'):''} ${fx2&&(fx2.pdmg||fx2.dodge)?'mlunge':''} ${rs.dead?'dead':''}">${enSpr(rs.mon,4.6)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}${fx2&&fx2.stun?'<div class="dmgn miss">💫</div>':''}</div>
     </div>
-    <div class="fname" style="text-align:right">${en.n}${rs.dead?' · derrotado':''}</div>
-    ${gbar(left,rs.max,'hpr')}
+    <div class="rbars"><div><div class="rbl">${esc(S.settings.name||'Tú')}${ko?' · 😵 KO':''}</div>${gbar(hp,hmax,'hpg')}</div><div><div class="rbl" style="text-align:right">${en.n}${rs.dead?' · 💀':''}</div>${gbar(left,rs.max,'hpr')}</div></div>
     <div class="rfoot">${foot}</div></div>`;}
+
+function raidHud(k){const rs=raidState(k),en=EN[rs.mon],rd=rdOf(k),hmax=raidHPMax(),hp=Math.max(0,hmax-rd.dmg),left=Math.max(0,rs.max-rs.dealt);
+  const fx=RFX&&Date.now()-RFX.ts<900?RFX:null,fx2=RFX2&&Date.now()-RFX2.ts<900?RFX2:null;
+  return `<div class="rhud" id="rhud" data-act="hudtop">
+    <div class="hs ${fx2&&fx2.pdmg?'ouch':''}">${heroSpr(1.9)}${fx2&&fx2.pdmg?`<div class="dmgn">−${fx2.pdmg}</div>`:''}</div>
+    <div><div class="hn">${esc(S.settings.name||'Tú')}</div>${gbar(hp,hmax,'hpg')}</div>
+    <div class="vs">VS</div>
+    <div><div class="hn" style="text-align:right">${en.n}</div>${gbar(left,rs.max,'hpr')}</div>
+    <div class="hs ${fx?'hit':''}">${enSpr(rs.mon,2)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}</div>
+    <div class="rint2" id="rint2"></div></div>`;}
 
 /* ================= Mapa del mundo ================= */
 function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
@@ -2019,13 +2081,15 @@ function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
   const X=i=>60+i*74,Y=i=>108+Math.round(Math.sin(i*1.1)*32),Wd=X(n-1)+110;
   let path=`M ${X(0)} ${Y(0)}`;for(let i=1;i<n;i++){const mx=(X(i-1)+X(i))/2;path+=` C ${mx} ${Y(i-1)}, ${mx} ${Y(i)}, ${X(i)} ${Y(i)}`;}
   const wk=mon=>{const v=w.filter(x=>x.date>=mon&&x.date<=addDays(mon,6));return v.length?v[v.length-1].kg:null;};
+  const acts=Object.keys(S.workouts).filter(d=>hasData(S.workouts[d])).sort(),fa=acts.length?mondayOf(acts[0]):cur;
   let nodes='',dec='',hero='';
   for(let i=0;i<n;i++){const mon=addDays(start,7*i),last=i===n-1;
     if(i%2===0&&!last)dec+=`<div class="wdec" style="left:${X(i)+30}px;top:${Y(i)+(Y(i)>108?-30:58)}px">${spr('tree',1.6)}</div>`;
     if(last){dec+=`<div class="wcastle" style="left:${X(i)+20}px;top:${Y(i)+22}px">${spr('castle',4)}<div class="wboss">${enSpr('traje',2.2)}</div></div>`;
       nodes+=`<div class="wl" style="left:${X(i)+20}px;top:${Y(i)+28}px">${evIcon()} ${fmtShort(EV())}</div>`;continue;}
-    const won=g.trophies.some(x=>x.mon===mon),st=mon===cur?'cur':mon>cur?'':won?'won':'past';
-    nodes+=`<div class="wn ${st}" style="left:${X(i)}px;top:${Y(i)}px" data-act="wnode" data-mon="${mon}">${won?'👑':mon===cur?'!':mon<cur?'✓':i+1}</div>`;
+    const won=g.trophies.some(x=>x.mon===mon),gd=[0,1,2,3,4,5,6].filter(j=>dayDone(addDays(mon,j))).length;
+    const st=mon===cur?'cur':mon>cur?'':won?'won':mon<fa?'pre':gd?'past':'lost';
+    nodes+=`<div class="wn ${st}" style="left:${X(i)}px;top:${Y(i)}px" data-act="wnode" data-mon="${mon}">${({won:'👑',cur:'!',past:'✓',lost:'💀',pre:'·'})[st]||i+1}</div>`;
     const kgv=wk(mon);if(kgv&&mon<=cur)nodes+=`<div class="wl" style="left:${X(i)}px;top:${Y(i)+20}px">${kg(kgv)}</div>`;
     if(mon===cur)hero=`<div class="whero" style="left:${X(i)}px;top:${Y(i)-16}px">${heroSpr(2.4)}</div>`;}
   const ci=Math.round(daysBetween(start,cur)/7);
@@ -2034,18 +2098,19 @@ function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
     ${dec}${nodes}${hero}</div></div>`,left:Math.max(0,n-1-ci)};}
 function wnodeInfo(mon){const g=G(),w=sortedW().filter(x=>x.date>=mon&&x.date<=addDays(mon,6)),won=g.trophies.some(x=>x.mon===mon),cur=mondayOf(today());
   const gd=[...Array(7)].map((_,i)=>addDays(mon,i)).filter(dayDone).length;
-  toast(`Semana del ${fmtShort(mon)} · ${mon>cur?'por venir':`${gd} entrenos${won?' · 👑 jefe vencido':''}${w.length?' · '+kg(w[w.length-1].kg)+' kg':''}`}`);}
+  toast(`Semana del ${fmtShort(mon)} · ${mon>cur?'por venir':`${gd} entreno${gd===1?'':'s'}${won?' · 👑 jefe vencido':gd||mon===cur?'':' · 💀 semana perdida'}${w.length?' · '+kg(w[w.length-1].kg)+' kg':''}`}`);}
 
 /* ================= Navegación y eventos ================= */
 let curTab='peso';
 const R={peso:renderPeso,gym:renderGym,comida:renderComida,super:renderSuper,aventura:renderAventura,plan:renderPlan};
-function show(tab){applyTheme();curTab=tab;if(tab==='aventura')musicStart('map');else musicStop();document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+tab));
+function show(tab){applyTheme();curTab=tab;document.body.classList.remove('hudon');if(tab==='aventura')musicStart('map');else musicStop();document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+tab));
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));R[tab]();window.scrollTo(0,0);}
 function applyTheme(){document.body.classList.toggle('pixel',S.settings.theme==='pixel');}
 function rerender(){applyTheme();R[curTab]();}
 let toastT;function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('on'),1900);}
 
 function setCheck(id,i){
+  const s0=S.workouts[gymDate],x0=s0&&s0.ex[id]&&s0.ex[id].sets[i];if(!(x0&&x0.done))raidPre(gymDate);
   const rb=raidState(gymDate);
   const s=session(gymDate,true),e=EX[id],x=s.ex[id].sets[i];
   x.done=!x.done;
@@ -2057,12 +2122,13 @@ function setCheck(id,i){
   s.ex[id].done=s.ex[id].sets.every(z=>z.done);
   save();
   const wasLast=s.ex[id].done;
-  if(x.done&&e.type!=='cardio'&&!wasLast)startRest(e.type==='time'?60:(e.rest||90));
+  if(x.done&&e.type!=='cardio'&&!wasLast){startRest(e.type==='time'?60:(e.rest||90));if(!raidState(gymDate).dead)raidRestStart(gymDate);}
   if(wasLast){stopRest();}
   if(gymDate<=today())raidAfter(rb,gymDate);
   renderGym();
 }
 function exDone(id){
+  {const s0=S.workouts[gymDate];if(!(s0&&s0.ex[id]&&s0.ex[id].done))raidPre(gymDate);}
   const rb=raidState(gymDate);
   const s=session(gymDate,true),ex=s.ex[id];ex.done=!ex.done;
   if(ex.done){ex.sets.forEach((x,i)=>{if(!x.done){x.done=true;
@@ -2129,7 +2195,8 @@ document.addEventListener('click',ev=>{
     case 'zoom':zoom(b.dataset.id);break;
     case 'rest-':restEnd-=15000;tickRest();break;
     case 'rest+':restEnd+=15000;tickRest();break;
-    case 'restskip':stopRest();break;
+    case 'restskip':{stopRest();const rd=G().rd&&G().rd[today()];if(rd&&rd.pend){rd.end=Date.now();enemyTurn(today(),false);}break;}
+    case 'hudtop':{const c=document.getElementById('raidc');if(c)window.scrollTo({top:Math.max(0,c.offsetTop-12),behavior:'smooth'});break;}
     case 'fprev':foodDate=addDays(foodDate,-1);renderComida();break;
     case 'fnext':if(daysBetween(today(),foodDate)<13){foodDate=addDays(foodDate,1);renderComida();}break;
     case 'ftoday':foodDate=today();renderComida();break;
