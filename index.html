@@ -217,6 +217,7 @@ details.hist .det{font-size:13px;color:#c7c7cc;margin-top:10px;line-height:1.6;b
 .pkx .grow{min-width:0}.pkx .t{font-weight:650;font-size:15px}.pkx .s{font-size:12px;color:var(--sub)}
 .pkx .ad{margin-left:auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accbg);color:var(--acc);font-weight:800;flex:none}
 .pkx.in{opacity:.45}
+.cut.no{background:rgba(255,69,58,.16);color:#ff6961;border-color:transparent;text-decoration:line-through}
 .secbtn{font-size:14px;font-weight:700;color:var(--acc);background:none;border:0;padding:0}
 .cutcard{display:flex;gap:12px;align-items:flex-start}
 .cutcard .em{font-size:28px;width:44px;height:44px;border-radius:14px;background:rgba(255,69,58,.12);display:grid;place-items:center;flex:none}
@@ -489,7 +490,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125100759';
+const APP_V='20261125102906';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -501,9 +502,10 @@ const PACE=0.6;
 function EV(){if(ED!=='lb')return S.settings.event||'2027-02-20';if(S.settings.event)return S.settings.event;
   const w=sortedW(),st=S.settings,d0=w.length?w[0].date:(st.since||today());return addDays(d0,Math.max(7,Math.ceil(Math.max(0,st.start-st.goalMax)/PACE*7)));}
 const evLabel=()=>S.settings.evName||BX('la boda','tu evento');
-const evIcon=()=>BX('💍',S.settings.event?'📅':'🎯');
+const evIcon=()=>/boda/i.test(S.settings.evName||'')||ED!=='lb'?'💍':S.settings.event?'📅':'🎯';
 const fmtLong=k=>{const d=parseKey(k);return `${d.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][d.getMonth()]} de ${d.getFullYear()}`;};
 const KEY0 = SLUG+'.v1', PKEY=SLUG+'.profiles';
+if(ED==='lb'){try{if(!localStorage.getItem('liftbound.profiles')&&!localStorage.getItem('liftbound.v1')&&localStorage.getItem('bodafit.v1')){for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('bodafit.'))localStorage.setItem('liftbound.'+k.slice(8),localStorage.getItem(k));}}}catch(e){}}
 function profs(){try{const p=JSON.parse(localStorage.getItem(PKEY));if(p&&p.list&&p.list.length)return p;}catch(e){}return {cur:'main',list:[{id:'main',name:''}]};}
 function saveProfs(p){try{localStorage.setItem(PKEY,JSON.stringify(p));}catch(e){}}
 const dataKey=id=>id==='main'?KEY0:KEY0+'.'+id;
@@ -649,6 +651,7 @@ function applyCustom(){
   Object.keys(EX).forEach(k=>delete EX[k]);Object.assign(EX,JSON.parse(JSON.stringify(EX0)));
   Object.entries(S.cex||{}).forEach(([id,c])=>{EX[id]=c.type==='cardio'?{n:c.n,img:'',type:'cardio',m:c.m||'Cardio',target:'20 min',tip:'',fields:[['min','Min','20']],cx:1}:{n:c.n,img:'',type:'str',m:c.m||'',tip:'',cx:1};});
   Object.entries(S.exo||{}).forEach(([id,o])=>{const e=EX[id];if(!e)return;if(e.type==='str'){if(o.sets)e.sets=o.sets;if(o.reps)e.reps=o.reps;}else if(e.type==='cardio'&&o.t)e.target=o.t;});
+  setMeals();
   Object.keys(ROUT).forEach(k=>delete ROUT[k]);Object.assign(ROUT,JSON.parse(JSON.stringify(ROUT0)),JSON.parse(JSON.stringify(S.rout||{})));
   Object.values(ROUT).forEach(r=>{r.ex=(r.ex||[]).filter(id=>EX[id]);});}
 const defWeek=()=>['R','PU','PL','LG',S.settings.rv==='glute'?'GB':'AR','UP','S'];
@@ -662,7 +665,11 @@ const GRP=['Pecho','Hombro','Espalda','Bíceps','Tríceps','Antebrazo','Pierna',
 function grpOf(e){if(e.type==='cardio')return 'Cardio';if(e.cx&&GRP.includes(e.m))return e.m;const m=(e.m||'').toLowerCase();
   for(const [a,b] of [['pecho','Pecho'],['hombro','Hombro'],['dorsal','Espalda'],['espalda','Espalda'],['bíceps','Bíceps'],['tríceps','Tríceps'],['antebrazo','Antebrazo'],['cuádriceps','Pierna'],['femoral','Pierna'],['pierna','Pierna'],['pantorrilla','Pierna'],['glúteo','Glúteo'],['abdomen','Abdomen'],['oblicuo','Abdomen'],['core','Abdomen']])if(m.includes(a))return b;return 'Otros';}
 function subOf(ids){const g=[...new Set(ids.map(id=>grpOf(EX[id])).filter(x=>x!=='Otros'))].map(x=>x.toLowerCase());if(!g.length)return 'Rutina personalizada';const t=g.length>1?g.slice(0,-1).join(', ')+' y '+g[g.length-1]:g[0];return t[0].toUpperCase()+t.slice(1);}
-const MEALS = ED==='lb'?[['desayuno','Desayuno','🍳','Mañana'],['comida','Comida','🍗','Mediodía'],['cena','Cena','🌙','Noche']]:[['desayuno','Desayuno','🍳','6 – 7 am'],['comida','Comida','🍗','2 – 3 pm'],['cena','Cena','🌙','≈ 9 pm · después del gym']];
+const MEALS=[];
+const MEAL_DEF=[['desayuno','Desayuno','🍳'],['comida','Comida','🍗'],['colacion','Colación','🍎'],['cena','Cena','🌙']];
+const HOURS_DEF=ED==='lb'?{desayuno:'Mañana',comida:'Mediodía',colacion:'Tarde',cena:'Noche'}:{desayuno:'6 – 7 am',comida:'2 – 3 pm',colacion:'Tarde',cena:'≈ 9 pm · después del gym'};
+function setMeals(){const f=(S.settings.food)||{},h=f.hours||{};MEALS.length=0;
+  MEAL_DEF.forEach(([id,n,em])=>{if(id==='colacion'&&!f.snack)return;MEALS.push([id,n,em,h[id]||HOURS_DEF[id]]);});}
 const CUTS = [
   {id:'refresco',n:'Refresco',em:'🥤',w:'Un refresco de 600 ml aporta cerca de 250 kcal de azúcar sin generar saciedad.',sw:'Alternativas: agua mineral con limón, agua de jamaica sin azúcar o refresco sin azúcar ocasionalmente.'},
   {id:'cerveza',n:'Cerveza',em:'🍺',w:'Cada cerveza aporta unas 150 kcal y suele aumentar el apetito y el consumo de botanas.',sw:'Entre semana, evítala. En eventos: máximo 1–2 light, alternando con agua mineral.'},
@@ -682,8 +689,12 @@ const FOODS = [
 ];
 
 /* ================= Estado ================= */
-const blank = ()=>({settings:ED==='lb'?{start:85,goalMin:72,goalMax:75,age:28,height:175,sex:'h',wu:'lb',budget:700,event:'',since:(d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`)(new Date()),rv:'std',por:'auto',v:4}:{start:96,goalMin:80,goalMax:84,age:27,height:170,sex:'h',wu:'lb',budget:600,event:'2027-02-20',rv:'std',por:'auto',v:4},weights:[],workouts:{},meals:{},cuts:{},water:{},menu:{},shop:{}});
-function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&typeof r==='object'){const b=blank();const st={...b.settings,...(r.settings||{})};if(!(r.settings&&r.settings.v>=3)){if((st.goalMin===86&&st.goalMax===90)||(st.goalMin===79&&st.goalMax===80)){st.goalMin=80;st.goalMax=84;}st.v=3;}let menu=r.menu||{};if(st.v<4){st.height=170;st.sex=st.sex||'h';menu={};st.v=4;}return {...b,...r,menu,settings:st};}}catch(e){}return blank();}
+const blank = ()=>({settings:ED==='lb'?{food:{nofood:[],snack:false,satFree:false},start:85,goalMin:72,goalMax:75,age:28,height:175,sex:'h',wu:'lb',budget:700,event:'',since:(d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`)(new Date()),rv:'std',por:'auto',v:4}:{food:{nofood:[],snack:false,satFree:true},start:96,goalMin:80,goalMax:84,age:27,height:170,sex:'h',wu:'lb',budget:600,event:'2027-02-20',rv:'std',por:'auto',v:4},weights:[],workouts:{},meals:{},cuts:{},water:{},menu:{},shop:{}});
+function migFood(st,menu){const sat=Object.values(menu||{}).some(w=>Object.values(w||{}).some(d=>d&&['d4','c4','n4'].includes(d.desayuno||d.comida||d.cena)));
+  const fromBoda=ED!=='lb'||sat||st.event==='2027-02-20';
+  return {nofood:fromBoda&&st.sex!=='m'?['aguacate','papaya','chayote','calabacita']:[],snack:false,satFree:fromBoda};}
+function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&typeof r==='object'){const b=blank();const st={...b.settings,...(r.settings||{})};if(!(r.settings&&r.settings.v>=3)){if((st.goalMin===86&&st.goalMax===90)||(st.goalMin===79&&st.goalMax===80)){st.goalMin=80;st.goalMax=84;}st.v=3;}let menu=r.menu||{};if(st.v<4){st.height=170;st.sex=st.sex||'h';menu={};st.v=4;}
+    if(!(r.settings&&r.settings.food))st.food=migFood(st,menu);if(!st.evName&&st.event==='2027-02-20')st.evName='la boda';return {...b,...r,menu,settings:st};}}catch(e){}return blank();}
 let S = load();applyCustom();
 function save(){try{const p=profs();const me=p.list.find(x=>x.id===p.cur);if(me&&me.name!==(S.settings.name||'')){me.name=S.settings.name||'';saveProfs(p);}localStorage.setItem(KEY,JSON.stringify(S));}catch(e){toast('⚠️ No se pudo guardar');}if(window.onSaved)window.onSaved();}
 
@@ -979,6 +990,19 @@ const ING = {
   brocoli:{n:'Brócoli',k:34,p:2.8,c:6.6,f:0.4,cat:'verdura',buy:'kg',bn:'Brócoli'},
   zanahoria:{n:'Zanahoria',k:41,p:0.9,c:9.6,f:0.2,cat:'verdura',buy:'kg',bn:'Zanahoria'},
   chayote:{n:'Chayote',k:19,p:0.8,c:4.5,f:0.1,cat:'verdura',buy:'kg',bn:'Chayote'},
+  yogur:{n:'Yogur griego natural',k:59,p:10,c:3.6,f:0.4,cat:'lacteos',buy:'kg',bn:'Yogur griego natural sin azúcar'},
+  cacahuate:{n:'Crema de cacahuate',k:588,p:25,c:20,f:50,cat:'despensa',buy:'kg',bn:'Crema de cacahuate natural'},
+  aguacate:{n:'Aguacate',k:160,p:2,c:8.5,f:14.7,cat:'verdura',buy:'kg',bn:'Aguacate'},
+  tilapia:{n:'Filete de tilapia (crudo)',k:96,p:20,c:0,f:1.7,cat:'prote',buy:'kg',bn:'Filete de tilapia'},
+  resmol:{n:'Carne molida de res 90/10 (cruda)',k:176,p:20,c:0,f:10,cat:'prote',buy:'kg',bn:'Carne molida de res 90/10'},
+  bistec:{n:'Bistec de res (crudo)',k:150,p:21,c:0,f:7,cat:'prote',buy:'kg',bn:'Bistec de res'},
+  pavo:{n:'Jamón de pavo',k:104,p:17,c:3,f:2.5,cat:'prote',buy:'kg',bn:'Jamón de pavo'},
+  pan:{n:'Pan integral',k:247,p:13,c:41,f:3.4,cat:'despensa',buy:'bolsa',g:680,bn:'Pan integral (bolsa 680 g)'},
+  pasta:{n:'Pasta (cocida)',k:158,p:5.8,c:31,f:0.9,cat:'despensa',buy:'raw',raw:2.25,bn:'Pasta cruda'},
+  lechuga:{n:'Lechuga',k:15,p:1.4,c:2.9,f:0.2,cat:'verdura',buy:'kg',bn:'Lechuga'},
+  pepino:{n:'Pepino',k:15,p:0.7,c:3.6,f:0.1,cat:'verdura',buy:'kg',bn:'Pepino'},
+  jicama:{n:'Jícama',k:38,p:0.7,c:9,f:0.1,cat:'verdura',buy:'kg',bn:'Jícama'},
+  whey:{n:'Proteína en polvo',k:400,p:75,c:10,f:6,cat:'despensa',buy:'kg',bn:'Proteína en polvo (whey)'},
 };
 /* precio por unidad de compra; 'real' = de ticket, 'aprox' = estimado */
 const PR={
@@ -988,6 +1012,7 @@ const PR={
   panela:[0.25,'aprox','Panela ~$250/kg'],tostada:[2.5,'aprox','Tostada horneada'],cebolla:[35,'aprox','Cebolla blanca'],
   arroz:[34,'aprox'],aceite:[0.05,'aprox'],platano:[28,'aprox'],manzana:[55,'real','Manzana Granny ~$55/kg (Soriana)'],jitomate:[45,'aprox'],tomverde:[40,'aprox'],
   chile:[0.07,'aprox'],limon:[2.5,'aprox'],espinaca:[0.15,'real','Espinaca en bolsa ~$46 (Soriana)'],brocoli:[60,'aprox'],zanahoria:[28,'aprox'],papaya:[35,'aprox'],calabacita:[35,'aprox'],chayote:[28,'aprox'],muslo:[120,'aprox'],
+  yogur:[80,'aprox'],cacahuate:[170,'aprox'],aguacate:[70,'aprox'],tilapia:[150,'aprox'],resmol:[190,'aprox'],bistec:[195,'aprox'],pavo:[170,'aprox'],pan:[58,'aprox'],pasta:[45,'aprox'],lechuga:[35,'aprox'],pepino:[30,'aprox'],jicama:[28,'aprox'],whey:[650,'aprox'],
 };
 const OUTCOST={d4:100};
 const price=ig=>{const c=(S.prices||{})[ig];return c!=null?c:(PR[ig]?PR[ig][0]:0);};
@@ -1024,9 +1049,45 @@ const REC = {
       steps:['Revuelve los 4 huevos con sal.','Arma 3 tacos con frijoles y salsa verde.','Listo en 5 minutos al llegar del gym.']},
   n4:{m:'cena',sat:1,n:'Arrachera con cebollitas (sábado)',items:[['arrachera',200],['tortilla',90],['cebolla',60],['frijol',100],['tomverde',50],['limon',20]],
       steps:['Asa la arrachera en sartén o asador bien caliente, 3–4 minutos por lado.','Asa la cebolla en rodajas junto con la carne.','Arma tacos con salsa verde y limón; frijoles al lado.','Pesa la arrachera cruda: 200 g por persona.']},
+  d5:{m:'desayuno',n:'Yogur griego con avena y plátano',items:[['yogur',250],['avena',40],['platano',100],['cacahuate',10]],
+      steps:['Sirve el yogur en un tazón.','Agrega la avena cruda, el plátano en rodajas y la crema de cacahuate.','Canela al gusto, sin azúcar.']},
+  d6:{m:'desayuno',n:'Molletes integrales con frijol y panela',items:[['pan',60],['frijol',100],['panela',60],['jitomate',60],['cebolla',20]],
+      steps:['Unta los frijoles en 2 rebanadas de pan integral.','Pon la panela en rebanadas encima y dóralos en sartén tapado o en el horno 5 minutos.','Sirve con pico de gallo.']},
+  d7:{m:'desayuno',n:'Omelette de pavo y espinaca',items:[['huevo',150],['pavo',60],['espinaca',40],['tortilla',60],['aceite',5]],
+      steps:['Bate los 3 huevos con sal.','Saltea el jamón de pavo y la espinaca 1 minuto y vierte el huevo encima.','Dobla cuando cuaje y acompaña con las tortillas.']},
+  d8:{m:'desayuno',n:'Huevos con aguacate y tortilla',items:[['huevo',150],['aguacate',50],['tortilla',60],['jitomate',50],['aceite',3]],
+      steps:['Prepara los 3 huevos estrellados o revueltos.','Sirve con el aguacate en rebanadas, jitomate y las tortillas.']},
+  d9:{m:'desayuno',n:'Licuado de proteína con avena',items:[['whey',30],['leche',300],['avena',40],['platano',100]],
+      steps:['Licúa todo con hielo 30 segundos.','Ideal si no te da tiempo de cocinar en la mañana.']},
+  c6:{m:'comida',n:'Picadillo de res con arroz',items:[['resmol',180],['jitomate',100],['zanahoria',80],['cebolla',30],['arroz',150],['aceite',5]],
+      steps:['Dora la carne molida con la cebolla en el aceite.','Agrega la zanahoria picada y el jitomate licuado con sal y ajo.','Cocina 10 minutos y sirve con el arroz.']},
+  c7:{m:'comida',n:'Tilapia al limón con arroz y ensalada',items:[['tilapia',220],['arroz',150],['lechuga',60],['pepino',80],['limon',20],['aceite',5]],
+      steps:['Sazona la tilapia con sal, pimienta, ajo y limón.','Cocínala en sartén con el aceite 3 minutos por lado.','Sirve con el arroz y una ensalada de lechuga y pepino con limón.']},
+  c8:{m:'comida',n:'Pasta con pollo y brócoli',items:[['pechuga',180],['pasta',160],['brocoli',100],['panela',30],['aceite',5]],
+      steps:['Cuece la pasta y el brócoli en la misma olla (el brócoli los últimos 3 minutos).','Asa la pechuga en cubos con sal y ajo.','Mezcla todo con la panela en cubitos.']},
+  c9:{m:'comida',n:'Bistec asado con frijoles y ensalada',items:[['bistec',200],['frijol',100],['tortilla',60],['lechuga',60],['jitomate',60]],
+      steps:['Asa el bistec en sartén bien caliente 2–3 minutos por lado.','Acompaña con frijoles, ensalada y las tortillas.']},
+  c10:{m:'comida',n:'Ensalada de pollo con aguacate',items:[['pechuga',180],['lechuga',100],['jitomate',80],['pepino',80],['aguacate',50],['tostada',24],['limon',20]],
+      steps:['Asa la pechuga y córtala en tiras.','Mezcla la lechuga, jitomate, pepino y aguacate con limón y sal.','Sirve el pollo encima, con las tostadas al lado.']},
+  n6:{m:'cena',n:'Sándwich de pavo y panela',items:[['pan',60],['pavo',90],['panela',40],['lechuga',30],['jitomate',40]],
+      steps:['Arma el sándwich con pan integral, pavo, panela, lechuga y jitomate.','Dóralo en sartén si lo quieres caliente.']},
+  n7:{m:'cena',n:'Tacos de bistec con cebolla',items:[['bistec',180],['tortilla',90],['cebolla',40],['tomverde',50],['limon',20]],
+      steps:['Asa el bistec y la cebolla; pica la carne.','Arma 3 tacos con salsa verde y limón.']},
+  n8:{m:'cena',n:'Ensalada de atún con pepino',items:[['atun',180],['pepino',100],['jitomate',80],['cebolla',20],['tostada',24],['limon',20]],
+      steps:['Mezcla el atún con pepino, jitomate y cebolla picados.','Sazona con limón, sal y chile en polvo. Sirve con las tostadas.']},
+  n9:{m:'cena',n:'Pollo a la plancha con ensalada',items:[['pechuga',180],['lechuga',80],['pepino',80],['jitomate',60],['tortilla',30],['aceite',5]],
+      steps:['Asa la pechuga sazonada.','Sirve con ensalada de lechuga, pepino y jitomate con limón, y una tortilla.']},
+  k1:{m:'colacion',n:'Yogur griego con manzana',items:[['yogur',170],['manzana',100]],steps:['Sirve el yogur con la manzana picada y canela.']},
+  k2:{m:'colacion',n:'Manzana con crema de cacahuate',items:[['manzana',150],['cacahuate',16]],steps:['Rebana la manzana y úntale una cucharada de crema de cacahuate.']},
+  k3:{m:'colacion',n:'2 huevos cocidos',items:[['huevo',100]],steps:['Hierve los huevos 10 minutos. Deja varios listos en el refri.']},
+  k4:{m:'colacion',n:'Licuado de proteína',items:[['whey',30],['leche',250]],steps:['Licúa con hielo. Bueno después del gym.']},
+  k5:{m:'colacion',n:'Pepino y jícama con limón',items:[['pepino',100],['jicama',150],['limon',20]],steps:['Corta en bastones y sazona con limón, sal y chile en polvo.']},
 };
-const RIDS=m=>Object.keys(REC).filter(id=>REC[id].m===m);
-const PORT=()=>{const v=S.settings.por;if(v&&v!=='auto')return +v;const tg=targets();return tg?clamp(Math.round(tg.kcal/2100*20)/20,0.6,1.2):1;};
+const FP=()=>S.settings.food||{};
+const okRec=id=>{const no=FP().nofood||[];return !REC[id].items.some(([i])=>no.includes(i));};
+const RIDS=m=>Object.keys(REC).filter(id=>REC[id].m===m&&okRec(id));
+const satOn=()=>!!FP().satFree;
+const PORT=()=>{const v=S.settings.por;if(v&&v!=='auto')return +v;const tg=targets();return tg?clamp(Math.round(tg.kcal/(FP().snack?2300:2100)*20)/20,0.6,1.2):1;};
 const recMac=(id,por=1)=>{por*=PORT();let k=0,p=0,c=0,f=0;REC[id].items.forEach(([i,g])=>{const x=ING[i];k+=x.k*g/100;p+=x.p*g/100;c+=x.c*g/100;f+=x.f*g/100;});
   return {k:Math.round(k*por),p:Math.round(p*por),c:Math.round(c*por),f:Math.round(f*por)};};
 const frac=n=>{const w=Math.floor(n),r=Math.round((n-w)*10)/10;return r===0?String(w):r===0.5?(w?w:'')+'½':n.toFixed(1);};
@@ -1054,7 +1115,7 @@ function buyAmt(i,g){const x=ING[i];
     case 'g':return {q:Math.ceil(g/10)*10,u:'g'};
     default:return {q:roundUp(g/1000,0.25),u:'kg'};
   }}
-function idealW(){const st=S.settings;if(ED!=='lb'&&profs().cur==='main'&&st.sex!=='m')return [75,78];const h=(st.height||170)/100,b=st.sex==='m'?[20.5,23.5]:[22.5,25.5];return b.map(x=>Math.round(x*h*h));}
+function idealW(){const st=S.settings;const h=(st.height||170)/100,b=st.sex==='m'?[20.5,24]:[23.5,27];return b.map(x=>Math.round(x*h*h));}
 function phase(){const p=S.settings.phase||'auto';if(p!=='auto')return p;return latestW()<=S.settings.goalMax?'mant':'bajar';}
 function targets(){const st=S.settings;if(!st.height)return null;
   const w=latestW(),bmr=10*w+6.25*st.height-5*(st.age||27)+(st.sex==='m'?-161:5),tdee=bmr*1.5;
@@ -1067,9 +1128,15 @@ const mealDay=k=>S.meals[k]||{desayuno:[],comida:[],cena:[]};
 const mealCount=k=>{const m=S.meals[k];return m?MEALS.reduce((a,[id])=>a+(m[id]||[]).length,0):0;};
 const dayTot=k=>{const m=S.meals[k];let kc=0,p=0,any=false;if(m)MEALS.forEach(([id])=>(m[id]||[]).forEach(x=>{if(x.kcal!=null){kc+=x.kcal;any=true;}if(x.p)p+=x.p;}));return {k:kc,p,any};};
 function weekMenu(mon,create){let w=S.menu[mon];
-  if(!w){w={};const wd=m=>RIDS(m).filter(id=>!REC[id].sat),sp=m=>RIDS(m).find(id=>REC[id].sat);const D=wd('desayuno'),C=wd('comida'),N=wd('cena');
-    for(let i=0;i<7;i++)w[i]=i===5&&ED!=='lb'?{desayuno:sp('desayuno'),comida:sp('comida'),cena:sp('cena')}:{desayuno:D[i%3],comida:C[(i+1)%3],cena:N[(i+2)%3]};if(create)S.menu[mon]=w;}
+  if(!w){w={};for(let i=0;i<7;i++){w[i]={};MEALS.forEach(([m],j)=>{w[i][m]=defMenuPick(m,i,j);});}if(create)S.menu[mon]=w;}
   return w;}
+function defMenuPick(m,i,j){if(i===5&&satOn()){const sp=RIDS(m).find(id=>REC[id].sat);if(sp)return sp;}
+  let L=RIDS(m).filter(id=>!REC[id].sat);if(m!=='colacion'){const sc=id=>Math.pow(recMac(id).p,2)/Math.max(5,recCost(id));L.sort((x,y)=>sc(y)-sc(x));L=L.slice(0,Math.max(3,Math.ceil(L.length*0.6)));}return L.length?L[(i+j)%L.length]:'';}
+/* tras cambiar preferencias: corrige menús de esta semana en adelante */
+function fixMenus(){const mon0=mondayOf(today());Object.keys(S.menu).forEach(mon=>{if(mon<mon0)return;const w=S.menu[mon];
+  for(let i=0;i<7;i++){w[i]=w[i]||{};MEALS.forEach(([m],j)=>{const cur=w[i][m];const bad=cur&&(!REC[cur]||!okRec(cur)||(REC[cur].sat&&!satOn()));
+    if(bad||cur===undefined||(i===5&&satOn()&&!(cur&&REC[cur]&&REC[cur].sat)&&cur!==''))w[i][m]=defMenuPick(m,i,j);});
+    Object.keys(w[i]).forEach(m=>{if(!MEALS.some(x=>x[0]===m))delete w[i][m];});}});}
 const menuFor=k=>weekMenu(mondayOf(k),false)[(parseKey(k).getDay()+6)%7]||{};
 function logRec(meal,rid,por){
   const m=S.meals[foodDate]||(S.meals[foodDate]={desayuno:[],comida:[],cena:[]});
@@ -1122,7 +1189,7 @@ function renderComida(){if(foodDate>today())return renderFoodPreview();
     :`<div class="card"><b>Calcula tu meta de calorías</b><div class="small muted" style="margin:4px 0 12px;line-height:1.4">Pon tu estatura y la app calcula cuánto comer al día para bajar a buen ritmo.</div>
       <div class="addrow" style="margin-top:0"><input id="qHeight" inputmode="numeric" placeholder="Estatura en cm (ej. 175)"><button class="btn" style="font-size:16px" data-act="qheight">Listo</button></div></div>`;
   document.getElementById('v-comida').innerHTML=`
-  <div class="eyebrow">Desayuno · comida · cena</div><h1>Comida</h1>
+  <div class="eyebrow">${MEALS.map(x=>x[1]).join(' · ')}</div><div class="row between" style="align-items:flex-end"><h1>Comida</h1><button class="secbtn" style="margin-bottom:8px" data-act="foodprefs">⚙️ Preferencias</button></div>
   <div class="datenav">
     <button class="iconbtn" data-act="fprev" aria-label="Día anterior">‹</button>
     <div class="mid" data-act="ftoday"><b>${relDay(k)}</b><span>${k===t?fmtDate(k):'Toca para volver a hoy'}</span></div>
@@ -1144,7 +1211,7 @@ function renderComida(){if(foodDate>today())return renderFoodPreview();
 function picker(meal){
   const name=MEALS.find(x=>x[0]===meal)[1];
   const row=id=>{const mc=recMac(id,pickPor);return `<div class="it" data-act="pick" data-meal="${meal}" data-rid="${id}" style="cursor:pointer"><div class="grow"><div class="t">${REC[id].n}</div><div class="s">${mc.k} kcal · ${mc.p} g proteína</div></div><button class="info" data-act="rec" data-rid="${id}" aria-label="Ver receta">i</button><span class="pill">+ Agregar</span></div>`;};
-  const others=Object.keys(REC).filter(id=>REC[id].m!==meal);
+  const others=Object.keys(REC).filter(id=>REC[id].m!==meal&&okRec(id));
   document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="exn" style="font-size:22px">¿Qué comiste de ${name.toLowerCase()}?</div>
   <div class="small muted" style="margin:4px 0 12px">Elige la porción y toca la receta.</div>
   <div class="seg">${[[0.5,'½'],[1,'1 porción'],[1.5,'1½'],[2,'2']].map(([v,l])=>`<button class="${pickPor===v?'on':''}" data-act="por" data-v="${v}" data-meal="${meal}">${l}</button>`).join('')}</div>
@@ -1190,7 +1257,7 @@ function renderSuper(){
   let menu='';
   for(let i=0;i<7;i++){const d=addDays(mon,i);let dk=0;
     const rows=MEALS.map(([m,n,em])=>{const cur=w[i][m]||'';if(cur&&REC[cur])dk+=recMac(cur).k;
-      return `<div class="mrow"><span class="em">${em}</span><select data-menu="${mon}|${i}|${m}">${RIDS(m).concat(Object.keys(REC).filter(id=>REC[id].m!==m)).map(id=>`<option value="${id}" ${cur===id?'selected':''}>${REC[id].n}</option>`).join('')}<option value="" ${cur?'':'selected'}>— Fuera / otra cosa</option></select></div>`;}).join('');
+      return `<div class="mrow"><span class="em">${em}</span><select data-menu="${mon}|${i}|${m}">${RIDS(m).concat(Object.keys(REC).filter(id=>REC[id].m!==m&&okRec(id))).concat(cur&&REC[cur]&&!okRec(cur)?[cur]:[]).map(id=>`<option value="${id}" ${cur===id?'selected':''}>${REC[id].n}</option>`).join('')}<option value="" ${cur?'':'selected'}>— Fuera / otra cosa</option></select></div>`;}).join('');
     const dc=MEALS.reduce((a,[m])=>a+(w[i][m]&&REC[w[i][m]]&&!REC[w[i][m]].sat?recCost(w[i][m]):0),0),hasSat=MEALS.some(([m])=>w[i][m]&&REC[w[i][m]]&&REC[w[i][m]].sat);
     menu+=`<div class="card mday ${d===today()?'tod':''}"><div class="row between"><b>${DOW[parseKey(d).getDay()]} <span class="muted small">${fmtShort(d)}</span></b><span class="pill gray">${dk} kcal · ${hasSat&&!dc?'🎉 aparte':'~'+money(dc)+(hasSat?' + 🎉':'')}</span></div>${rows}</div>`;}
   const satL=shopList(mon,true),satIds=Object.keys(satL);
@@ -1272,7 +1339,7 @@ function renderPlan(){
   <div class="card">
     <div class="rule"><span class="em">🍽️</span><span><b>El plato:</b> mitad verdura, un cuarto proteína (huevo, pollo, atún, frijol) y un cuarto tortilla o arroz.</span></div>
     <div class="rule"><span class="em">🫓</span><span><b>Tortillas contadas:</b> 2 por comida, no por taco.</span></div>
-    <div class="rule"><span class="em">🚫</span><span><b>Tres comidas y ya:</b> ${BX('desayuno 6–7, comida 2–3, cena 9','desayuno, comida y cena')}. Entre comidas, solo agua, café o té sin azúcar.</span></div>
+    <div class="rule"><span class="em">🚫</span><span><b>${FP().snack?'Comidas fijas':'Tres comidas y ya'}:</b> ${MEALS.map(x=>x[1].toLowerCase()+(/\d/.test(x[3])?' '+x[3].replace(/ /g,''):'')).join(', ')}. Entre comidas, solo agua, café o té sin azúcar.</span></div>
     <div class="rule"><span class="em">🌙</span><span><b>Cena post-gym:</b> que sea la comida con más proteína del día. Déjala lista desde la mañana para no llegar a improvisar.</span></div>
     <div class="rule"><span class="em">💧</span><span><b>Agua:</b> 10 vasos (2.5 L) al día. Muchas veces el “hambre” es sed, y con el gym la necesitas más.</span></div>
     <div class="rule"><span class="em">⚖️</span><span><b>Pesa la comida:</b> el pollo en crudo; el arroz y los frijoles ya cocidos. Calcular a ojo suele subestimar las porciones hasta 30%.</span></div>
@@ -1283,7 +1350,8 @@ function renderPlan(){
   <div class="sec">Ajustes</div>
   <div class="card">
     ${(()=>{const tg=targets();return tg?`<div class="small muted" style="margin-bottom:12px;line-height:1.45">Gastas ≈ <b style="color:#fff">${tg.tdee.toLocaleString('es-MX')} kcal</b> al día. Tu meta: <b class="acc">${tg.kcal.toLocaleString('es-MX')} kcal</b> y <b class="acc">${tg.p} g de proteína</b>.</div>`:'';})()}
-    <button class="btn block" style="margin-bottom:12px" data-act="profile">👤 ${esc(st.name||'Mi perfil')} · editar perfil</button>
+    <button class="btn block" style="margin-bottom:8px" data-act="profile">👤 ${esc(st.name||'Mi perfil')} · editar perfil</button>
+    <div class="grid2" style="margin-bottom:12px"><button class="btn ghost" style="font-size:15px" data-act="foodprefs">🍽️ Mi comida</button><button class="btn ghost" style="font-size:15px" data-act="weeked">🗓️ Mi rutina</button></div>
     <div class="grid2" style="margin-bottom:10px"><div><label class="f">Unidad por defecto (gym)</label><select id="sWu"><option value="lb" ${st.wu!=='kg'?'selected':''}>Libras (lb)</option><option value="kg" ${st.wu==='kg'?'selected':''}>Kilos (kg)</option></select></div>
     <div style="grid-column:1/-1"><label class="f">Estilo visual</label><select id="sTheme"><option value="modern" ${st.theme!=='pixel'?'selected':''}>Moderno</option><option value="pixel" ${st.theme==='pixel'?'selected':''}>Pixel art 👾</option></select></div>
     <div><label class="f">Fase</label><select id="sPhase">
@@ -1301,16 +1369,17 @@ function renderPlan(){
 }
 
 /* ================= Gamificación ================= */
-const TITLES_F=[[1,'Escudera','🥚'],[3,'Aspirante','🗡️'],[5,'Guerrera','⚔️'],[8,'Valquiria','🛡️'],[12,'Paladina','✨'],[16,'Campeona','🏆'],[20,'Leyenda','🐉'],[25,BX('Novia legendaria','Mítica'),BX('💍','👑')]];
-const TITLES=[[1,'Escudero','🥚'],[3,'Aspirante','🗡️'],[5,'Guerrero','⚔️'],[8,'Caballero','🛡️'],[12,'Paladín','✨'],[16,'Campeón','🏆'],[20,'Leyenda','🐉'],[25,BX('Novio legendario','Mítico'),BX('💍','👑')]];
+const TITLES_F=[[1,'Escudera','🥚'],[3,'Aspirante','🗡️'],[5,'Guerrera','⚔️'],[8,'Valquiria','🛡️'],[12,'Paladina','✨'],[16,'Campeona','🏆'],[20,'Leyenda','🐉'],[25,'Mítica','👑',1]];
+const TITLES=[[1,'Escudero','🥚'],[3,'Aspirante','🗡️'],[5,'Guerrero','⚔️'],[8,'Caballero','🛡️'],[12,'Paladín','✨'],[16,'Campeón','🏆'],[20,'Leyenda','🐉'],[25,'Mítico','👑',1]];
 const HERO_TIERS=[[1,{}],[5,{S:'#e0e6f0',B:'#2f9e5b',E:'#ffd60a'}],[12,{S:'#ffd23f',B:'#c62828',Y:'#ffffff',E:'#3dd6ff',W:'#9be7ff'}],[20,{S:'#b388ff',B:'#3b1d78',Y:'#ffd23f',E:'#ff5ad1',W:'#ffe680'}]];
 function heroPal(l){let p={};HERO_TIERS.forEach(([m,x])=>{if(l>=m)p=x;});p=Object.assign({},p);if(S.settings.sex==='m'&&!p.B)p.B='#d94f9a';return p;}
 const heroLvl=()=>{try{return computeXP().lvl;}catch(e){return 1;}};
 const heroSpr=(px,l)=>spr('hero',px,heroPal(l==null?heroLvl():l));
 const lvlNeed=n=>75*n*(n-1);
 const levelOf=xp=>{let n=1;while(lvlNeed(n+1)<=xp)n++;return n;};
-const titleOf=l=>{const T=S.settings.sex==='m'?TITLES_F:TITLES;let t=T[0];T.forEach(x=>{if(l>=x[0])t=x;});return t;};
-const BOSS=()=>ED==='lb'?['🌑','La Sombra']:S.settings.sex==='m'?['👗','El Vestido']:['👔','El Traje'];
+const titleOf=l=>{const T=S.settings.sex==='m'?TITLES_F:TITLES;let t=T[0];T.forEach(x=>{if(l>=x[0])t=x;});if(t[3]&&isBoda())t=[t[0],S.settings.sex==='m'?'Novia legendaria':'Novio legendario','💍'];return t;};
+const isBoda=()=>ED!=='lb'||(HASEV()&&/boda/i.test(S.settings.evName||''));
+const BOSS=()=>!isBoda()?['🌑','La Sombra']:S.settings.sex==='m'?['👗','El Vestido']:['👔','El Traje'];
 function computeXP(){
   let xp=0,sets=0,days=0,cardioMin=0;
   Object.entries(S.workouts).forEach(([d,s])=>{Object.entries(s.ex).forEach(([id,e])=>{e.sets.forEach(x=>{if(x.done){xp+=5;sets++;if(x.min)cardioMin+=num(x.min)||0;}});if(e.done)xp+=20;});if(dayDone(d)){xp+=100;days++;}});
@@ -1373,6 +1442,39 @@ window.onSaved=function(){const g=computeXP();if(lastXP!=null&&g.xp>lastXP){cons
       ${t[1]!==old[1]?`<div style="font-size:18px;font-weight:750;margin-top:4px">Nuevo título: ${t[1]}</div>`:''}<div class="small muted" style="margin-top:8px">Buen trabajo. Cada sesión te acerca a tu meta.</div></div>
       <button class="btn block" style="margin-top:16px" data-act="closemodal">Continuar</button>`;document.getElementById('modal').classList.add('on');},350);}
 };
+
+/* ================= Preferencias de comida ================= */
+let FPD=null;
+const FGR=[['Proteínas',['huevo','pechuga','atun','tilapia','resmol','bistec','pavo','whey']],['Lácteos',['leche','panela','yogur']],['Granos y más',['avena','arroz','pasta','pan','tortilla','tostada','frijol','cacahuate']],['Frutas y verduras',['aguacate','jitomate','tomverde','cebolla','chile','espinaca','brocoli','zanahoria','lechuga','pepino','jicama','platano','manzana']]];
+const ingShort=i=>ING[i].n.replace(/\s*\(.*\)/,'');
+function showFoodPrefs(keep){const f=FP();if(!keep)FPD={nofood:[...(f.nofood||[])],snack:!!f.snack,satFree:!!f.satFree,hours:{...(f.hours||{})}};const d=FPD;
+  const left=Object.keys(REC).filter(id=>!REC[id].sat&&!REC[id].items.some(([i])=>d.nofood.includes(i))).length;
+  const hrs=MEAL_DEF.filter(([id])=>id!=='colacion'||d.snack);
+  openSheet(`<div class="exn" style="font-size:24px">🍽️ Tu comida</div>
+  <div class="small muted" style="margin:4px 0 12px;line-height:1.4">Marca lo que no comes y la app quita esas recetas de tu menú y de tu lista del súper.</div>
+  <div class="small muted" style="font-weight:700;margin:6px 2px 8px">NO COMO… <span class="acc">· ${left} recetas disponibles</span></div>
+  ${FGR.map(([g,L])=>`<div class="small muted" style="margin:10px 2px 6px">${g}</div><div class="cuts" style="margin-top:0">${L.filter(i=>ING[i]).map(i=>{const no=d.nofood.includes(i);return `<button class="cut ${no?'no':''}" data-act="fpno" data-ig="${i}">${no?'✕ ':''}${ingShort(i)}</button>`;}).join('')}</div>`).join('')}
+  <div class="small muted" style="font-weight:700;margin:18px 2px 8px">COMIDAS DEL DÍA</div>
+  <div class="card" style="background:var(--card2)">
+    <div class="row between"><div><b>Colación</b><div class="small muted">Un snack entre comidas</div></div><div class="seg" style="margin:0;width:150px"><button class="${d.snack?'':'on'}" data-act="fpsnack" data-v="0">No</button><button class="${d.snack?'on':''}" data-act="fpsnack" data-v="1">Sí</button></div></div>
+    <div class="row between" style="margin-top:12px"><div style="flex:1;padding-right:10px"><b>Sábado libre</b><div class="small muted">Comidas especiales el sábado, fuera del presupuesto semanal</div></div><div class="seg" style="margin:0;width:150px;flex:none"><button class="${d.satFree?'':'on'}" data-act="fpsat" data-v="0">No</button><button class="${d.satFree?'on':''}" data-act="fpsat" data-v="1">Sí</button></div></div>
+  </div>
+  <div class="small muted" style="font-weight:700;margin:18px 2px 8px">HORARIOS</div>
+  <div class="grid2">${hrs.map(([id,n])=>`<div><label class="f">${n}</label><input id="fh_${id}" value="${esc(d.hours[id]||HOURS_DEF[id])}" maxlength="28"></div>`).join('')}</div>
+  <button class="btn block" style="margin-top:14px" data-act="fpsave">Guardar</button>
+  <button class="btn ghost block" style="margin-top:8px" data-act="closemodal">Cancelar</button>`);}
+function fpEvent(a,b){if(!['foodprefs','fpno','fpsnack','fpsat','fpsave'].includes(a))return false;
+  if(a==='foodprefs'){showFoodPrefs();return true;}
+  const d=FPD;if(!d)return true;
+  MEAL_DEF.forEach(([id])=>{const el=document.getElementById('fh_'+id);if(el)d.hours[id]=el.value.trim();});
+  if(a==='fpno'){const i=b.dataset.ig,k=d.nofood.indexOf(i);if(k>=0)d.nofood.splice(k,1);else d.nofood.push(i);showFoodPrefs(true);return true;}
+  if(a==='fpsnack'){d.snack=b.dataset.v==='1';showFoodPrefs(true);return true;}
+  if(a==='fpsat'){d.satFree=b.dataset.v==='1';showFoodPrefs(true);return true;}
+  if(a==='fpsave'){const left=['desayuno','comida','cena'].filter(m=>!Object.keys(REC).some(id=>REC[id].m===m&&!REC[id].sat&&!REC[id].items.some(([i])=>d.nofood.includes(i))));
+    if(left.length){toast(`Te quedarías sin recetas de ${left.join(' y ')}`);return true;}
+    Object.keys(d.hours).forEach(k=>{if(!d.hours[k]||d.hours[k]===HOURS_DEF[k])delete d.hours[k];});
+    S.settings.food=JSON.parse(JSON.stringify(d));setMeals();fixMenus();save();MD().classList.remove('on');FPD=null;rerender();toast('Preferencias guardadas ✓');return true;}
+  return true;}
 
 /* ================= Editor de rutinas ================= */
 let RED=null;
@@ -1812,7 +1914,7 @@ document.addEventListener('click',ev=>{
   const b=ev.target.closest('[data-act]');if(!b)return;
   const a=b.dataset.act;
   if(a==='closemodal'){if(b.id==='modal'&&ev.target!==b)return;if(document.getElementById('modal').dataset.lock==='1')return;document.getElementById('modal').classList.remove('on');return;}
-  if(rEvent(a,b))return;
+  if(rEvent(a,b)||fpEvent(a,b))return;
   switch(a){
     case 'savew':{const d=document.getElementById('wDate').value||today();const v=num(document.getElementById('wKg').value);
       if(v==null||v<30||v>300){toast('Escribe un peso válido');return;}
@@ -1908,7 +2010,7 @@ document.getElementById('importFile').addEventListener('change',ev=>{
   rd.onload=()=>{try{const j=JSON.parse(rd.result);const d=j.data||j;
       if(!d||!Array.isArray(d.weights)||typeof d.workouts!=='object')throw 0;
       if(!confirm('¿Reemplazar los datos actuales con este respaldo?'))return;
-      const b=blank();S={...b,...d,settings:{...b.settings,...(d.settings||{})}};applyCustom();save();toast('Respaldo restaurado ✓');rerender();
+      const b=blank();S={...b,...d,settings:{...b.settings,...(d.settings||{})}};if(!(d.settings||{}).food)S.settings.food=migFood(S.settings,S.menu);if(!S.settings.evName&&S.settings.event==='2027-02-20')S.settings.evName='la boda';applyCustom();save();toast('Respaldo restaurado ✓');rerender();
     }catch(e){toast('Ese archivo no es un respaldo válido');}
     ev.target.value='';};
   rd.readAsText(f);
