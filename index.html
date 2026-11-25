@@ -326,7 +326,7 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:700;margin:0 0
 
 <script>
 "use strict";
-const APP_V='20261124184046';
+const APP_V='20261124184303';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -386,7 +386,7 @@ const EX = {
   dbinc:{n:'Press inclinado con mancuernas',img:'Incline_Dumbbell_Press',type:'str',reps:'8–12',m:'Pecho alto',tip:'Banca a 30–45°. Baja controlado a los lados del pecho y empuja.'},
   crdf:{n:'Pájaros en polea a 45°',img:'Cable_Rear_Delt_Fly',type:'str',reps:'12–15',m:'Hombro posterior',tip:'Poleas cruzadas a la altura del pecho. Abre los brazos hacia atrás y un poco hacia abajo (45°), sin impulso.'},
   stlat:{n:'Elevación lateral de pie (codos doblados)',img:'Side_Lateral_Raise',type:'str',reps:'12–15',m:'Hombro lateral',tip:'Codos doblados a ~90°. Sube los codos a los lados hasta la altura del hombro.'},
-  hirow:{n:'Remo alto en polea a un brazo (con apoyo)',img:'Seated_One-arm_Cable_Pulley_Rows',type:'str',sets:4,reps:'8–12',m:'Espalda alta',tip:'El que hacías con David. Sentado con el pecho apoyado en el cojín y la polea al frente a media altura. Jala con un brazo llevando el codo hacia atrás y un poco hacia arriba, junta el omóplato 1 segundo y regresa lento hasta estirar. Todas las reps de un brazo y luego cambias.'},
+  hirow:{n:'Remo alto en polea a un brazo (con apoyo)',img:'Seated_One-arm_Cable_Pulley_Rows',type:'str',sets:4,reps:'8–12',m:'Espalda alta',tip:'Sentado con el pecho apoyado en el cojín y la polea al frente a media altura. Jala con un brazo llevando el codo hacia atrás y un poco hacia arriba, junta el omóplato 1 segundo y regresa lento hasta estirar. Todas las reps de un brazo y luego cambias.'},
   inlat:{n:'Elevación lateral inclinado (1 brazo)',img:'One-Arm_Incline_Lateral_Raise',type:'str',reps:'8–12',m:'Hombro lateral',tip:'Acostado de lado en una banca inclinada. Sube la mancuerna hasta la vertical y baja lento.'},
   wcurl:{n:'Curl de muñeca sobre banca (1 brazo)',img:'Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench',type:'str',reps:'12–15',m:'Antebrazo',tip:'Antebrazo apoyado en la banca, palma arriba. Sube y baja solo la muñeca.'},
   rbwc:{n:'Curl inverso de muñeca con barra',img:'Palms-Down_Wrist_Curl_Over_A_Bench',type:'str',reps:'12–15',m:'Antebrazo',tip:'Palmas abajo, antebrazos apoyados. Sube la barra solo con la muñeca.'},
@@ -399,7 +399,7 @@ const EX = {
   legext:{n:'Extensión de cuádriceps',img:'Leg_Extensions',type:'str',m:'Cuádriceps',tip:'Espalda pegada al respaldo. Sube hasta estirar casi por completo, aprieta un segundo arriba y baja controlado.'},
   scalf:{n:'Pantorrilla sentado',img:'Seated_Calf_Raise',type:'str',reps:'12–15',m:'Pantorrillas',tip:'Baja el talón todo lo que puedas para estirar y sube hasta la punta. Pausa de un segundo arriba.'},
   incm:{n:'Press inclinado en máquina',img:'Leverage_Incline_Chest_Press',type:'str',m:'Pecho alto y hombro',tip:'Asiento para que los agarres queden a la altura del pecho alto. Empuja hacia arriba y al frente, regresa lento.'},
-  fly:{n:'Aperturas en máquina',img:'Butterfly',type:'str',m:'Pecho',tip:'Codos ligeramente flexionados y fijos. Junta los brazos al frente como abrazando un árbol y abre lento hasta sentir el estiramiento.'},
+  fly:{n:'Aperturas en máquina',img:'Butterfly',type:'str',m:'Pecho',tip:'Codos ligeramente flexionados y fijos. Junta los brazos al frente en arco y abre lento hasta sentir el estiramiento.'},
   latr:{n:'Elevaciones laterales',img:'Side_Lateral_Raise',type:'str',reps:'12–15',m:'Hombro (lateral)',tip:'Mancuernas ligeras. Sube los brazos a los lados hasta la altura de los hombros con los codos un poco flexionados. Sin columpiarte.'},
   tri:{n:'Tríceps en polea con cuerda',img:'Triceps_Pushdown_-_Rope_Attachment',type:'str',m:'Tríceps',tip:'Codos pegados al cuerpo. Empuja la cuerda hacia abajo y ábrela al final. Solo se mueve el antebrazo.'},
   abm:{n:'Crunch en máquina',img:'Ab_Crunch_Machine',type:'str',reps:'12–15',m:'Abdomen',tip:'Enrolla el tronco llevando el pecho hacia la cadera; no jales con los brazos. Exhala al bajar y regresa lento.'},
@@ -411,7 +411,7 @@ const EX = {
   smsq:{n:'Sentadilla en Smith',img:'Smith_Machine_Squat',type:'str',m:'Piernas y glúteos',tip:'Pies un poco adelante de la barra, a la anchura de los hombros. Baja hasta que los muslos queden paralelos al piso, pecho arriba.'},
   lleg:{n:'Curl femoral acostado',img:'Lying_Leg_Curls',type:'str',m:'Femorales',tip:'Cadera pegada al cojín. Sube los talones hacia los glúteos y baja controlado.'},
   stcalf:{n:'Pantorrilla de pie en máquina',img:'Standing_Calf_Raises',type:'str',reps:'12–15',m:'Pantorrillas',tip:'Rodillas casi rectas. Baja el talón para estirar y sube a la punta con pausa arriba.'},
-  stair:{n:'Escaladora',img:'Stairmaster',type:'cardio',m:'Cardio al final',target:'15 min',tip:'Ritmo constante y espalda derecha. No te recargues en los barandales: si te cuesta, baja el nivel antes que agarrarte.',fields:[['min','Min','15'],['lvl','Nivel','6']]},
+  stair:{n:'Escaladora',img:'Stairmaster',type:'cardio',m:'Cardio al final',target:'15 min',tip:'Ritmo constante y espalda derecha. Evita apoyarte en los barandales; si es demasiado intenso, baja el nivel.',fields:[['min','Min','15'],['lvl','Nivel','6']]},
   squat:{n:'Sentadilla',img:'Barbell_Squat',type:'str',m:'Piernas y glúteos',tip:'Pecho arriba y abdomen firme. Rodillas en dirección de las puntas de los pies. Baja hasta que el muslo quede paralelo al piso. Sin barra: hazla goblet con una mancuerna al pecho.'},
   bench:{n:'Press de pecho',img:'Dumbbell_Bench_Press',type:'str',m:'Pecho, hombro y tríceps',tip:'Junta los omóplatos contra la banca. Baja las mancuernas controlado a los lados del pecho y empuja sin rebotar.'},
   row:{n:'Remo con mancuerna',img:'One-Arm_Dumbbell_Row',type:'str',m:'Espalda y bíceps',tip:'Rodilla y mano en la banca, espalda plana. Jala el codo hacia la cadera, no hacia el hombro. Las reps son por brazo.'},
@@ -444,21 +444,21 @@ const ROUT = {
 const SH={GB:'GB',PU:'Em',PL:'Ja',LG:'Pi',AR:'PB',UP:'To',U:'To',L:'Pi',P:'Em',J:'Ja',L2:'Pi',S:'🚶',R:'💤',A:'A',B:'B',W:'🚶'};
 const MEALS = [['desayuno','Desayuno','🍳','6 – 7 am'],['comida','Comida','🍗','2 – 3 pm'],['cena','Cena','🌙','≈ 9 pm · después del gym']];
 const CUTS = [
-  {id:'refresco',n:'Refresco',em:'🥤',w:'Un refresco de 600 ml trae alrededor de 250 kcal de puro azúcar y no te llena nada.',sw:'Cámbialo por agua mineral con limón, agua de jamaica sin azúcar o refresco sin azúcar de vez en cuando.'},
-  {id:'cerveza',n:'Cerveza',em:'🍺',w:'Cada cerveza anda por 150 kcal, y además te abre el hambre y te hace botanear.',sw:'Entre semana, cero. En un evento: máximo 1–2 light y alterna con agua mineral.'},
-  {id:'pan',n:'Pan dulce',em:'🥐',w:'Una concha puede pasar de 300 kcal: harina, azúcar y grasa que se va directo a la panza.',sw:'Lo dulce del día que sea la fruta del desayuno.'},
-  {id:'frituras',n:'Frituras',em:'🍟',w:'Papitas, chicharrones de harina y similares: muchas calorías en pocas mordidas y nada de proteína.',sw:'Como no vas a snackear, no compres. Si te da hambre entre comidas: agua mineral o café sin azúcar.'},
-  {id:'tacos',n:'Tacos de noche',em:'🌮',w:'Llegando a las 9 del gym con hambre es cuando más fácil caes, y casi siempre vienen con refresco.',sw:'Deja la cena lista desde antes (pollo, huevo o atún). Si se te antojan, que sea fin de semana: 3 de asada o pollo, sin quesadilla y sin refresco.'},
+  {id:'refresco',n:'Refresco',em:'🥤',w:'Un refresco de 600 ml aporta cerca de 250 kcal de azúcar sin generar saciedad.',sw:'Alternativas: agua mineral con limón, agua de jamaica sin azúcar o refresco sin azúcar ocasionalmente.'},
+  {id:'cerveza',n:'Cerveza',em:'🍺',w:'Cada cerveza aporta unas 150 kcal y suele aumentar el apetito y el consumo de botanas.',sw:'Entre semana, evítala. En eventos: máximo 1–2 light, alternando con agua mineral.'},
+  {id:'pan',n:'Pan dulce',em:'🥐',w:'Una concha puede superar las 300 kcal entre harina refinada, azúcar y grasa.',sw:'Cubre el antojo de algo dulce con la fruta del desayuno.'},
+  {id:'frituras',n:'Frituras',em:'🍟',w:'Papas, chicharrones de harina y similares: alta densidad calórica y casi nada de proteína.',sw:'Mejor no tenerlas en casa. Si hay hambre entre comidas: agua mineral o café sin azúcar.'},
+  {id:'tacos',n:'Tacos de noche',em:'🌮',w:'Después del gym, con hambre y tarde, es el momento de mayor riesgo, y suelen acompañarse de refresco.',sw:'Deja la cena preparada desde antes (pollo, huevo o atún). Si se te antojan, resérvalos para el fin de semana: 3 de asada o pollo, sin quesadilla ni refresco.'},
 ];
 const FOODS = [
-  {n:'Huevo',img:FIMG('Eggs'),tg:'≈6 g de proteína c/u',d:'La proteína más barata. 2–3 huevos te aguantan desde las 6 hasta la comida.'},
+  {n:'Huevo',img:FIMG('Eggs'),tg:'≈6 g de proteína c/u',d:'La proteína más económica. 3–4 huevos dan saciedad hasta la comida.'},
   {n:'Pollo',img:FIMG('Chicken Breast'),tg:'≈30 g proteína / 100 g',d:'Pechuga o muslo sin piel: asado, deshebrado, en caldo o al horno.'},
   {n:'Atún en sobre',img:FIMG('Tuna'),tg:'≈45 g proteína / sobre jumbo',d:'En agua (natural o con limón), no en aceite. A la mexicana con jitomate, cebolla y chile.'},
-  {n:'Frijoles Isadora',img:FIMG('Black Beans'),tg:'≈110 kcal / 100 g',d:'Los peruanos ya vienen listos. Pésalos: 100 g por comida y la bolsa te rinde 4.'},
+  {n:'Frijoles Isadora',img:FIMG('Black Beans'),tg:'≈110 kcal / 100 g',d:'Listos para servir. Porción de 100 g; una bolsa rinde 4 porciones.'},
   {n:'Verduras',img:FIMG('Broccoli'),tg:'Llenan casi sin calorías',d:'Brócoli, zanahoria, ejotes, espinaca o pepino: al vapor, asadas o crudas con limón.'},
   {n:'Avena',img:FIMG('Oats'),tg:'≈150 kcal / ½ taza',d:'En hojuelas, con fruta y canela. Evita la instantánea con azúcar.'},
   {n:'Fruta',img:FIMG('Banana'),tg:'Lo dulce del día',d:'Plátano, manzana o naranja con el desayuno. Mejor entera que en jugo.'},
-  {n:'Tortilla de maíz',img:FIMG('Corn Tortillas'),tg:'≈60 kcal c/u',d:'Mejor que el pan o la de harina. Cuéntalas: 2 por comida.'},
+  {n:'Tortilla de maíz',img:FIMG('Corn Tortillas'),tg:'≈60 kcal c/u',d:'Mejor opción que el pan o la tortilla de harina. Máximo 2 por comida.'},
 ];
 
 /* ================= Estado ================= */
@@ -553,7 +553,7 @@ function renderPeso(){
   <button class="pfbtn" data-act="profile" aria-label="Perfil">${esc((S.settings.name||'?')[0].toUpperCase())}</button></div>
   ${playerCard()}
   <div class="card hero"><div class="row between">
-    ${daysBetween(today(),EV())<0?`<div><div class="big">💍</div><div class="lbl">¡Ya se casaron!</div><div class="small muted" style="margin-top:6px">Ahora a mantenerte sano</div></div>`:
+    ${daysBetween(today(),EV())<0?`<div><div class="big">💍</div><div class="lbl">¡Felicidades!</div><div class="small muted" style="margin-top:6px">Siguiente objetivo: mantener tu progreso</div></div>`:
     `<div><div class="big">${dl}</div><div class="lbl">${dl===1?'día':dl===0?'¡Hoy es la boda!':'días'} ${dl?'para la boda':''}</div>
     <div class="small muted" style="margin-top:6px">${wk} sem${dd?` y ${dd} d`:''} · ${fmtLong(EV())}</div><span class="pill ${phase()==='mant'?'':'gray'}" style="margin-top:10px">${phase()==='mant'?'⚖️ Mantenimiento':'🔥 Fase: bajar'}</span></div>`}
     ${ringSVG(p,(lost>=0?'−':'+')+kg(Math.abs(lost)),'kg bajados')}
@@ -625,7 +625,7 @@ function progressHint(k,id){const e=EX[id];if(e.type!=='str')return null;const p
   const done=ps.filter(x=>x.done&&x.kg!==''&&x.reps!=='');if(done.length<ps.length||!done.length)return null;
   const top=topReps(e);if(!done.every(x=>(num(x.reps)||0)>=top))return null;
   const w=Math.max(...done.map(x=>num(x.kg)||0));if(!w)return null;const inc=WU(id)==='kg'?2.5:5;
-  return {w:w+inc,txt:`⬆️ <b>Súbele.</b> La vez pasada hiciste ${top}+ reps en todas las series: hoy prueba <b>${w+inc} ${WU(id)}</b> y apunta a ${botReps(e)}–${top} reps.`};}
+  return {w:w+inc,txt:`⬆️ <b>Aumenta el peso.</b> En la sesión anterior completaste ${top}+ reps en todas las series. Hoy usa <b>${w+inc} ${WU(id)}</b> y apunta a ${botReps(e)}–${top} reps.`};}
 function sugSet(k,id,i){const ps=prevSets(k,id),h=progressHint(k,id);let p=ps&&ps[i]?{...ps[i]}:null;
   if(h){p=p||{};p.kg=String(h.w);p.reps=String(botReps(EX[id]));}return p;}
 function prevTxt(e,ps,i){if(!ps||!ps[i]){const rf=e.type==='str'&&refW(e);return rf?`<span title="Tu marca anterior">📌${rf.kg}×${rf.reps}</span>`:'—';}const p=ps[i];
@@ -722,7 +722,7 @@ function startRest(sec){restEnd=Date.now()+sec*1000;document.getElementById('res
 function stopRest(){clearInterval(restTimer);document.getElementById('rest').classList.remove('on');}
 function tickRest(){const left=Math.max(0,Math.round((restEnd-Date.now())/1000));
   document.getElementById('restT').textContent=`${Math.floor(left/60)}:${pad(left%60)}`;
-  if(left<=0){stopRest();toast('⏱️ ¡A la siguiente serie!');}}
+  if(left<=0){stopRest();toast('⏱️ Descanso terminado');}}
 
 /* ================= Nutrición ================= */
 /* valores por 100 g (o 100 ml); referencia: tablas USDA / etiquetas comunes en México */
@@ -861,7 +861,7 @@ function renderComida(){
   MEALS.forEach(([id,name,em,hr])=>{const arr=m[id]||[];const mk=arr.reduce((a,x)=>a+(x.kcal||0),0);
     const sug=menu[id]&&REC[menu[id]]&&!arr.some(x=>x.rid===menu[id])?menu[id]:null;
     meals+=`<div class="card meal"><h3><span class="em">${em}</span>${name} <span class="small muted" style="font-weight:600">${hr}</span><span class="pill ${arr.length?'':'gray'} cnt">${mk?mk+' kcal':arr.length}</span></h3>
-    ${sug?`<div class="sug"><div class="grow"><div class="small muted">Del menú</div><div class="t">${REC[sug].n}</div><div class="small muted">${recMac(sug).k} kcal · ${recMac(sug).p} g proteína</div></div><button class="info" data-act="rec" data-rid="${sug}" aria-label="Ver receta">i</button><button class="btn" style="padding:10px 14px;font-size:14px" data-act="logmenu" data-meal="${id}" data-rid="${sug}">Me lo comí</button></div>`:''}
+    ${sug?`<div class="sug"><div class="grow"><div class="small muted">Del menú</div><div class="t">${REC[sug].n}</div><div class="small muted">${recMac(sug).k} kcal · ${recMac(sug).p} g proteína</div></div><button class="info" data-act="rec" data-rid="${sug}" aria-label="Ver receta">i</button><button class="btn" style="padding:10px 14px;font-size:14px" data-act="logmenu" data-meal="${id}" data-rid="${sug}">Registrar</button></div>`:''}
     ${arr.map((x,i)=>`<div class="entry"><span class="h">${esc(x.h||'')}</span><span class="tx">${esc(x.t)}${x.kcal!=null?`<span class="ek">${x.kcal} kcal${x.p?` · ${x.p} g prot.`:''}</span>`:''}</span>${x.rid&&REC[x.rid]?`<button class="info" data-act="rec" data-rid="${x.rid}" aria-label="Ver receta">i</button>`:''}<button class="x" data-act="delmeal" data-meal="${id}" data-i="${i}" aria-label="Borrar">✕</button></div>`).join('')}
     <button class="btn ghost block" style="margin-top:10px;padding:11px;font-size:15px" data-act="picker" data-meal="${id}">📖 Elegir receta</button>
     <div class="addrow"><input data-mealin="${id}" placeholder="Otra cosa…" enterkeyhint="done" autocomplete="off"><input class="kin" data-kin="${id}" inputmode="numeric" placeholder="kcal"><button class="btn" data-act="addmeal" data-meal="${id}" aria-label="Agregar">+</button></div></div>`;});
@@ -876,7 +876,7 @@ function renderComida(){
   let drops='';for(let i=0;i<WATER_GOAL;i++)drops+=`<button class="drop ${i<wat?'on':''}" data-act="water" data-n="${i+1}" aria-label="${i+1} vasos">💧</button>`;
   const totCard=tg?`<div class="card">
       <div class="row between"><div><div class="small muted" style="font-weight:600">Calorías</div><div class="kbig">${tot.k.toLocaleString('es-MX')}<small> / ${tg.kcal.toLocaleString('es-MX')} kcal</small></div></div>
-      <div style="text-align:right"><div class="small muted" style="font-weight:600">${tot.k<=tg.kcal?'Te quedan':'Te pasaste'}</div><div style="font-size:20px;font-weight:800" class="${tot.k<=tg.kcal?'acc':'red'}">${Math.abs(tg.kcal-tot.k).toLocaleString('es-MX')}</div></div></div>
+      <div style="text-align:right"><div class="small muted" style="font-weight:600">${tot.k<=tg.kcal?'Restantes':'Excedente'}</div><div style="font-size:20px;font-weight:800" class="${tot.k<=tg.kcal?'acc':'red'}">${Math.abs(tg.kcal-tot.k).toLocaleString('es-MX')}</div></div></div>
       ${bar(tot.k,tg.kcal)}
       <div class="row between small" style="margin-top:12px"><span class="muted" style="font-weight:600">Proteína</span><b>${tot.p} / ${tg.p} g</b></div>
       ${bar(tot.p,tg.p,'prot')}
@@ -976,7 +976,7 @@ function renderSuper(){
   <div class="seg"><button class="${shopWeek===0?'on':''}" data-act="sweek" data-v="0">Esta semana</button><button class="${shopWeek===1?'on':''}" data-act="sweek" data-v="1">Próxima semana</button></div>
   <div class="card" style="margin-top:12px">
     <div class="row between"><div><div class="small muted" style="font-weight:600">Gasto estimado de la semana</div><div class="kbig">${money(total)}<small> / ${money(B)}</small></div></div>
-    <div style="text-align:right"><div class="small muted" style="font-weight:600">${over?'Te pasas':'Te sobran'}</div><div style="font-size:20px;font-weight:800" class="${over?'red':'acc'}">${money(Math.abs(B-total))}</div></div></div>
+    <div style="text-align:right"><div class="small muted" style="font-weight:600">${over?'Excedente':'Disponible'}</div><div style="font-size:20px;font-weight:800" class="${over?'red':'acc'}">${money(Math.abs(B-total))}</div></div></div>
     ${bar(total,B)}
     <div class="addrow"><input id="budgetIn" inputmode="numeric" placeholder="Presupuesto semanal" value="${B}"><button class="btn ghost" style="font-size:15px" data-act="budget">Guardar</button></div>
     <div class="small muted" style="margin-top:10px">💪 Proteína del menú: <b style="color:#fff">~${Math.round(weekProt(w))} g/día</b>${targets()?` · meta ${targets().p} g`:''}</div>
@@ -1037,10 +1037,10 @@ function renderPlan(){
     <div class="rule"><span class="em">🚫</span><span><b>Tres comidas y ya:</b> desayuno 6–7, comida 2–3, cena 9. Entre comidas, solo agua, café o té sin azúcar.</span></div>
     <div class="rule"><span class="em">🌙</span><span><b>Cena post-gym:</b> que sea la comida con más proteína del día. Déjala lista desde la mañana para no llegar a improvisar.</span></div>
     <div class="rule"><span class="em">💧</span><span><b>Agua:</b> 10 vasos (2.5 L) al día. Muchas veces el “hambre” es sed, y con el gym la necesitas más.</span></div>
-    <div class="rule"><span class="em">⚖️</span><span><b>Pesa la comida:</b> en tu báscula, el pollo crudo y el arroz y los frijoles ya cocidos. Calcular “a ojo” se pasa fácil por 30%.</span></div>
-    <div class="rule"><span class="em">🥚</span><span><b>Proteína en cada comida:</b> te llena más y cuida el músculo mientras bajas.</span></div>
-    <div class="rule"><span class="em">😴</span><span><b>Dormir 7 horas:</b> dormir poco dispara los antojos al día siguiente.</span></div>
-    <div class="rule"><span class="em">📅</span><span><b>No rompas la cadena:</b> un mal día no arruina nada; dos seguidos sí empiezan a pesar.</span></div>
+    <div class="rule"><span class="em">⚖️</span><span><b>Pesa la comida:</b> el pollo en crudo; el arroz y los frijoles ya cocidos. Calcular a ojo suele subestimar las porciones hasta 30%.</span></div>
+    <div class="rule"><span class="em">🥚</span><span><b>Proteína en cada comida:</b> aumenta la saciedad y protege la masa muscular durante el déficit.</span></div>
+    <div class="rule"><span class="em">😴</span><span><b>Dormir 7 horas:</b> la falta de sueño aumenta el apetito al día siguiente.</span></div>
+    <div class="rule"><span class="em">📅</span><span><b>Constancia sobre perfección:</b> un día fuera del plan no afecta el resultado; retómalo en la siguiente comida.</span></div>
   </div>
   <div class="sec">Ajustes</div>
   <div class="card">
@@ -1127,8 +1127,8 @@ window.onSaved=function(){const g=computeXP();if(lastXP!=null&&g.xp>lastXP){cons
   else if(g.lvl>S.seenLvl){const old=titleOf(S.seenLvl),t=titleOf(g.lvl);S.seenLvl=g.lvl;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
     setTimeout(()=>{document.getElementById('sheet').innerHTML=`<div class="grab"></div><div style="text-align:center;padding:10px 0 4px"><div class="lvlburst">${t[2]}</div>
       <div class="eyebrow" style="margin-top:10px">¡Subiste de nivel!</div><div style="font-size:44px;font-weight:900;letter-spacing:-1px">Nivel ${g.lvl}</div>
-      ${t[1]!==old[1]?`<div style="font-size:18px;font-weight:750;margin-top:4px">Nuevo título: ${t[1]}</div>`:''}<div class="small muted" style="margin-top:8px">Sigue así. ${BOSS()[1]} no se va a ganar solo.</div></div>
-      <button class="btn block" style="margin-top:16px" data-act="closemodal">¡Vamos! 💪</button>`;document.getElementById('modal').classList.add('on');},350);}
+      ${t[1]!==old[1]?`<div style="font-size:18px;font-weight:750;margin-top:4px">Nuevo título: ${t[1]}</div>`:''}<div class="small muted" style="margin-top:8px">Buen trabajo. Cada sesión te acerca a tu meta.</div></div>
+      <button class="btn block" style="margin-top:16px" data-act="closemodal">Continuar</button>`;document.getElementById('modal').classList.add('on');},350);}
 };
 
 /* ================= Perfil ================= */
