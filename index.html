@@ -270,6 +270,71 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .pfbtn{width:42px;height:42px;border-radius:50%;border:0;background:linear-gradient(135deg,#7c4dff,#32d74b);color:#fff;font-weight:900;font-size:18px;margin-bottom:18px}
 .pfav{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c4dff,#32d74b);display:grid;place-items:center;font-weight:900;flex:none}
 .updbar{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 10px);z-index:95;border:0;background:linear-gradient(90deg,#7c4dff,#32d74b);color:#fff;font-weight:800;font-size:14px;padding:11px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.45);white-space:nowrap}
+
+/* ===== Aventura ===== */
+.spr{display:block;image-rendering:pixelated}
+.ghero{background:radial-gradient(120% 120% at 0% 0%,rgba(124,77,255,.25),rgba(124,77,255,0) 60%),var(--card)}
+.herospr{width:70px;height:70px;border-radius:18px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:none}
+.ghp{position:relative;height:16px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:8px}
+.ghp i{position:absolute;inset:0 auto 0 0;border-radius:8px;transition:width .35s}
+.ghp.hpg i{background:linear-gradient(90deg,#1f9e45,#32d74b)}.ghp.hpr i{background:linear-gradient(90deg,#c62828,#ff5a4e)}
+.ghp span{position:relative;display:block;text-align:center;font-size:11px;font-weight:800;line-height:16px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.gstats{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:13px;font-weight:700;color:#d1d1d6}
+.eqs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.eqs span{background:var(--card2);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:650}
+.gstatus.lose{border:1px solid rgba(255,69,58,.5)}.gstatus.win{border:1px solid rgba(255,214,10,.6);background:linear-gradient(160deg,rgba(255,214,10,.12),var(--card))}
+.qic{font-size:20px;width:28px;text-align:center;flex:none}.it.qok .t{color:var(--sub);text-decoration:line-through}.it.qok .s{color:var(--acc)}
+.floor{margin-bottom:12px}.floor.pre{opacity:.4}
+.fday{font-size:13px;font-weight:800;margin:0 4px 6px;color:#d1d1d6}.fday .rage{color:#ff7b6e;font-weight:700}
+.floor.today .fday{color:#fff}
+.fnodes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.floor.bossfloor .fnodes{grid-template-columns:1fr}
+.node{border:0;background:var(--card);border-radius:18px;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;position:relative;border:1.5px solid transparent}
+.node .nspr{height:56px;display:grid;place-items:center}
+.node.boss .nspr,.node.final .nspr,.node.mini .nspr{height:60px}
+.node .nname{font-size:13px;font-weight:750;text-align:center;line-height:1.2}
+.node .nsub{font-size:11.5px;color:var(--sub);font-weight:650}
+.node.ready{border-color:rgba(50,215,75,.6);box-shadow:0 0 0 4px rgba(50,215,75,.08)}
+.node.ready .nspr{animation:bob 1.6s ease-in-out infinite}
+.node.done{opacity:.55}.node.done .nspr{filter:grayscale(1)}
+.node.locked .nspr{filter:brightness(.35)}
+.node.boss,.node.final{background:linear-gradient(160deg,rgba(255,214,10,.10),var(--card))}
+.node.mini{background:linear-gradient(160deg,rgba(255,159,10,.10),var(--card))}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.trophies{display:flex;flex-wrap:wrap;gap:14px}.trophies div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--sub)}
+.shopic{font-size:24px;width:36px;text-align:center;flex:none}
+/* combate */
+.fight{min-height:62vh}
+.arena{background:radial-gradient(90% 70% at 50% 35%,rgba(124,77,255,.20),rgba(0,0,0,0) 70%),#121220;border-radius:20px;padding:14px;position:relative;overflow:hidden}
+.foe{display:flex;flex-direction:column;align-items:center}
+.foespr,.mespr{position:relative;display:grid;place-items:center}
+.foespr{margin:4px 0 2px;animation:bob 2s ease-in-out infinite}
+.foe.hit .foespr .spr{animation:hit .35s}
+.me{display:flex;align-items:center;gap:12px;margin-top:16px;background:rgba(255,255,255,.04);border-radius:16px;padding:10px 12px;position:relative}
+.me.hit{animation:shake .35s}
+@keyframes hit{0%{filter:brightness(3)}50%{transform:translateX(6px)}100%{filter:none;transform:none}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.intent{font-size:13px;font-weight:800;background:rgba(255,255,255,.1);border-radius:999px;padding:6px 12px}
+.intent.warn{background:rgba(255,69,58,.25);color:#ffb3ad}
+.fname{font-weight:800;font-size:15px;margin-top:2px;text-align:center}
+.me .fname{text-align:left}
+.foe .ghp{width:100%}
+.dmgn{position:absolute;top:-4px;right:-18px;font-weight:900;font-size:22px;color:#ff5a4e;text-shadow:0 2px 0 #000;animation:dmg 1s ease forwards;pointer-events:none}
+.dmgn.miss{color:#9ad1ff;font-size:16px}.dmgn.heal{color:#32d74b}
+@keyframes dmg{0%{opacity:0;transform:translateY(8px) scale(.8)}20%{opacity:1;transform:translateY(0) scale(1.15)}100%{opacity:0;transform:translateY(-22px)}}
+.foco{display:flex;align-items:center;gap:5px;margin-top:8px}.foco i{width:16px;height:8px;border-radius:4px;background:rgba(255,255,255,.12)}.foco i.on{background:#ffd60a}.foco span{font-size:11px;color:var(--sub);font-weight:700;margin-left:4px}
+.glog{background:var(--card2);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13.5px;line-height:1.5;min-height:66px}
+.gact{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gact .btn{padding:12px 8px;font-size:15px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.gact .btn small{font-size:11px;font-weight:650;opacity:.75}
+.gact .btn:disabled{opacity:.4}
+.btn.gold{background:linear-gradient(135deg,#ffd60a,#ff9f0a);color:#1a1200}
+.gover{text-align:center;padding:14px 4px}.gbig{font-size:64px;animation:burst .6s cubic-bezier(.2,1.6,.4,1)}
+.gtitle{font-size:28px;font-weight:900;margin-top:6px}
+.grew{font-size:17px;font-weight:800;margin-top:12px}
+.chestbox{display:flex;align-items:center;gap:12px;text-align:left;background:var(--card2);border-radius:16px;padding:12px;margin-top:14px}
+.banquet{margin-top:14px;background:linear-gradient(135deg,rgba(255,214,10,.18),rgba(255,159,10,.10));border:1px solid rgba(255,214,10,.4);border-radius:14px;padding:12px;font-size:14px;line-height:1.45;text-align:left}
+.tab{font-size:9.5px}.tab svg{width:25px;height:25px}
+
 .info{width:28px;height:28px;flex:none;border-radius:50%;border:1.5px solid var(--sub);background:transparent;color:var(--sub);font:italic 700 14px Georgia,serif;display:grid;place-items:center;padding:0}
 .info:active{background:var(--card3)}
 .foot{font-size:12px;color:var(--sub2);text-align:center;margin:20px 12px 0;line-height:1.5}
@@ -372,6 +437,7 @@ body.pixel .celebrate{border-radius:0}
   <section class="view" id="v-gym"></section>
   <section class="view" id="v-comida"></section>
   <section class="view" id="v-super"></section>
+  <section class="view" id="v-aventura"></section>
   <section class="view" id="v-plan"></section>
 </main>
 
@@ -387,6 +453,7 @@ body.pixel .celebrate{border-radius:0}
   <button class="tab" data-tab="gym"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>Gym</button>
   <button class="tab" data-tab="comida"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"/><path d="M17 21V3c-2.2 1.3-3.5 3.8-3.5 7v3H17"/></svg>Comida</button>
   <button class="tab" data-tab="super"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.1 10.5a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>Súper</button>
+  <button class="tab" data-tab="aventura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6M16 16l4 4M19 21l2-2"/></svg>Aventura</button>
   <button class="tab" data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17.5" rx="3"/><path d="M8.5 9h7M8.5 13h7M8.5 17h4"/></svg>Plan</button>
 </div></nav>
 
@@ -397,7 +464,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261124184536';
+const APP_V='20261124190404';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1240,9 +1307,270 @@ function switchProfile(id,isNew){const p=profs();p.cur=id;saveProfs(p);KEY=dataK
   document.getElementById('modal').classList.remove('on');show('peso');
   if(isNew||!S.settings.name)setTimeout(()=>showProfile(true),250);else toast(`Hola, ${S.settings.name} 👋`);}
 
+/* ================= Aventura (roguelike semanal) ================= */
+const SPR={"hero":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","....kSSSSSSk..k.",".....kSSSSk..kWk","...kkkBBBBkkkkWk","..kBBBBYYBBBBkWk","..kBkBBYYBBkBkWk","..ksskBBBBkssk..","..ksskBBBBkssk..","..kkkkBBBBkkkk..",".....kGGkGGk....",".....kGGkGGk....",".....kkk.kkk...."]},"slime":{"p":{"k":"#14142b","G":"#46d36e","L":"#c4ffd6","D":"#249147"},"d":["................","................","................","................","......kkkk......","....kkGGGGkk....","...kGGGGGGGGk...","..kGGLGGGGGGGk..","..kGLLGGGGGGGk..",".kGGGGkGGGkGGGk.",".kGGGGkGGGkGGGk.",".kGGGGGGGGGGGGk.",".kGGGGGkkkGGGGk.","..kDGGGGGGGGDk..","...kkDDDDDDkk...",".....kkkkkk....."]},"goblin":{"p":{"k":"#14142b","G":"#7cc242","R":"#ff3b3b","W":"#ffffff","B":"#7a4a2a","Y":"#ffd23f","Q":"#cfd6e0"},"d":["................","..k..........k..","..kGk......kGk..","...kGkkkkkkGk...","....kGGGGGGk....","...kGGRGGRGGk...","...kGGGGGGGGk...","....kGkWWkGk....",".....kGGGGk.....","....kBBBBBBk....","...kGkBBBBkGk...","...kGkBYYBkGk..k","....kkBBBBkk..kQ",".....kBkkBk..kQk",".....kGk.kGk.kk.",".....kk...kk...."]},"bat":{"p":{"k":"#14142b","P":"#7b5cc7","L":"#a98af0","R":"#ff3b3b","W":"#ffffff"},"d":["................","................","................","k..............k","kk....k..k....kk","kPk...kkkk...kPk","kPPk.kPPPPk.kPPk","kPPPkPRPPRPkPPPk","kPLPPPPPPPPPPLPk",".kPPkPPWWPPkPPk.",".kPk.kPPPPk.kPk.","..k...kPPk...k..",".......kk.......","................","................","................"]},"gremlin":{"p":{"k":"#14142b","R":"#e8262e","S":"#c9d1e0","W":"#ffffff","D":"#a3161c"},"d":["......kkkk......",".....kSSSSk.....","....kkkkkkkk....","....kRRRRRRk....","....kRWRRWRk....","....kRkRRkRk....","....kRRRRRRk....","....kWWWWWWk....","....kDDkkDDk....","..kkkRRRRRRkkk..",".kRk.kRRRRk.kRk.","....kRRRRRRk....","....kSSSSSSk....",".....kk..kk.....",".....kk..kk.....","................"]},"ogre":{"p":{"k":"#14142b","P":"#f4a7c0","p":"#d9789c","T":"#e3b27a","R":"#ff3b3b","W":"#ffffff"},"d":["................","....kkkkkkkk....","..kkPpPpPpPpkk..",".kPpPpPpPpPpPpk.","kPpPkPpPpPkPpPpk","kpPpPpPpPpPpPpPk","kkkkkkkkkkkkkkkk","kTTTTTTTTTTTTTTk","kTTRkTTTTTTRkTTk","kTTkkTTTTTTkkTTk","kTTTTTkkkkTTTTTk","kTTTTkWkkWkTTTTk",".kTTTTTTTTTTTTk.","..kkTTTTTTTTkk..","....kk....kk....","....kk....kk...."]},"skel":{"p":{"k":"#14142b","W":"#ece7da","D":"#b9b3a4"},"d":[".....kkkkkk.....","....kWWWWWWk....","...kWWWWWWWWk...","...kWkkWWkkWk...","...kWkkWWkkWk...","...kWWWkkWWWk...","....kWkWkWkk....",".....kkkkkk.....","....kWkWWkWk....","...kWkDWWDkWk...","...kWkkWWkkWk...","....kkDWWDkk....",".....kWkkWk.....",".....kWk.kWk....",".....kWk.kWk....","....kkk...kkk..."]},"frituras":{"p":{"k":"#14142b","O":"#ff9f1c","Y":"#ffd23f","R":"#ff3b3b","Q":"#cfd6e0"},"d":["......kkkk......",".....kOOOOk.....","....kOOOOOOk....","....kOkkkkOk....","....kOkRRkOk....","....kOOOOOOk....","..kkkkOOOOkkkk..",".kYYYkkkkkkYYYk.",".kYkYYYOOYYYkYk.",".kYkYOOYYOOYkYk.",".kkkYYYYYYYYkkk.","....kYYOOYYk..k.","....kYYkkYYk.kQk","....kOOkkOOkkQk.","....kOOk.kOOkk..","....kkk...kkk..."]},"rey":{"p":{"k":"#14142b","Y":"#ffd23f","R":"#ff3b3b","T":"#e9c46a","G":"#4caf50","M":"#8b4a2b","W":"#ffffff"},"d":["....Y.Y..Y.Y....","....YYYYYYYY....","....YRYYYYRY....","...kkkkkkkkkk...","..kTTTTTTTTTTk..",".kTTGGGGGGGGTTk.","kTTGGRRGGRRGGTTk","kTGGMMMMMMMMGGTk","kTGMMRkMMkRMMGTk","kTGMMkkMMkkMMGTk","kTGMMMMMMMMMMGTk","kTGMMkWWWWkMMGTk","kTTMMMkkkkMMMTTk",".kTTTTTTTTTTTTk.","..kkkkkkkkkkkk..","................"]},"traje":{"p":{"k":"#05050c","D":"#2b2d42","R":"#e63946","W":"#f1f1f1","E":"#ff3b3b"},"d":["................","....kkkkkkkk....","...kDDDDDDDDk...","...kDEkDDkEDk...","...kDDDDDDDDk...","..kkWWkRRkWWkk..",".kDDkWkRRkWkDDk.",".kDDDkWRRWkDDDk.","kDDkDDkRRkDDkDDk","kDDkDDDRRDDDkDDk","kDDkDDDkkDDDkDDk","kWWkDDDDDDDDkWWk",".kk.kDDDDDDk.kk.","....kDDkkDDk....","....kDDk.kDDk...","....kkk...kkk..."]},"chest":{"p":{"k":"#14142b","B":"#a0522d","b":"#7a3d20","Y":"#ffd23f"},"d":["................","................","................","...kkkkkkkkkk...","..kBBBBBBBBBBk..","..kBYbbbbbbYBk..","..kBYBBBBBBYBk..","..kkkkkkkkkkkk..","..kBYBBkkBBYBk..","..kBYBBYYBBYBk..","..kBYBBkkBBYBk..","..kBYBBBBBBYBk..","..kbbbbbbbbbbk..","..kkkkkkkkkkkk..","................","................"]}};
+function spr(name,px,pal){const s=SPR[name];if(!s)return '';const P=Object.assign({},s.p,pal||{});let r='';
+  s.d.forEach((row,y)=>{let x=0;while(x<16){const c=row[x];if(c==='.'){x++;continue;}let w=1;while(x+w<16&&row[x+w]===c)w++;r+=`<rect x="${x}" y="${y}" width="${w}" height="1.04" fill="${P[c]}"/>`;x+=w;}});
+  return `<svg class="spr" viewBox="0 0 16 16" width="${Math.round(16*px)}" height="${Math.round(16*px)}" shape-rendering="crispEdges">${r}</svg>`;}
+const VEST={k:'#05050c',D:'#f4f1ea',R:'#ff8fb1',W:'#d8cfc0',E:'#7c4dff'};
+const EN={
+  slime:{n:'Slime',hp:30,atk:6,ai:['atk','atk','def'],gold:[8,14]},
+  goblin:{n:'Goblin ladrón',hp:38,atk:7,ai:['atk','steal','atk'],gold:[12,20]},
+  bat:{n:'Murciélago',hp:28,atk:7,ai:['atk','atk','charge','heavy'],dodge:15,gold:[8,14]},
+  gremlin:{n:'Gremlin del Refresco',hp:44,atk:7,ai:['poison','atk','atk'],gold:[12,18]},
+  skel:{n:'Esqueleto',hp:50,atk:8,ai:['def','atk','charge','heavy'],gold:[14,22]},
+  ogre:{n:'Ogro del Pan Dulce',hp:70,atk:10,ai:['atk','charge','heavy','atk'],gold:[18,28]},
+  frituras:{n:'Caballero de las Frituras',hp:105,atk:11,ai:['atk','def','charge','heavy','buff'],gold:[35,50],tier:'mini'},
+  rey:{n:'Rey Taquero Nocturno',hp:150,atk:12,ai:['atk','poison','charge','heavy','atk','buff'],gold:[70,90],tier:'boss'},
+  traje:{n:'El Traje',hp:220,atk:14,ai:['atk','buff','charge','heavy','poison','atk','charge','heavy'],gold:[150,200],tier:'final'},
+};
+const FLOORS=[['slime','goblin'],['bat','gremlin'],['goblin','skel'],['gremlin','ogre'],['skel','frituras'],['rey']];
+const WEAP={wood:{n:'Espada de madera',ic:'🗡️',atk:2,cost:25},steel:{n:'Espada de acero',ic:'⚔️',atk:5,cost:70},axe:{n:'Hacha del bárbaro',ic:'🪓',atk:8,crit:8,cost:140},legend:{n:'Excalibarra',ic:'✨',atk:12,crit:10,cost:0,chest:1}};
+const ARM={leather:{n:'Chaleco de cuero',ic:'🦺',def:2,cost:30},mail:{n:'Cota de malla',ic:'🛡️',def:4,cost:80},plate:{n:'Armadura de placas',ic:'🏰',def:7,cost:160}};
+const RELICS={
+  dragon:{n:'Batido del Dragón',ic:'🐉',d:'+2 ATQ cada día que llegues a tu proteína',cost:90},
+  boots:{n:'Botas de la Escaladora',ic:'👟',d:'Tu cardio da el doble de esquiva',cost:70},
+  amulet:{n:'Amuleto del Manantial',ic:'💧',d:'La misión de agua también cura 15 HP',cost:60},
+  monk:{n:'Rosario del Monje',ic:'📿',d:'+20 oro extra por día limpio',cost:50},
+  gaunt:{n:'Guanteletes de Hierro',ic:'🧤',d:'Tu golpe cargado pega 30% más',cost:80},
+  fang:{n:'Colmillo Vampiro',ic:'🦷',d:'Te curas 3 HP con cada golpe',cost:100},
+};
+const UPG={
+  hp:{n:'Corazón de acero',ic:'❤️',d:'+10 HP máximo',cost:5,max:5},
+  str:{n:'Entrenamiento base',ic:'💪',d:'+1 ATQ inicial',cost:8,max:3},
+  pot:{n:'Mochila de alquimista',ic:'🧪',d:'Empiezas con +1 poción',cost:6,max:2},
+  disc:{n:'Amigo del mercader',ic:'🏷️',d:'10% de descuento en la tienda',cost:12,max:1},
+  revive:{n:'Segunda oportunidad',ic:'🪽',d:'Revives una vez por run con 30% de HP',cost:20,max:1},
+};
+const INT={atk:['⚔️','Ataque'],heavy:['💥','Golpe fuerte'],charge:['⚠️','Cargando golpe'],def:['🛡️','Se cubre'],steal:['💰','Robo'],poison:['🧪','Veneno'],buff:['🔺','Se enfurece']};
+const DAYN=['Lun','Mar','Mié','Jue','Vie','Sáb'];
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const isF=()=>S.settings.sex==='m';
+const enName=id=>id==='traje'&&isF()?'El Vestido':EN[id].n;
+const enPal=id=>id==='traje'&&isF()?VEST:null;
+
+function G(){if(!S.game)S.game={souls:0,meta:{},runs:0,trophies:[],log:[],first:null};return S.game;}
+const lvU=k=>(G().meta[k]||0);
+const runStart=()=>{const t=today();return parseKey(t).getDay()===0?addDays(t,1):t;};
+function glog(t){const g=G();g.log.unshift({t,d:today()});g.log=g.log.slice(0,40);}
+function newRun(){const g=G(),start=runStart(),mon=mondayOf(start);if(!g.first)g.first=mon;const maxhp=100+lvU('hp')*10;
+  g.run={id:++g.runs,mon,start,hp:maxhp,maxhp,atk:8+lvU('str'),agi:5,gold:0,potions:lvU('pot'),weapon:null,armor:null,relics:[],claimed:{},regen:start,cleared:{},dead:false,won:false,revived:false,poison:0};
+  glog(`⚔️ Comienza la run #${g.run.id}`);}
+const weekIdx=mon=>Math.max(0,Math.round(daysBetween(G().first||mon,mon)/7));
+const isFinalWeek=mon=>{const e=EV();return e>=mon&&e<=addDays(mon,6);};
+const floorEnemies=(r,di)=>di===5?[isFinalWeek(r.mon)?'traje':'rey']:FLOORS[di];
+const trainDay=d=>!['R','S'].includes(routineFor(d));
+const enraged=d=>d<today()&&trainDay(d)&&!dayDone(d);
+function enemyStats(id,r,di){const e=EN[id],m=1+0.04*weekIdx(r.mon),rage=enraged(addDays(r.mon,di))?1.25:1;
+  return {id,n:enName(id),maxhp:Math.round(e.hp*m*rage*1.4),atk:Math.round(e.atk*m*rage*1.5),rage:rage>1};}
+const pAtk=r=>r.atk+(r.weapon?WEAP[r.weapon].atk:0);
+const pDef=r=>r.armor?ARM[r.armor].def:0;
+const pAgi=r=>Math.min(40,r.agi);
+const pCrit=r=>10+((r.weapon&&WEAP[r.weapon].crit)||0);
+const has=(r,k)=>r.relics.includes(k);
+function heal(r,n){const b=r.hp;r.hp=Math.min(r.maxhp,r.hp+n);return r.hp-b;}
+
+/* misiones con datos reales */
+function prOn(d){const s=S.workouts[d];if(!s)return false;
+  return Object.entries(s.ex).some(([id,e])=>{if(!EX[id]||EX[id].type!=='str')return false;
+    const t=Math.max(0,...e.sets.filter(x=>x.done).map(x=>num(x.kg)||0));if(!t)return false;let prev=0;
+    Object.keys(S.workouts).filter(k=>k<d).forEach(k=>{const p=S.workouts[k].ex[id];if(p)p.sets.forEach(x=>{if(x.done)prev=Math.max(prev,num(x.kg)||0);});});
+    return prev>0&&t>prev;});}
+const cardioOn=d=>{const s=S.workouts[d];return !!s&&Object.entries(s.ex).some(([id,e])=>EX[id]&&EX[id].type==='cardio'&&e.done);};
+function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCount(d),q=[];
+  if(trainDay(d)){q.push({id:'gym',ic:'🏋️',n:`Completa tu entreno de ${ROUT[r].name.toLowerCase()}`,ok:dayDone(d),rw:'+40 oro · +1 ATQ'});
+    q.push({id:'cardio',ic:'🫀',n:'Termina tu cardio',ok:cardioOn(d),rw:'+3% esquiva'});
+    q.push({id:'pr',ic:'📈',n:'Supera una marca (más peso que nunca)',ok:prOn(d),rw:'+1 ATQ'});}
+  else if(r==='S')q.push({id:'gym',ic:'🚶',n:'Caminata o escaladora (opcional)',ok:dayDone(d),rw:'+25 oro · +3% esquiva'});
+  q.push({id:'meals',ic:'🍽️',n:'Registra tus 3 comidas sin pasarte',ok:mc>=3&&!!tg&&t.k<=tg.kcal*1.05,rw:'+30 HP · +10 oro'});
+  q.push({id:'prot',ic:'🥚',n:`Llega a ${tg?tg.p:135} g de proteína`,ok:!!tg&&t.p>=tg.p*0.95,rw:'+15 HP'});
+  q.push({id:'water',ic:'💧',n:`Toma tus ${WATER_GOAL} vasos de agua`,ok:(S.water[d]||0)>=WATER_GOAL,rw:'+1 poción'});
+  q.push({id:'clean',ic:'✨',n:'Día limpio (sin los 5 antojos)',ok:CUTS.every(c=>(S.cuts[d]||{})[c.id]),rw:'+20 oro'});
+  q.push({id:'peso',ic:'⚖️',n:'Pésate',ok:S.weights.some(w=>w.date===d),rw:'+5 oro'});
+  return q;}
+function runSouls(r){let s=0;Object.keys(r.cleared).forEach(k=>{const t=(EN[k.split('|')[2]]||{}).tier;s+=t==='final'?25:t==='boss'?10:t==='mini'?4:1;});return s;}
+function syncRun(){const g=G();let r=g.run;const t=today();let changed=false;
+  if(!r){newRun();r=g.run;changed=true;}
+  if(t>=addDays(r.mon,7)){changed=true;if(!r.won&&!r.dead){const s=runSouls(r);g.souls+=s;glog(`⌛ La run #${r.id} terminó sin vencer al jefe · +${s} almas`);}newRun();r=g.run;}
+  const msgs=[];
+  if(!r.dead&&!r.won){
+    for(let d=r.start;d<=t&&d<=addDays(r.mon,5);d=addDays(d,1)){
+      if(d>r.regen){r.regen=d;const h=heal(r,Math.round(r.maxhp*0.1));if(h)msgs.push(`🌅 Nuevo día: +${h} HP`);}
+      questsFor(d).forEach(q=>{const key=d+'|'+q.id;if(!q.ok||r.claimed[key])return;r.claimed[key]=1;
+        switch(q.id){
+          case 'gym':if(trainDay(d)){r.gold+=40;r.atk+=1;msgs.push('🏋️ Entreno completo: +40 oro, +1 ATQ');}else{r.gold+=25;r.agi+=3;msgs.push('🚶 Día activo: +25 oro, +3% esquiva');}break;
+          case 'cardio':{const a=has(r,'boots')?6:3;r.agi+=a;msgs.push(`🫀 Cardio: +${a}% esquiva`);break;}
+          case 'pr':r.atk+=1;msgs.push('📈 ¡Nueva marca personal! +1 ATQ');break;
+          case 'meals':heal(r,30);r.gold+=10;msgs.push('🍽️ Comidas en meta: +30 HP, +10 oro');break;
+          case 'prot':heal(r,15);if(has(r,'dragon'))r.atk+=2;msgs.push('🥚 Proteína: +15 HP'+(has(r,'dragon')?', +2 ATQ':''));break;
+          case 'water':if(r.potions<3){r.potions++;msgs.push('💧 Agua: +1 poción');}else{r.gold+=10;msgs.push('💧 Agua: +10 oro');}if(has(r,'amulet'))heal(r,15);break;
+          case 'clean':{const gg=20+(has(r,'monk')?20:0);r.gold+=gg;msgs.push(`✨ Día limpio: +${gg} oro`);break;}
+          case 'peso':r.gold+=5;msgs.push('⚖️ Pesaje: +5 oro');break;}});
+      const tg=targets(),tt=dayTot(d);
+      if(d<t&&tg&&tt.any&&tt.k>tg.kcal*1.15&&!r.claimed[d+'|pen']){r.claimed[d+'|pen']=1;r.hp=Math.max(1,r.hp-15);msgs.push(`☠️ ${DAYN[(parseKey(d).getDay()+6)%7]}: te pasaste de calorías, −15 HP`);}
+    }}
+  if(msgs.length)msgs.slice().reverse().forEach(glog);
+  if(msgs.length||changed){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  return msgs;}
+function canFight(r,di){const d=addDays(r.mon,di);if(r.dead||r.won||d<r.start||d>today())return false;
+  if(di===5){for(let i=0;i<5;i++){if(addDays(r.mon,i)<r.start)continue;if(!FLOORS[i].every((id,ei)=>r.cleared[i+'|'+ei+'|'+id]))return false;}}
+  return true;}
+
+/* combate */
+let C=null;
+function nextIntent(){const e=C.e,ai=EN[C.id].ai;let k=ai[e.turn%ai.length];e.turn++;if(k==='heavy'&&!e.charged)k='atk';
+  const v=k==='heavy'?Math.round(e.atk*1.9):k==='steal'?Math.round(e.atk*0.6):k==='poison'?Math.round(e.atk*0.5):e.atk;return {k,v};}
+function startFight(di,ei){const r=G().run,id=floorEnemies(r,di)[ei],st=enemyStats(id,r,di);
+  C={di,ei,id,e:{...st,hp:st.maxhp,block:false,turn:0,charged:false},foco:1,def:false,poison:0,fx:{},over:null,
+    log:[`¡Aparece ${st.n}!${st.rage?' Está enfurecido porque faltaste al gym.':''}`]};
+  C.intent=nextIntent();renderFight();const m=document.getElementById('modal');m.dataset.lock='1';m.classList.add('on');}
+function act(kind){if(!C||C.over)return;const r=G().run,e=C.e;C.fx={};
+  if(kind==='pot'){if(r.potions<=0)return;r.potions--;const h=heal(r,40);C.log.unshift(`🧪 Tomas una poción: +${h} HP`);C.fx.heal=h;}
+  else if(kind==='def'){C.def=true;C.foco=Math.min(3,C.foco+1);C.log.unshift('🛡️ Te pones en guardia (+1 foco)');}
+  else{if(kind==='skill'&&C.foco<3)return;
+    if(kind==='atk'&&Math.random()*100<(EN[C.id].dodge||0)){C.log.unshift(`💨 ${e.n} esquiva tu golpe`);C.fx.miss=1;}
+    else{let dmg=pAtk(r)*rnd(0.85,1.15);const crit=Math.random()*100<pCrit(r);
+      if(kind==='skill')dmg*=2.5*(has(r,'gaunt')?1.3:1);if(crit)dmg*=1.8;if(e.block)dmg*=0.5;
+      dmg=Math.max(1,Math.round(dmg));e.hp=Math.max(0,e.hp-dmg);C.fx.edmg=dmg;C.fx.crit=crit;
+      C.log.unshift(`${kind==='skill'?'✨ Golpe cargado':'⚔️ Atacas'}: ${dmg} de daño${crit?' · ¡CRÍTICO!':''}${e.block?' (se cubrió)':''}`);
+      if(has(r,'fang'))heal(r,3);}
+    if(kind==='skill')C.foco=0;else C.foco=Math.min(3,C.foco+1);}
+  e.block=false;
+  if(e.hp<=0)return winFight();
+  if(C.poison>0){r.hp=Math.max(0,r.hp-3);C.poison--;C.log.unshift('🧪 El veneno te quita 3 HP');}
+  const it=C.intent;
+  if(it.k==='def'){e.block=true;C.log.unshift(`🛡️ ${e.n} se cubre`);}
+  else if(it.k==='charge'){e.charged=true;C.log.unshift(`⚠️ ${e.n} está cargando un golpe fuerte`);}
+  else if(it.k==='buff'){e.atk+=2;C.log.unshift(`🔺 ${e.n} se enfurece (+2 ATQ)`);}
+  else{if(Math.random()*100<pAgi(r)){C.log.unshift('💨 ¡Esquivas el ataque!');C.fx.dodge=1;}
+    else{let dmg=it.v*rnd(0.9,1.1)-pDef(r);if(C.def)dmg*=0.4;dmg=Math.max(1,Math.round(dmg));r.hp=Math.max(0,r.hp-dmg);C.fx.pdmg=dmg;
+      C.log.unshift(`${INT[it.k][0]} ${e.n} te pega ${dmg}${C.def?' (te cubriste)':''}`);
+      if(it.k==='steal'){const s=Math.min(r.gold,10);r.gold-=s;if(s)C.log.unshift(`💰 Te roba ${s} de oro`);}
+      if(it.k==='poison'){C.poison=3;C.log.unshift('🧪 Quedas envenenado 3 turnos');}}
+    if(it.k==='heavy')e.charged=false;}
+  C.def=false;
+  if(r.hp<=0)return loseFight();
+  C.intent=nextIntent();save();renderFight();}
+function rollChest(tier){const pool=tier==='legend'?[['weapon','legend'],['relic'],['gold',150]]:tier==='rare'?[['relic'],['weapon','axe'],['armor','mail'],['gold',80]]:[['gold',30],['potion'],['potion'],['weapon','wood'],['armor','leather'],['gold',40]];
+  return {tier,p:pool[Math.floor(Math.random()*pool.length)]};}
+function applyChest(ch){const r=G().run,[k,v]=ch.p;
+  if(k==='gold'){r.gold+=v;ch.txt=`💰 ${v} de oro`;}
+  else if(k==='potion'){if(r.potions<3){r.potions++;ch.txt='🧪 Una poción';}else{r.gold+=15;ch.txt='💰 15 de oro (pociones llenas)';}}
+  else if(k==='weapon'){if(!r.weapon||WEAP[v].atk>WEAP[r.weapon].atk){r.weapon=v;ch.txt=`${WEAP[v].ic} ${WEAP[v].n} · equipada`;}else{r.gold+=30;ch.txt=`${WEAP[v].ic} ${WEAP[v].n} · vendida por 30 oro`;}}
+  else if(k==='armor'){if(!r.armor||ARM[v].def>ARM[r.armor].def){r.armor=v;ch.txt=`${ARM[v].ic} ${ARM[v].n} · equipada`;}else{r.gold+=30;ch.txt=`${ARM[v].ic} ${ARM[v].n} · vendida por 30 oro`;}}
+  else{const o=Object.keys(RELICS).filter(x=>!r.relics.includes(x));if(o.length){const x=o[Math.floor(Math.random()*o.length)];r.relics.push(x);ch.txt=`${RELICS[x].ic} ${RELICS[x].n}`;}else{r.gold+=60;ch.txt='💰 60 de oro';}}}
+function winFight(){const g=G(),r=g.run,en=EN[C.id];const gold=Math.round(rnd(en.gold[0],en.gold[1])*(1+0.1*weekIdx(r.mon)));
+  r.gold+=gold;r.cleared[C.di+'|'+C.ei+'|'+C.id]=1;const roll=Math.random();let chest=null;
+  if(en.tier==='boss'||en.tier==='final')chest=rollChest(en.tier==='final'?'legend':'rare');
+  else if(en.tier==='mini'||roll<0.18)chest=rollChest(roll<0.05?'rare':'common');
+  if(chest)applyChest(chest);
+  C.over={win:true,gold,chest};
+  if(en.tier==='boss'||en.tier==='final'){r.won=true;const s=runSouls(r)+10;g.souls+=s;C.over.souls=s;g.trophies.push({id:C.id,mon:r.mon,run:r.id});glog(`👑 ¡Venciste a ${enName(C.id)}! +${s} almas`);}
+  else glog(`🏆 Venciste a ${enName(C.id)} · +${gold} oro`);
+  save();renderFight();}
+function loseFight(){const g=G(),r=g.run;
+  if(lvU('revive')&&!r.revived){r.revived=true;r.hp=Math.round(r.maxhp*0.3);C.log.unshift('🪽 ¡Segunda oportunidad! Revives con 30% de HP');C.intent=nextIntent();save();renderFight();return;}
+  r.dead=true;const s=runSouls(r);g.souls+=s;C.over={win:false,souls:s};glog(`💀 Caíste ante ${enName(C.id)} · +${s} almas`);save();renderFight();}
+const gbar=(v,m,cls)=>`<div class="ghp ${cls}"><i style="width:${clamp(v/m,0,1)*100}%"></i><span>${v} / ${m}</span></div>`;
+function renderFight(){const r=G().run,e=C.e,en=EN[C.id],it=C.intent,fx=C.fx||{};let body;
+  if(C.over){const o=C.over;
+    body=o.win?`<div class="gover"><div class="gbig">${o.souls!=null?'👑':'🏆'}</div><div class="gtitle">¡Victoria!</div><div class="small muted">Venciste a ${enName(C.id)}</div>
+      <div class="grew">💰 +${o.gold} oro${o.souls?` · 👻 +${o.souls} almas`:''}</div>
+      ${o.chest?`<div class="chestbox">${spr('chest',4)}<div><b>Cofre ${o.chest.tier==='legend'?'legendario':o.chest.tier==='rare'?'raro':'común'}</b><div class="small">${o.chest.txt}</div></div></div>`:''}
+      ${o.souls!=null?'<div class="banquet">🎉 <b>Banquete del Héroe desbloqueado.</b> Disfruta tu sábado especial: te lo ganaste.</div>':''}
+      <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`
+    :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">Fin de la run</div><div class="small muted">${enName(C.id)} te derrotó.</div>
+      <div class="grew">👻 +${o.souls} almas para mejoras permanentes</div>
+      <div class="small muted" style="margin:10px 0 0;line-height:1.45">Tus registros reales siguen intactos. Usa tus almas en Mejoras y empieza una nueva run.</div>
+      <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`;}
+  else body=`<div class="arena">
+      <div class="foe ${fx.edmg?'hit':''} ${en.tier||''}">
+        <div class="intent ${['heavy','charge'].includes(it.k)?'warn':''}">${INT[it.k][0]} ${INT[it.k][1]}${['atk','heavy','steal','poison'].includes(it.k)?` · ${it.v}`:''}</div>
+        <div class="foespr">${spr(C.id,en.tier?7.5:6.5,enPal(C.id))}${fx.edmg?`<div class="dmgn">−${fx.edmg}${fx.crit?'!':''}</div>`:''}${fx.miss?'<div class="dmgn miss">Falla</div>':''}</div>
+        <div class="fname">${enName(C.id)}${e.rage?' 😤':''}${e.block?' 🛡️':''}</div>${gbar(e.hp,e.maxhp,'hpr')}</div>
+      <div class="me ${fx.pdmg?'hit':''}"><div class="mespr">${spr('hero',3.5)}${fx.pdmg?`<div class="dmgn">−${fx.pdmg}</div>`:''}${fx.dodge?'<div class="dmgn miss">Esquiva</div>':''}${fx.heal?`<div class="dmgn heal">+${fx.heal}</div>`:''}</div>
+        <div style="flex:1;min-width:0"><div class="fname">${esc(S.settings.name||'Héroe')}${C.poison?' 🧪':''}</div>${gbar(r.hp,r.maxhp,'hpg')}
+        <div class="foco">${[0,1,2].map(i=>`<i class="${i<C.foco?'on':''}"></i>`).join('')}<span>Foco</span></div></div></div>
+    </div>
+    <div class="glog">${C.log.slice(0,4).map((l,i)=>`<div style="opacity:${1-i*0.22}">${l}</div>`).join('')}</div>
+    <div class="gact">
+      <button class="btn" data-act="gact" data-k="atk">⚔️ Atacar<small>~${pAtk(r)} de daño</small></button>
+      <button class="btn ghost" data-act="gact" data-k="def">🛡️ Defender<small>−60% daño · +1 foco</small></button>
+      <button class="btn ${C.foco>=3?'gold':'ghost'}" data-act="gact" data-k="skill" ${C.foco<3?'disabled':''}>✨ Golpe cargado<small>${C.foco>=3?'¡Listo! ×2.5':'Necesita 3 de foco'}</small></button>
+      <button class="btn ghost" data-act="gact" data-k="pot" ${r.potions<=0?'disabled':''}>🧪 Poción<small>${r.potions} · +40 HP</small></button>
+    </div>`;
+  document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="fight">${body}</div>`;}
+
+/* tienda y mejoras */
+const price2=c=>Math.round(c*(lvU('disc')?0.9:1));
+function showShop(){const r=G().run;const row=(t,k,it,extra,owned,cost)=>`<div class="it"><div class="shopic">${it.ic}</div><div class="grow"><div class="t">${it.n}</div><div class="s">${extra}</div></div>
+    ${owned?'<span class="pill">Equipado</span>':`<button class="btn ${r.gold>=cost?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gbuy" data-t="${t}" data-k="${k}" ${r.gold>=cost?'':'disabled'}>🪙 ${cost}</button>`}</div>`;
+  document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="row between"><div class="exn" style="font-size:22px">🛒 Tienda</div><span class="pill">🪙 ${r.gold} oro</span></div>
+    <div class="small muted" style="margin:4px 0 12px">Lo que compres dura toda la run. Si caes, se pierde.</div>
+    <div class="small muted" style="font-weight:800;margin:10px 2px 6px">CONSUMIBLES</div><div class="card list" style="background:var(--card2)">
+      ${row('pot','pot',{ic:'🧪',n:'Poción'},`+40 HP en combate · tienes ${r.potions}/3`,false,price2(15))}
+      ${row('elixir','elixir',{ic:'⚗️',n:'Elixir'},'Te cura toda la vida ahora',false,price2(45))}</div>
+    <div class="small muted" style="font-weight:800;margin:14px 2px 6px">ARMAS</div><div class="card list" style="background:var(--card2)">
+      ${Object.entries(WEAP).filter(([k,w])=>!w.chest).map(([k,w])=>row('weapon',k,w,`+${w.atk} ATQ${w.crit?` · +${w.crit}% crítico`:''}`,r.weapon===k,price2(w.cost))).join('')}</div>
+    <div class="small muted" style="font-weight:800;margin:14px 2px 6px">ARMADURAS</div><div class="card list" style="background:var(--card2)">
+      ${Object.entries(ARM).map(([k,a])=>row('armor',k,a,`−${a.def} de daño recibido`,r.armor===k,price2(a.cost))).join('')}</div>
+    <div class="small muted" style="font-weight:800;margin:14px 2px 6px">RELIQUIAS</div><div class="card list" style="background:var(--card2)">
+      ${Object.entries(RELICS).map(([k,x])=>row('relic',k,x,x.d,r.relics.includes(k),price2(x.cost))).join('')}</div>
+    <button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`;
+  const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
+function buy(t,k){const r=G().run;
+  const cost=t==='pot'?price2(15):t==='elixir'?price2(45):t==='weapon'?price2(WEAP[k].cost):t==='armor'?price2(ARM[k].cost):price2(RELICS[k].cost);
+  if(r.gold<cost)return;
+  if(t==='pot'){if(r.potions>=3){toast('Ya llevas 3 pociones');return;}r.potions++;}
+  else if(t==='elixir'){if(r.hp>=r.maxhp){toast('Ya tienes la vida llena');return;}r.hp=r.maxhp;}
+  else if(t==='weapon')r.weapon=k;else if(t==='armor')r.armor=k;else r.relics.push(k);
+  r.gold-=cost;glog(`🛒 Compraste ${t==='pot'?'una poción':t==='elixir'?'un elixir':(t==='weapon'?WEAP:t==='armor'?ARM:RELICS)[k].n}`);save();showShop();renderAventura();toast('Compra hecha ✓');}
+function showUpg(){const g=G();
+  document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="row between"><div class="exn" style="font-size:22px">👻 Mejoras permanentes</div><span class="pill">👻 ${g.souls}</span></div>
+    <div class="small muted" style="margin:4px 0 12px;line-height:1.4">Las almas no se pierden al caer. Lo que compres aquí se queda para todas las runs.</div>
+    <div class="card list" style="background:var(--card2)">${Object.entries(UPG).map(([k,u])=>{const l=lvU(k),mx=l>=u.max;return `<div class="it"><div class="shopic">${u.ic}</div><div class="grow"><div class="t">${u.n} <span class="small muted">${l}/${u.max}</span></div><div class="s">${u.d}</div></div>
+      ${mx?'<span class="pill">Máximo</span>':`<button class="btn ${g.souls>=u.cost?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gup" data-k="${k}" ${g.souls>=u.cost?'':'disabled'}>👻 ${u.cost}</button>`}</div>`;}).join('')}</div>
+    <div class="small muted" style="margin-top:10px;line-height:1.4">Las mejoras de vida, ataque y pociones aplican desde tu siguiente run.</div>
+    <button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`;
+  const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
+
+/* pantalla principal */
+function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today();
+  const days=[...Array(6)].map((_,i)=>addDays(r.mon,i));
+  const map=days.map((d,di)=>{const pre=d<r.start;
+    const cells=floorEnemies(r,di).map((id,ei)=>{const done=r.cleared[di+'|'+ei+'|'+id],can=!done&&canFight(r,di),st=enemyStats(id,r,di),tier=EN[id].tier||'';
+      return `<button class="node ${done?'done':can?'ready':'locked'} ${tier}" ${can?`data-act="gfight" data-di="${di}" data-ei="${ei}"`:'disabled'}>
+        <div class="nspr">${spr(id,tier?3.2:2.5,enPal(id))}</div><div class="nname">${enName(id)}</div>
+        <div class="nsub">${done?'✓ Vencido':pre?'—':can?`❤️ ${st.maxhp} · ⚔️ ${st.atk}${st.rage?' 😤':''}`:d>t?'🔒 '+fmtShort(d):di===5?'🔒 Limpia la semana':'🔒'}</div></button>`;}).join('');
+    return `<div class="floor ${d===t?'today':''} ${pre?'pre':''} ${di===5?'bossfloor':''}"><div class="fday">${DAYN[di]} <span class="muted">${fmtShort(d)}</span>${d===t?' · <b class="acc">hoy</b>':''}${!pre&&enraged(d)?' <span class="rage">😤 enfurecidos</span>':''}</div><div class="fnodes">${cells}</div></div>`;}).join('');
+  const qd=t>addDays(r.mon,5)?addDays(r.mon,5):t;
+  const qs=t<r.start?'':questsFor(qd).map(q=>`<div class="it ${q.ok?'qok':''}"><span class="qic">${q.ok?'✅':q.ic}</span><div class="grow"><div class="t">${q.n}</div><div class="s">${q.rw}</div></div></div>`).join('');
+  const eq=[r.weapon?`${WEAP[r.weapon].ic} ${WEAP[r.weapon].n}`:'👊 Sin arma',r.armor?`${ARM[r.armor].ic} ${ARM[r.armor].n}`:'👕 Sin armadura',...r.relics.map(k=>`${RELICS[k].ic} ${RELICS[k].n}`)];
+  const status=r.dead?`<div class="card gstatus lose"><b>💀 Caíste en esta run</b><div class="small muted" style="margin:4px 0 12px">Usa tus almas en Mejoras y vuelve a intentarlo. Tus misiones de hoy en adelante cuentan para la nueva run.</div><button class="btn block" data-act="gnew">⚔️ Empezar nueva run</button></div>`
+    :r.won?`<div class="card gstatus win"><b>👑 Semana superada</b><div class="small muted" style="margin-top:4px;line-height:1.45">Venciste al jefe de la semana. Disfruta tu Banquete del Héroe. La siguiente run empieza el lunes.</div></div>`:'';
+  document.getElementById('v-aventura').innerHTML=`
+  <div class="eyebrow">Run #${r.id} · semana ${weekIdx(r.mon)+1}${isFinalWeek(r.mon)?' · ¡semana del jefe final!':''}</div><h1>Aventura</h1>
+  <div class="card ghero">
+    <div class="row" style="gap:14px;align-items:center"><div class="herospr">${spr('hero',4)}</div>
+      <div style="flex:1;min-width:0"><div class="row between"><b>${esc(S.settings.name||'Héroe')}</b><span class="small muted">🪙 ${r.gold} · 👻 ${g.souls}</span></div>
+      ${gbar(r.hp,r.maxhp,'hpg')}
+      <div class="gstats"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>💨 ${pAgi(r)}%</span><span>🎯 ${pCrit(r)}%</span><span>🧪 ${r.potions}</span></div></div></div>
+    <div class="eqs">${eq.map(x=>`<span>${x}</span>`).join('')}</div>
+    <div class="grid2" style="margin-top:12px"><button class="btn" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" data-act="gupg">👻 Mejoras</button></div>
+  </div>
+  ${status}
+  ${qs?`<div class="sec">Misiones ${qd===t?'de hoy':'del sábado'} <small>en la vida real</small></div><div class="card list">${qs}</div>
+  <div class="small muted" style="margin:-4px 6px 0;line-height:1.4">Se cumplen solas con lo que registras en Gym, Comida y Peso. Si te pasas de calorías pierdes vida, y si faltas al gym, los enemigos de ese día se enfurecen. <b style="color:#fff">Tip:</b> pelea en la noche, ya con tus misiones cumplidas, para llegar más fuerte.</div>`:''}
+  <div class="sec">Mapa de la semana</div>${map}
+  <div class="sec">Bitácora</div><div class="card list">${g.log.slice(0,8).map(l=>`<div class="it"><div class="grow small">${l.t}</div><span class="small muted">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div>
+  ${g.trophies.length?`<div class="sec">Trofeos</div><div class="card trophies">${g.trophies.map(x=>`<div>${spr(x.id,2.4,enPal(x.id))}<span>Sem. ${fmtShort(x.mon)}</span></div>`).join('')}</div>`:''}
+  <div class="foot">Combate por turnos: el enemigo te avisa qué va a hacer. Cúbrete cuando cargue un golpe fuerte y guarda el foco para el golpe cargado.</div>`;
+  if(msgs&&msgs.length)toast(`🎁 ${msgs.length} recompensa${msgs.length>1?'s':''} nueva${msgs.length>1?'s':''}`);
+}
+
 /* ================= Navegación y eventos ================= */
 let curTab='peso';
-const R={peso:renderPeso,gym:renderGym,comida:renderComida,super:renderSuper,plan:renderPlan};
+const R={peso:renderPeso,gym:renderGym,comida:renderComida,super:renderSuper,aventura:renderAventura,plan:renderPlan};
 function show(tab){applyTheme();curTab=tab;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+tab));
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));R[tab]();window.scrollTo(0,0);}
 function applyTheme(){document.body.classList.toggle('pixel',S.settings.theme==='pixel');}
@@ -1313,6 +1641,14 @@ document.addEventListener('click',ev=>{
     case 'setchk':setCheck(b.dataset.id,+b.dataset.i);break;
     case 'exdone':exDone(b.dataset.id);break;
     case 'player':showPlayer();break;
+    case 'gfight':startFight(+b.dataset.di,+b.dataset.ei);break;
+    case 'gact':act(b.dataset.k);break;
+    case 'gclose':{const m=document.getElementById('modal');m.dataset.lock='';m.classList.remove('on');C=null;renderAventura();break;}
+    case 'gnew':newRun();save();renderAventura();toast('⚔️ ¡Nueva run!');break;
+    case 'gshop':showShop();break;
+    case 'gbuy':buy(b.dataset.t,b.dataset.k);break;
+    case 'gupg':showUpg();break;
+    case 'gup':{const g=G(),u=UPG[b.dataset.k];if(g.souls<u.cost||lvU(b.dataset.k)>=u.max)return;g.souls-=u.cost;g.meta[b.dataset.k]=lvU(b.dataset.k)+1;save();showUpg();toast(`${u.ic} ${u.n} mejorado`);break;}
     case 'unit':{const id=b.dataset.id,nu=WU(id)==='lb'?'kg':'lb';S.exu=S.exu||{};S.exu[id]=nu;const ss=S.workouts[gymDate];if(ss&&ss.ex[id])ss.ex[id].u=nu;save();renderGym();toast(`${EX[id].n}: ahora en ${nu}`);break;}
     case 'zoom':zoom(b.dataset.id);break;
     case 'rest-':restEnd-=15000;tickRest();break;
