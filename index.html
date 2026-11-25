@@ -813,7 +813,7 @@ function amtTxt(i,g){
   if(i==='aceite')return `${g} g · ${frac(g/5)} cdita`;
   return `${g} g`;}
 const roundUp=(v,s)=>Math.ceil(v/s-1e-9)*s;
-const fmtQ=(q,u)=>u==='kg'||u==='L'?`${(Math.round(q*100)/100).toString()} ${u}`:`${q} ${u}`;
+const fmtQ=(q,u)=>u==='kg'||u==='L'?`${(Math.round(q*100)/100).toString()} ${u}`:`${q} ${q===1&&/s$/.test(u)?u.slice(0,-1):u}`;
 function buyAmt(i,g){const x=ING[i];
   switch(x.buy){
     case 'pz':return {q:Math.ceil(g/x.g-1e-9),u:'pz'};
@@ -924,17 +924,17 @@ function showRec(id){const r=REC[id],mc=recMac(id);
 
 /* ================= Súper ================= */
 let shopWeek=0;
-function shopList(mon){const w=weekMenu(mon,false),tot={};
-  for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i]&&w[i][m];if(id&&REC[id])REC[id].items.forEach(([ig,g])=>{if(ING[ig].buy!=='out')tot[ig]=(tot[ig]||0)+g*PORT();});});return tot;}
+function shopList(mon,sat=false){const w=weekMenu(mon,false),tot={};
+  for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i]&&w[i][m];if(id&&REC[id]&&!!REC[id].sat===sat)REC[id].items.forEach(([ig,g])=>{if(ING[ig].buy!=='out')tot[ig]=(tot[ig]||0)+g*PORT();});});return tot;}
 const shopState=(mon,create)=>{let s=S.shop[mon];if(!s){s={chk:{},have:{}};if(create)S.shop[mon]=s;}return s;};
 function toBuy(ig,g,ss){const b=buyAmt(ig,g),h=num(ss.have[ig])||0;
   let left=Math.max(0,b.q-h);if(b.u==='kg'||b.u==='L')left=roundUp(left,b.u==='kg'?0.25:0.5);return {b,left};}
 function listCost(mon){const ss=shopState(mon,false),list=shopList(mon);let t=0;Object.keys(list).forEach(ig=>{const {left}=toBuy(ig,list[ig],ss);t+=left*price(ig);});
-  const w=weekMenu(mon,false);for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i]&&w[i][m];if(id&&OUTCOST[id])t+=OUTCOST[id];});return t;}
+  return t;}
 function weekProt(w){let p=0;for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const id=w[i][m];if(id&&REC[id])p+=recMac(id).p;});return p/7;}
 function fitBudget(mon){const B=S.settings.budget||600,w=weekMenu(mon,true),tg=targets(),floor=Math.min(tg?tg.p:150,weekProt(w))-2;let guard=0,changed=0,blocked=false;
   while(listCost(mon)>B&&guard++<40){let best=null,bestSat=null;
-    for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const cur=w[i][m];if(!cur||!REC[cur])return;const cc=recCost(cur),sat=!!REC[cur].sat;
+    for(let i=0;i<7;i++)MEALS.forEach(([m])=>{const cur=w[i][m];if(!cur||!REC[cur]||REC[cur].sat)return;const cc=recCost(cur),sat=!!REC[cur].sat;
       RIDS(m).filter(id=>!REC[id].sat).forEach(alt=>{const sv=cc-recCost(alt);if(sv<=0.5)return;
         let uses=0;for(let j=0;j<7;j++)if(w[j][m]===alt)uses++;if(uses>=3)return;
         const dp=(recMac(alt).p-recMac(cur).p)/7;if(weekProt(w)+dp<floor){blocked=true;return;}
@@ -947,8 +947,13 @@ function renderSuper(){
   for(let i=0;i<7;i++){const d=addDays(mon,i);let dk=0;
     const rows=MEALS.map(([m,n,em])=>{const cur=w[i][m]||'';if(cur&&REC[cur])dk+=recMac(cur).k;
       return `<div class="mrow"><span class="em">${em}</span><select data-menu="${mon}|${i}|${m}">${RIDS(m).concat(Object.keys(REC).filter(id=>REC[id].m!==m)).map(id=>`<option value="${id}" ${cur===id?'selected':''}>${REC[id].n}</option>`).join('')}<option value="" ${cur?'':'selected'}>— Fuera / otra cosa</option></select></div>`;}).join('');
-    const dc=MEALS.reduce((a,[m])=>a+(w[i][m]&&REC[w[i][m]]?recCost(w[i][m]):0),0);
-    menu+=`<div class="card mday ${d===today()?'tod':''}"><div class="row between"><b>${DOW[parseKey(d).getDay()]} <span class="muted small">${fmtShort(d)}</span></b><span class="pill gray">${dk} kcal · ~${money(dc)}</span></div>${rows}</div>`;}
+    const dc=MEALS.reduce((a,[m])=>a+(w[i][m]&&REC[w[i][m]]&&!REC[w[i][m]].sat?recCost(w[i][m]):0),0),hasSat=MEALS.some(([m])=>w[i][m]&&REC[w[i][m]]&&REC[w[i][m]].sat);
+    menu+=`<div class="card mday ${d===today()?'tod':''}"><div class="row between"><b>${DOW[parseKey(d).getDay()]} <span class="muted small">${fmtShort(d)}</span></b><span class="pill gray">${dk} kcal · ${hasSat&&!dc?'🎉 aparte':'~'+money(dc)+(hasSat?' + 🎉':'')}</span></div>${rows}</div>`;}
+  const satL=shopList(mon,true),satIds=Object.keys(satL);
+  const satHtml=satIds.length||Object.values(w).some(d=>d&&d.desayuno==='d4')?`<div class="small muted" style="font-weight:800;margin:16px 4px 8px">🎉 Sábado especial · presupuesto aparte</div><div class="card list">
+    ${satIds.map(ig=>{const b=buyAmt(ig,satL[ig]);return `<div class="it"><div class="grow"><div class="t">${ING[ig].bn}</div></div><b>${fmtQ(b.q,b.u)}</b></div>`;}).join('')}
+    ${Object.values(w).some(d=>d&&d.desayuno==='d4')?'<div class="it"><div class="grow"><div class="t">🌮 Barbacoa</div><div class="s">Se compra en la taquería</div></div><b>4 taquitos</b></div>':''}
+    <div class="small muted" style="padding-top:10px">No cuenta en el gasto de la semana. Si comen los dos, compra el doble.</div></div>`:'';
   const ids=Object.keys(list);let done=0,share=[];
   let groups='';
   CATS.forEach(([cat,cn])=>{const its=ids.filter(i=>ING[i].cat===cat);if(!its.length)return;
@@ -959,7 +964,7 @@ function renderSuper(){
         <div class="have"><input data-have="${mon}|${ig}" inputmode="decimal" value="${esc(ss.have[ig]??'')}" placeholder="tengo"><span>${b.u}</span></div></div>`;});
     groups+='</div>';});
   const total=listCost(mon),B=S.settings.budget||600,over=total>B;
-  window._shareTxt=`🛒 Súper semana del ${fmtShort(mon)} · ~${money(total)}\n`+share.join('\n');
+  window._shareTxt=`🛒 Súper semana del ${fmtShort(mon)} · ~${money(total)}\n`+share.join('\n')+(satIds.length?`\n\n🎉 Sábado (aparte):\n`+satIds.map(ig=>{const b=buyAmt(ig,satL[ig]);return `• ${ING[ig].bn}: ${fmtQ(b.q,b.u)}`;}).join('\n'):'');
   document.getElementById('v-super').innerHTML=`
   <div class="eyebrow">Menú y compras</div><h1>Súper</h1>
   <div class="seg"><button class="${shopWeek===0?'on':''}" data-act="sweek" data-v="0">Esta semana</button><button class="${shopWeek===1?'on':''}" data-act="sweek" data-v="1">Próxima semana</button></div>
@@ -970,12 +975,12 @@ function renderSuper(){
     <div class="addrow"><input id="budgetIn" inputmode="numeric" placeholder="Presupuesto semanal" value="${B}"><button class="btn ghost" style="font-size:15px" data-act="budget">Guardar</button></div>
     <div class="small muted" style="margin-top:10px">💪 Proteína del menú: <b style="color:#fff">~${Math.round(weekProt(w))} g/día</b>${targets()?` · meta ${targets().p} g`:''}</div>
     ${over?`<button class="btn block" style="margin-top:10px" data-act="fitbudget" data-mon="${mon}">🪄 Ajustar el menú a mi presupuesto</button><div class="small muted" style="margin-top:6px;text-align:center">Solo cambia recetas si no baja tu proteína.</div>`:''}
-    <div class="small muted" style="margin-top:10px;line-height:1.4">Precios de HEB San Pedro (Gómez Morín) en noviembre; los que tienen ≈ son aproximados. Toca cualquier precio para corregirlo con lo que pagaste.</div>
+    <div class="small muted" style="margin-top:10px;line-height:1.4">Precios de HEB San Pedro (Gómez Morín) en noviembre; los que tienen ≈ son aproximados. El sábado especial no cuenta aquí. Toca cualquier precio para corregirlo con lo que pagaste.</div>
   </div>
   <div class="sec" style="margin-top:14px">Lista de compras <small>${done}/${ids.length} listos</small></div>
   <div class="small muted" style="margin:0 4px;line-height:1.4">Sale del menú de abajo. En <b>Tengo</b> pon lo que ya hay en casa y te dice cuánto comprar; palomea lo que ya echaste al carrito.</div>
-  ${Object.values(w).some(d=>d&&d.desayuno==='d4')?'<div class="small muted" style="margin:10px 4px 0">🌮 La barbacoa del sábado se compra en la taquería: va sumada al gasto (~$100 por 4 taquitos).</div>':''}
   ${groups||'<div class="card empty">No hay recetas en el menú de esta semana.</div>'}
+  ${satHtml}
   <div class="grid2" style="margin-top:12px"><button class="btn ghost" data-act="shopshare">📤 Compartir lista</button><button class="btn ghost" data-act="shopreset" data-mon="${mon}">↺ Desmarcar todo</button></div>
   <div class="sec">Menú <small>${fmtShort(mon)} – ${fmtShort(addDays(mon,6))}</small></div>
   <div class="small muted" style="margin:0 4px 10px;line-height:1.4">Cambia cualquier comida y la lista se actualiza sola. Las recetas completas están en Plan.</div>
