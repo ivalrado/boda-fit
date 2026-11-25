@@ -325,6 +325,15 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .trophies{display:flex;flex-wrap:wrap;gap:14px}.trophies div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--sub)}
 .shopic{font-size:24px;width:36px;text-align:center;flex:none}
+.fcards{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.fcard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid rgba(50,215,75,.45);background:radial-gradient(120% 120% at 100% 0%,rgba(255,69,58,.14),rgba(0,0,0,0) 60%),var(--card);border-radius:20px;padding:12px 14px;color:#fff}
+.fcard.boss,.fcard.final{border-color:rgba(255,214,10,.6);background:radial-gradient(120% 120% at 100% 0%,rgba(255,214,10,.16),rgba(0,0,0,0) 60%),var(--card)}
+.fcard .fsp{width:64px;height:64px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.05);border-radius:16px}
+.fcard .fsp .spr{animation:bob 1.3s steps(2) infinite}
+.fcard .t{font-weight:800;font-size:16px}.fcard .s{font-size:12.5px;color:var(--sub);font-weight:650;margin-top:2px}
+.fcard .fgo{margin-left:auto;flex:none;background:var(--acc);color:#06290f;font-weight:900;font-size:15px;border-radius:14px;padding:11px 14px}
+.fcard.boss .fgo,.fcard.final .fgo{background:#ffd60a;color:#3d2a00}
+.fnone{text-align:center;padding:18px 14px}.fnone .e{font-size:34px}.fnone b{display:block;margin-top:4px;font-size:16px}
 /* ===== juego: raid del gym ===== */
 .raid{background:radial-gradient(110% 90% at 80% 20%,rgba(255,69,58,.16),rgba(0,0,0,0) 60%),radial-gradient(100% 100% at 0% 100%,rgba(124,77,255,.18),rgba(0,0,0,0) 60%),#141422;border:1px solid rgba(255,255,255,.07);overflow:hidden;position:relative}
 .raid.won{border-color:rgba(255,214,10,.45)}
@@ -356,17 +365,15 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .rhero .dmgn{left:50%;right:auto;top:-10px}
 .rhero .dmgn.h{font-size:30px}
 @keyframes mlunge{0%{transform:none}35%{transform:translateX(-52px) scale(1.06)}100%{transform:none}}
-.rhud{position:fixed;left:10px;right:10px;top:calc(env(safe-area-inset-top) + 6px);z-index:60;background:rgba(20,20,34,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:8px 12px;display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:8px;transform:translateY(-130%);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none}
+.rhud{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 4px);z-index:60;background:radial-gradient(110% 90% at 80% 20%,rgba(255,69,58,.16),rgba(0,0,0,0) 60%),radial-gradient(100% 100% at 0% 100%,rgba(124,77,255,.18),rgba(0,0,0,0) 60%),rgba(20,20,34,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:10px 14px 10px;box-shadow:0 10px 30px rgba(0,0,0,.5);transform:translateY(-130%);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none}
 .rhud.on{transform:none;opacity:1;pointer-events:auto}
-.rhud .ghp{margin-top:0;height:12px}.rhud .ghp span{font-size:9.5px;line-height:12px}
-.rhud .hs{position:relative;display:grid;place-items:center}
-.rhud .vs{font-size:12px;font-weight:900;color:var(--sub)}
-.rhud .hn{font-size:10.5px;font-weight:800;color:#d1d1d6;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rhud .rint2{grid-column:1/-1;text-align:center;font-size:11.5px;font-weight:800;color:#ffb3ad;margin-top:-2px}
+.rhud .rarena{height:92px;margin:0 0 2px;padding:0 10px}
+.rhud .rbars .ghp{height:14px}.rhud .rbars .ghp span{font-size:10px;line-height:14px}
+.rhud .rint2{text-align:center;font-size:12px;font-weight:800;color:#ffb3ad;margin-top:6px}
 .rhud .rint2.go{color:#9dffb0}.rhud .rint2:empty{display:none}
-.rhud .dmgn{font-size:18px;top:-8px}
-.rhud .hs.hit .spr,.rhud .hs.ouch .spr{animation:hit .4s}
-body.hudon .toast{top:calc(env(safe-area-inset-top) + 96px)}
+.rhud .critlbl{font-size:18px;top:20%}
+body.hudon .toast{top:calc(env(safe-area-inset-top) + 196px)}
+body.hudon .xpfloat{top:calc(env(safe-area-inset-top) + 200px)}
 .wn.pre{background:#2a3347;color:#6b7890;opacity:.7}
 .rfoot{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.4}
 @keyframes lunge{0%{transform:none}35%{transform:translateX(52px) scale(1.06)}100%{transform:none}}
@@ -564,7 +571,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125161646';
+const APP_V='20261125162424';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1919,6 +1926,16 @@ function showUpg(){const g=G();
   const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
 
 /* pantalla principal */
+function fightsBlock(r,days,t){if(r.dead||r.won)return '';const L=[];
+  days.forEach((d,di)=>floorEnemies(r,di).forEach((id,ei)=>{if(!r.cleared[di+'|'+ei+'|'+id]&&canFight(r,di))L.push({d,di,ei,id});}));
+  L.sort((a,b)=>(b.d===t)-(a.d===t)||a.di-b.di);
+  if(!L.length){const bossDone=r.cleared['5|0|'+floorEnemies(r,5)[0]],pend=days.slice(0,5).some((d,di)=>d>t&&d>=r.start);
+    return `<div class="card fnone"><div class="e">${t>addDays(r.mon,5)?'🌙':'✅'}</div><b>${t>addDays(r.mon,5)?'La run de esta semana terminó':'Ya no hay enemigos disponibles hoy'}</b>
+      <div class="small muted" style="margin-top:6px;line-height:1.45">${pend?'Mañana aparecen nuevos enemigos. Mientras, cumple tus misiones para llegar más fuerte.':'El jefe del sábado aparece cuando limpies los pisos de lunes a viernes.'}</div></div>`;}
+  return `<div class="fcards">${L.slice(0,4).map(x=>{const st=enemyStats(x.id,r,x.di),tier=EN[x.id].tier||'';
+    return `<button class="fcard ${tier}" data-act="gfight" data-di="${x.di}" data-ei="${x.ei}"><div class="fsp">${enSpr(x.id,tier?3.4:3)}</div>
+      <div style="min-width:0"><div class="t">${enName(x.id)}${st.rage?' 😤':''}</div><div class="s">${tier==='final'?'👑 Jefe final':tier==='boss'?'👑 Jefe de la semana':tier==='mini'?'⭐ Minijefe':'Enemigo'} · ${x.d===t?'hoy':DAYN[x.di]}</div><div class="s">❤️ ${st.maxhp} · ⚔️ ${st.atk}${st.rage?' · enfurecido':''}</div></div>
+      <span class="fgo">⚔️ Pelear</span></button>`;}).join('')}${L.length>4?`<div class="small muted" style="text-align:center">+${L.length-4} más en el mapa de la semana</div>`:''}</div>`;}
 function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldMap();
   const days=[...Array(6)].map((_,i)=>addDays(r.mon,i));
   const map=days.map((d,di)=>{const pre=d<r.start;
@@ -1944,9 +1961,10 @@ function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldM
     <div class="grid2" style="margin-top:12px"><button class="btn" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" data-act="gupg">👻 Mejoras</button></div>
   </div>
   ${status}
-  <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
+  ${r.dead||r.won?'':`<div class="sec">⚔️ Peleas disponibles <small>toca para pelear</small></div>${fightsBlock(r,days,t)}`}
   ${qs?`<div class="sec">Misiones ${qd===t?'de hoy':'del sábado'} <small>en la vida real</small></div><div class="card list">${qs}</div>
   <div class="small muted" style="margin:-4px 6px 0;line-height:1.4">Se cumplen solas con lo que registras en Gym, Comida y Peso. Si te pasas de calorías pierdes vida, y si faltas al gym, los enemigos de ese día se enfurecen. <b style="color:#fff">Tip:</b> pelea en la noche, ya con tus misiones cumplidas, para llegar más fuerte.</div>`:''}
+  <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
   <div class="sec">Mapa de la semana</div>${map}
   <div class="sec">Bitácora</div><div class="card list">${g.log.slice(0,8).map(l=>`<div class="it"><div class="grow small">${l.t}</div><span class="small muted">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div>
   ${g.trophies.length?`<div class="sec">Trofeos</div><div class="card trophies">${g.trophies.map(x=>`<div>${enSpr(x.id,2.4)}<span>Sem. ${fmtShort(x.mon)}</span></div>`).join('')}</div>`:''}
@@ -2063,14 +2081,15 @@ function raidCard(k){const t=today(),rs=raidState(k),en=EN[rs.mon],fx=RFX&&Date.
     <div class="rbars"><div><div class="rbl">${esc(S.settings.name||'Tú')}${ko?' · 😵 KO':''}</div>${gbar(hp,hmax,'hpg')}</div><div><div class="rbl" style="text-align:right">${en.n}${rs.dead?' · 💀':''}</div>${gbar(left,rs.max,'hpr')}</div></div>
     <div class="rfoot">${foot}</div></div>`;}
 
-function raidHud(k){const rs=raidState(k),en=EN[rs.mon],rd=rdOf(k),hmax=raidHPMax(),hp=Math.max(0,hmax-rd.dmg),left=Math.max(0,rs.max-rs.dealt);
+function raidHud(k){const rs=raidState(k),en=EN[rs.mon],rd=rdOf(k),hmax=raidHPMax(),hp=Math.max(0,hmax-rd.dmg),left=Math.max(0,rs.max-rs.dealt),ko=hp<=0;
   const fx=RFX&&Date.now()-RFX.ts<900?RFX:null,fx2=RFX2&&Date.now()-RFX2.ts<900?RFX2:null;
   return `<div class="rhud" id="rhud" data-act="hudtop">
-    <div class="hs ${fx2&&fx2.pdmg?'ouch':''}">${heroSpr(1.9)}${fx2&&fx2.pdmg?`<div class="dmgn">−${fx2.pdmg}</div>`:''}</div>
-    <div><div class="hn">${esc(S.settings.name||'Tú')}</div>${gbar(hp,hmax,'hpg')}</div>
-    <div class="vs">VS</div>
-    <div><div class="hn" style="text-align:right">${en.n}</div>${gbar(left,rs.max,'hpr')}</div>
-    <div class="hs ${fx?'hit':''}">${enSpr(rs.mon,2)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}</div>
+    <div class="rarena ${fx&&fx.crit?'shake':''}">
+      <div class="rhero ${fx?'lunge':''} ${fx2&&fx2.pdmg?'ouch':''} ${ko?'ko':''}">${heroSpr(2.9)}${fx2&&fx2.pdmg?`<div class="dmgn ${fx2.heavy?'h':''}">−${fx2.pdmg}</div>`:''}${fx2&&fx2.dodge?'<div class="dmgn miss">Esquiva</div>':''}</div>
+      ${fx&&fx.crit?'<div class="critlbl">¡CRÍTICO!</div>':''}
+      <div class="rmon ${fx?(fx.crit?'hit crit':'hit'):''} ${fx2&&(fx2.pdmg||fx2.dodge)?'mlunge':''} ${rs.dead?'dead':''}">${enSpr(rs.mon,3.5)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}${fx2&&fx2.stun?'<div class="dmgn miss">💫</div>':''}</div>
+    </div>
+    <div class="rbars"><div><div class="rbl">${esc(S.settings.name||'Tú')}${ko?' · 😵':''}</div>${gbar(hp,hmax,'hpg')}</div><div><div class="rbl" style="text-align:right">${en.n}${rs.dead?' · 💀':''}</div>${gbar(left,rs.max,'hpr')}</div></div>
     <div class="rint2" id="rint2"></div></div>`;}
 
 /* ================= Mapa del mundo ================= */
