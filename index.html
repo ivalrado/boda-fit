@@ -269,6 +269,7 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .pricetag{color:#fff;font-weight:700;border-bottom:1px dashed var(--sub2);cursor:pointer}
 .pfbtn{width:42px;height:42px;border-radius:50%;border:0;background:linear-gradient(135deg,#7c4dff,#32d74b);color:#fff;font-weight:900;font-size:18px;margin-bottom:18px}
 .pfav{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c4dff,#32d74b);display:grid;place-items:center;font-weight:900;flex:none}
+.updbar{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 10px);z-index:95;border:0;background:linear-gradient(90deg,#7c4dff,#32d74b);color:#fff;font-weight:800;font-size:14px;padding:11px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.45);white-space:nowrap}
 .info{width:28px;height:28px;flex:none;border-radius:50%;border:1.5px solid var(--sub);background:transparent;color:var(--sub);font:italic 700 14px Georgia,serif;display:grid;place-items:center;padding:0}
 .info:active{background:var(--card3)}
 .foot{font-size:12px;color:var(--sub2);text-align:center;margin:20px 12px 0;line-height:1.5}
@@ -325,6 +326,10 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:700;margin:0 0
 
 <script>
 "use strict";
+const APP_V='20261124184046';
+function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
+  if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
+  d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
 /* ================= Config ================= */
 const EV=()=>S.settings.event||'2027-02-20';
 const fmtLong=k=>{const d=parseKey(k);return `${d.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][d.getMonth()]} de ${d.getFullYear()}`;};
@@ -1314,6 +1319,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 
 {const g=computeXP();lastXP=g.xp;if(S.seenLvl==null){S.seenLvl=g.lvl;}}
 renderPeso();
+checkUpdate();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkUpdate();});
 if(!S.settings.name)setTimeout(()=>showProfile(true),400);
 </script>
 </body>
