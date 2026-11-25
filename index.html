@@ -467,7 +467,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261124191422';
+const APP_V='20261124195308';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -995,7 +995,21 @@ function logRec(meal,rid,por){
   save();}
 function bar(v,max,cls=''){const p=max?clamp(v/max,0,1.15):0;return `<div class="kbar ${cls}"><i style="width:${Math.min(p,1)*100}%" class="${p>1.02?'over':''}"></i></div>`;}
 
-function renderComida(){
+function renderFoodPreview(){const t=today(),k=foodDate,menu=menuFor(k);let tk=0,tp=0;
+  const cards=MEALS.map(([id,name,em,hr])=>{const rid=menu[id];if(!rid||!REC[rid])return `<div class="card meal"><h3><span class="em">${em}</span>${name} <span class="small muted" style="font-weight:600">${hr}</span></h3><div class="small muted" style="margin-top:8px">Fuera / otra cosa</div></div>`;
+    const mc=recMac(rid);tk+=mc.k;tp+=mc.p;
+    return `<div class="card meal"><h3><span class="em">${em}</span>${name} <span class="small muted" style="font-weight:600">${hr}</span><span class="pill cnt">${mc.k} kcal</span></h3>
+      <div class="sug" data-act="rec" data-rid="${rid}" style="cursor:pointer"><div class="grow"><div class="t">${REC[rid].n}</div><div class="small muted">${mc.p} g proteína · ${REC[rid].items.length} ingredientes</div></div><button class="info" data-act="rec" data-rid="${rid}" aria-label="Ver receta">i</button></div></div>`;}).join('');
+  document.getElementById('v-comida').innerHTML=`
+  <div class="eyebrow">Menú planeado</div><h1>Comida</h1>
+  <div class="datenav">
+    <button class="iconbtn" data-act="fprev" aria-label="Día anterior">‹</button>
+    <div class="mid" data-act="ftoday"><b>${relDay(k)}</b><span>Toca para volver a hoy</span></div>
+    <button class="iconbtn" data-act="fnext" aria-label="Día siguiente" ${daysBetween(t,k)>=13?'disabled style="opacity:.35"':''}>›</button>
+  </div>
+  <div class="card small" style="background:rgba(10,132,255,.12);color:#9ecbff;line-height:1.45">👀 Vista previa de lo que toca comer ${daysBetween(t,k)===1?'mañana':'ese día'}: ~${tk.toLocaleString('es-MX')} kcal y ${tp} g de proteína. Toca una receta para ver ingredientes y preparación. Puedes cambiar el menú en la pestaña Súper.</div>
+  ${cards}`;}
+function renderComida(){if(foodDate>today())return renderFoodPreview();
   const t=today(),k=foodDate,m=mealDay(k),c=S.cuts[k]||{},tg=targets(),tot=dayTot(k),menu=menuFor(k);
   const cutsOk=CUTS.filter(x=>c[x.id]).length,wat=S.water[k]||0;
   let meals='';
@@ -1029,7 +1043,7 @@ function renderComida(){
   <div class="datenav">
     <button class="iconbtn" data-act="fprev" aria-label="Día anterior">‹</button>
     <div class="mid" data-act="ftoday"><b>${relDay(k)}</b><span>${k===t?fmtDate(k):'Toca para volver a hoy'}</span></div>
-    <button class="iconbtn" data-act="fnext" aria-label="Día siguiente" ${k>=t?'disabled style="opacity:.35"':''}>›</button>
+    <button class="iconbtn" data-act="fnext" aria-label="Día siguiente" ${daysBetween(t,k)>=13?'disabled style="opacity:.35"':''}>›</button>
   </div>
   ${totCard}
   <div class="card"><div class="row between"><b>💧 Agua</b><span class="small muted"><b style="color:#fff">${wat}</b> de ${WATER_GOAL} vasos · ${(wat*0.25).toFixed(2).replace(/0$/,'')} L</span></div>
@@ -1666,7 +1680,7 @@ document.addEventListener('click',ev=>{
     case 'rest+':restEnd+=15000;tickRest();break;
     case 'restskip':stopRest();break;
     case 'fprev':foodDate=addDays(foodDate,-1);renderComida();break;
-    case 'fnext':if(foodDate<today()){foodDate=addDays(foodDate,1);renderComida();}break;
+    case 'fnext':if(daysBetween(today(),foodDate)<13){foodDate=addDays(foodDate,1);renderComida();}break;
     case 'ftoday':foodDate=today();renderComida();break;
     case 'fgo':foodDate=b.dataset.date;renderComida();window.scrollTo({top:0,behavior:'smooth'});break;
     case 'addmeal':addMeal(b.dataset.meal);break;
