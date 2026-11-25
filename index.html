@@ -355,6 +355,25 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .dn.boss,.dn.final{background:rgba(255,214,10,.07)}.dn.boss.ready,.dn.final.ready{border-color:rgba(255,214,10,.7)}
 .dn .dh{position:absolute;left:-6px;bottom:4px}.dn .dh .spr{animation:bob 1s steps(2) infinite}
 .dcta{position:sticky;bottom:0;margin-top:6px;box-shadow:0 -10px 20px rgba(0,0,0,.4)}
+.ropts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.ropt{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(255,255,255,.1);background:var(--card2);border-radius:18px;padding:14px;color:#fff;width:100%}
+.ropt.rel{border-color:rgba(255,214,10,.45);background:linear-gradient(160deg,rgba(255,214,10,.10),var(--card2))}
+.ropt .ric{font-size:30px;width:40px;text-align:center;flex:none}.ropt b{display:block;font-size:16px}.ropt small{display:block;color:var(--sub);font-size:13px;margin-top:2px;line-height:1.35}
+.ropt:active{transform:scale(.98)}
+.zwarn{margin-top:8px;font-size:13px;font-weight:700;background:rgba(255,69,58,.22);color:#ffd0cc;border-radius:12px;padding:8px 10px;line-height:1.35}
+.zwarn.ok{background:rgba(50,215,75,.2);color:#c9ffd3}
+.rmap{position:relative;margin:0 4px}
+.mn{position:absolute;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;border:3px solid #14142b;background:#2a3040;display:grid;place-items:center;padding:0;color:#fff;opacity:.55}
+.mn .me2{font-size:19px;line-height:1}.mn .mi{display:grid;place-items:center}
+.mn.tL{background:#4a2530}.mn.tB{width:70px;height:70px;background:#4a3a10;opacity:.8}.mn.tC{background:#4a3317}.mn.tS{background:#24394a}.mn.tQ{background:#33284a}.mn.tT{background:#4a4317}
+.mn.vis{opacity:1;box-shadow:0 0 0 3px rgba(50,215,75,.55)}
+.mn.go{opacity:1;box-shadow:0 0 0 4px rgba(50,215,75,.75);animation:pulse 1.4s infinite}
+.mn.here{opacity:1}
+.mn .mh{position:absolute;left:-26px;top:-12px}.mn .mh .spr{animation:bob 1s steps(2) infinite}
+.mlbl{position:absolute;transform:translateX(-50%);font-size:10.5px;font-weight:800;color:#9dffb0;white-space:nowrap;pointer-events:none}
+.mfl{position:absolute;left:-2px;font-size:9.5px;font-weight:900;color:rgba(255,255,255,.3);letter-spacing:.5px}
+.mleg{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center;font-size:11.5px;color:var(--sub);margin:8px 0 4px}
+.rels{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.relb{border:0;background:rgba(0,0,0,.3);border-radius:10px;font-size:20px;padding:4px 7px}
 .fcards{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
 .fcard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid rgba(50,215,75,.45);background:radial-gradient(120% 120% at 100% 0%,rgba(255,69,58,.14),rgba(0,0,0,0) 60%),var(--card);border-radius:20px;padding:12px 14px;color:#fff}
 .fcard.boss,.fcard.final{border-color:rgba(255,214,10,.6);background:radial-gradient(120% 120% at 100% 0%,rgba(255,214,10,.16),rgba(0,0,0,0) 60%),var(--card)}
@@ -601,7 +620,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125164038';
+const APP_V='20261125165901';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1502,7 +1521,7 @@ function heroBody(){const st=S.settings,c=latestW(),tot=Math.max(0.5,st.start-st
 const heroStage=()=>({hero_big:1,hero_mid:2,hero:3})[heroBody()];
 function heroSpr(px,l){const lv=l==null?heroLvl():l,b=heroBody(),t=heroTier(lv),f=S.settings.sex==='m'?'_f':'';
   const k=[`${b}${f}_t${t}`,`${b}${f}`,`${b}_t${t}`,b].find(x=>ART[x]);return spr(b,px,heroPal(lv),k||'_none');}
-const enSpr=(id,px)=>id==='traje'&&!isBoda()?spr('sombra',px):spr(id,px,enPal(id),id==='traje'&&isF()?'vestido':id);
+const enSpr=(id,px)=>id==='traje'&&!isBoda()?spr('sombra',px):spr((EN[id]&&EN[id].spr)||id,px,enPal(id),id==='traje'&&isF()?'vestido':id);
 const lvlNeed=n=>75*n*(n-1);
 const levelOf=xp=>{let n=1;while(lvlNeed(n+1)<=xp)n++;return n;};
 const titleOf=l=>{const T=S.settings.sex==='m'?TITLES_F:TITLES;let t=T[0];T.forEach(x=>{if(l>=x[0])t=x;});if(t[3]&&isBoda())t=[t[0],S.settings.sex==='m'?'Novia legendaria':'Novio legendario','💍'];return t;};
@@ -1519,7 +1538,7 @@ function computeXP(){
   xp+=new Set(S.weights.map(w=>w.date)).size*15+(S.waist||[]).length*10;
   const minW=S.weights.length?Math.min(...S.weights.map(w=>w.kg)):S.settings.start,lost=Math.max(0,S.settings.start-minW);
   xp+=Math.floor(lost*200);
-  const bs=bestStreak();xp+=bs*20;
+  const bs=bestStreak();xp+=bs*20;xp+=(S.game&&S.game.axp)||0;
   return {xp,sets,days,cardioMin,goodK,water,clean,lost,bs,lvl:levelOf(xp)};}
 const ACH=[
   ['🏁','Primer entreno','Completa tu primer entreno',g=>g.days>=1],
@@ -1732,282 +1751,352 @@ function spr(name,px,pal,key){const a=ART[key||name]||(!pal&&ART[name]);const W=
   s.d.forEach((row,y)=>{let x=0;while(x<16){const c=row[x];if(c==='.'){x++;continue;}let w=1;while(x+w<16&&row[x+w]===c)w++;r+=`<rect x="${x}" y="${y}" width="${w}" height="1.04" fill="${P[c]}"/>`;x+=w;}});
   return `<svg class="spr" viewBox="0 0 16 16" width="${Math.round(16*px)}" height="${Math.round(16*px)}" shape-rendering="crispEdges">${r}</svg>`;}
 const VEST={k:'#05050c',D:'#f4f1ea',R:'#ff8fb1',W:'#d8cfc0',E:'#7c4dff'};
+/* ===== Aventura v2: runs libres; el poder sale de la vida real ===== */
 const EN={
-  slime:{n:'Slime',hp:30,atk:6,ai:['atk','atk','def'],gold:[8,14]},
-  goblin:{n:'Goblin ladrón',hp:38,atk:7,ai:['atk','steal','atk'],gold:[12,20]},
-  bat:{n:'Murciélago',hp:28,atk:7,ai:['atk','atk','charge','heavy'],dodge:15,gold:[8,14]},
-  gremlin:{n:'Gremlin del Refresco',hp:44,atk:7,ai:['poison','atk','atk'],gold:[12,18]},
-  skel:{n:'Esqueleto',hp:50,atk:8,ai:['def','atk','charge','heavy'],gold:[14,22]},
-  ogre:{n:'Ogro del Pan Dulce',hp:70,atk:10,ai:['atk','charge','heavy','atk'],gold:[18,28]},
-  frituras:{n:'Caballero de las Frituras',hp:105,atk:11,ai:['atk','def','charge','heavy','buff'],gold:[35,50],tier:'mini'},
-  rey:{n:'Rey Taquero Nocturno',hp:150,atk:12,ai:['atk','poison','charge','heavy','atk','buff'],gold:[70,90],tier:'boss'},
-  golem:{n:'Golem de Hierro',hp:60,atk:9,ai:['def','atk','charge','heavy'],gold:[16,24]},
-  dona:{n:'Dona Glaseada',hp:40,atk:7,ai:['poison','atk','buff'],gold:[12,18]},
-  traje:{n:'El Traje',hp:220,atk:14,ai:['atk','buff','charge','heavy','poison','atk','charge','heavy'],gold:[150,200],tier:'final'},
+  slime:{n:'Slime',h:0.8,a:0.8,ai:['atk','atk','def']},
+  goblin:{n:'Goblin ladrón',h:1,a:0.9,ai:['atk','steal','atk']},
+  bat:{n:'Murciélago',h:0.75,a:1,ai:['atk','atk','charge','heavy'],dodge:15},
+  gremlin:{n:'Gremlin del Refresco',h:1,a:0.9,ai:['poison','atk','atk']},
+  skel:{n:'Esqueleto',h:1.15,a:1,ai:['def','atk','charge','heavy']},
+  dona:{n:'Dona Glaseada',h:1,a:0.9,ai:['poison','atk','buff']},
+  golem:{n:'Golem de Hierro',h:2.1,a:1.15,ai:['def','atk','charge','heavy'],tier:'elite'},
+  ogre:{n:'Ogro del Pan Dulce',h:1.9,a:1.25,ai:['atk','charge','heavy','atk'],tier:'elite'},
+  frituras:{n:'Caballero de las Frituras',h:1.8,a:1.3,ai:['atk','def','charge','heavy','buff'],tier:'elite'},
+  mimic:{n:'Mímico',h:1.6,a:1.4,ai:['atk','atk','charge','heavy'],tier:'elite',spr:'chest'},
+  rey:{n:'Rey Taquero Nocturno',h:1,a:1,ai:['atk','poison','charge','heavy','atk','buff'],tier:'boss'},
+  traje:{n:'El Traje',h:1.25,a:1.15,ai:['atk','buff','charge','heavy','poison','atk','charge','heavy'],tier:'final'},
 };
-const FLOORS=[['slime','goblin'],['bat','gremlin'],['goblin','skel'],['gremlin','ogre'],['skel','frituras'],['rey']];
-const WEAP={wood:{n:'Espada de madera',ic:'🗡️',atk:2,cost:25},steel:{n:'Espada de acero',ic:'⚔️',atk:5,cost:70},axe:{n:'Hacha del bárbaro',ic:'🪓',atk:8,crit:8,cost:140},legend:{n:'Excalibarra',ic:'✨',atk:12,crit:10,cost:0,chest:1}};
-const ARM={leather:{n:'Chaleco de cuero',ic:'🦺',def:2,cost:30},mail:{n:'Cota de malla',ic:'🛡️',def:4,cost:80},plate:{n:'Armadura de placas',ic:'🏰',def:7,cost:160}};
+const NORMALS=[['slime','goblin','bat'],['goblin','bat','gremlin','dona'],['gremlin','skel','dona','bat']];
+const ELITES=['golem','ogre','frituras'];
 const RELICS={
-  dragon:{n:'Batido del Dragón',ic:'🐉',d:'+2 ATQ cada día que llegues a tu proteína',cost:90},
-  boots:{n:'Botas de la Escaladora',ic:'👟',d:'Tu cardio da el doble de esquiva',cost:70},
-  amulet:{n:'Amuleto del Manantial',ic:'💧',d:'La misión de agua también cura 15 HP',cost:60},
-  monk:{n:'Rosario del Monje',ic:'📿',d:'+20 oro extra por día limpio',cost:50},
-  gaunt:{n:'Guanteletes de Hierro',ic:'🧤',d:'Tu golpe cargado pega 30% más',cost:80},
-  fang:{n:'Colmillo Vampiro',ic:'🦷',d:'Te curas 3 HP con cada golpe',cost:100},
+  vamp:{n:'Colmillo vampiro',ic:'🦷',d:'Te curas 3 de vida con cada golpe que das'},
+  twin:{n:'Daga gemela',ic:'🗡️',d:'Tu ataque normal pega 2 veces (60% cada golpe)'},
+  gaunt:{n:'Guanteletes de hierro',ic:'🧤',d:'Tu golpe cargado pega 30% más'},
+  hawk:{n:'Ojo de halcón',ic:'🦅',d:'+10% de crítico, y cada crítico te da +1 de foco'},
+  critheal:{n:'Amuleto del crítico',ic:'📿',d:'Cada crítico te cura 8'},
+  thorns:{n:'Armadura de espinas',ic:'🌵',d:'Le regresas al enemigo 30% del daño que te hace'},
+  rage:{n:'Sangre hirviente',ic:'🩸',d:'Pegas más mientras menos vida tengas (hasta +50%)'},
+  hourglass:{n:'Reloj de arena',ic:'⏳',d:'Empiezas cada pelea con +1 de foco'},
+  monk:{n:'Rosario del monje',ic:'🧘',d:'Tu foco llega a 4; con 4, el golpe cargado pega ×3.5'},
+  templar:{n:'Escudo templario',ic:'🛡️',d:'Al defender te curas 5 y ganas 2 de foco'},
+  belt:{n:'Cinturón de levantamiento',ic:'🏋️',d:'+25% de daño mientras tengas 80% de vida o más'},
+  stone:{n:'Corazón de piedra',ic:'🪨',d:'+30 de vida máxima, −5% de esquiva'},
+  whey:{n:'Proteína en polvo',ic:'🥤',d:'Tus pociones curan 25 más'},
+  purse:{n:'Saco de monedas',ic:'💰',d:'+50% de oro en esta run'},
+  dragon:{n:'Batido del dragón',ic:'🐉',d:'+2 de ataque por cada día de esta semana que llegaste a tu proteína (vida real)'},
+  boots:{n:'Botas de la escaladora',ic:'👟',d:'+3% de esquiva por cada cardio que hiciste esta semana (vida real)'},
 };
 const UPG={
-  hp:{n:'Corazón de acero',ic:'❤️',d:'+10 HP máximo',cost:5,max:5},
-  str:{n:'Entrenamiento base',ic:'💪',d:'+1 ATQ inicial',cost:8,max:3},
-  pot:{n:'Mochila de alquimista',ic:'🧪',d:'Empiezas con +1 poción',cost:6,max:2},
-  disc:{n:'Amigo del mercader',ic:'🏷️',d:'10% de descuento en la tienda',cost:12,max:1},
-  revive:{n:'Segunda oportunidad',ic:'🪽',d:'Revives una vez por run con 30% de HP',cost:20,max:1},
+  hp:{n:'Corazón de acero',ic:'❤️',d:'+12 de vida máxima',cost:[15,20,30,40,50]},
+  str:{n:'Entrenamiento base',ic:'💪',d:'+2 de ataque',cost:[20,30,40,55,70]},
+  pot:{n:'Mochila de alquimista',ic:'🧪',d:'Empiezas cada run con +1 poción',cost:[15,30]},
+  focus:{n:'Meditación',ic:'🧠',d:'Empiezas cada pelea con +1 de foco',cost:[35]},
+  relic:{n:'Herencia del héroe',ic:'🎒',d:'Empiezas cada run con una reliquia al azar',cost:[45]},
+  disc:{n:'Amigo del mercader',ic:'🏷️',d:'15% de descuento en las tiendas',cost:[20]},
+  revive:{n:'Segunda oportunidad',ic:'🪽',d:'Revives una vez por run con 30% de vida',cost:[40]},
 };
 const INT={atk:['⚔️','Ataque'],heavy:['💥','Golpe fuerte'],charge:['⚠️','Cargando golpe'],def:['🛡️','Se cubre'],steal:['💰','Robo'],poison:['🧪','Veneno'],buff:['🔺','Se enfurece']};
 const DAYN=['Lun','Mar','Mié','Jue','Vie','Sáb'];
+const NODE={E:['⚔️','Enemigo'],L:['💀','Élite'],C:['🔥','Fogata'],S:['🛒','Mercader'],Q:['❓','Evento'],T:['🎁','Tesoro'],B:['👑','Jefe']};
 const rnd=(a,b)=>a+Math.random()*(b-a);
 const isF=()=>S.settings.sex==='m';
 const enName=id=>id==='traje'?BOSS()[1]:EN[id].n;
 const enPal=id=>id==='traje'&&isF()?VEST:null;
+const tierCls=id=>({elite:'mini',boss:'boss',final:'final'})[EN[id].tier]||'';
 
-function G(){if(!S.game)S.game={souls:0,meta:{},runs:0,trophies:[],log:[],first:null};return S.game;}
+function G(){if(!S.game)S.game={souls:0,meta:{},runs:0,trophies:[],log:[],first:null};const g=S.game;
+  if(g.run&&!g.run.v)g.run=null;g.qc=g.qc||{};g.bless=g.bless||[];g.daily=g.daily||{};return g;}
 const lvU=k=>(G().meta[k]||0);
-const runStart=()=>{const t=today();return parseKey(t).getDay()===0?addDays(t,1):t;};
+const upCost=k=>{const u=UPG[k],l=lvU(k);return l<u.cost.length?u.cost[l]:null;};
 function glog(t){const g=G();g.log.unshift({t,d:today()});g.log=g.log.slice(0,40);}
-function newRun(){const g=G(),start=runStart(),mon=mondayOf(start);if(!g.first)g.first=mon;const maxhp=100+lvU('hp')*10;
-  g.run={id:++g.runs,mon,start,hp:maxhp,maxhp,atk:8+lvU('str'),agi:5,gold:0,potions:lvU('pot'),weapon:null,armor:null,relics:[],claimed:{},regen:start,cleared:{},dead:false,won:false,revived:false,poison:0};
-  glog(`⚔️ Comienza la run #${g.run.id}`);}
 const weekIdx=mon=>Math.max(0,Math.round(daysBetween(G().first||mon,mon)/7));
 const isFinalWeek=mon=>{if(!HASEV())return false;const e=EV();return e>=mon&&e<=addDays(mon,6);};
-const floorEnemies=(r,di)=>di===5?[isFinalWeek(r.mon)?'traje':'rey']:FLOORS[di];
 const trainDay=d=>!restR(routineFor(d));
-const enraged=d=>d<today()&&trainDay(d)&&!dayDone(d);
-function enemyStats(id,r,di){const e=EN[id],m=1+0.04*weekIdx(r.mon),rage=enraged(addDays(r.mon,di))?1.25:1;
-  return {id,n:enName(id),maxhp:Math.round(e.hp*m*rage*1.4),atk:Math.round(e.atk*m*rage*1.5),rage:rage>1};}
-const pAtk=r=>r.atk+(r.weapon?WEAP[r.weapon].atk:0);
-const pDef=r=>r.armor?ARM[r.armor].def:0;
-const pAgi=r=>Math.min(40,r.agi);
-const pCrit=r=>10+((r.weapon&&WEAP[r.weapon].crit)||0);
-const has=(r,k)=>r.relics.includes(k);
-function heal(r,n){const b=r.hp;r.hp=Math.min(r.maxhp,r.hp+n);return r.hp-b;}
+const has=(r,k)=>!!r&&r.relics.includes(k);
+function daily(){const g=G(),t=today();if(g.daily.d!==t)g.daily={d:t,souls:0,xp:0};return g.daily;}
+function addRunSouls(n){const dl=daily(),add=Math.max(0,Math.min(n,8-dl.souls));dl.souls+=add;G().souls+=add;return add;}
+function addAxp(n){const dl=daily(),g=G(),add=Math.max(0,Math.min(n,40-dl.xp));dl.xp+=add;g.axp=(g.axp||0)+add;return add;}
 
-/* misiones con datos reales */
+/* ---- poder del héroe: sale de la vida real ---- */
+const Lstar=z=>z<=0?3:Math.sqrt(2650*(z+0.5)/75)+0.3;
+let HBc=null,HBt=0;
+function heroBase(){if(HBc&&Date.now()-HBt<1500)return HBc;const L=heroLvl(),t=today(),d28=[...Array(28)].map((_,i)=>addDays(t,-i));
+  const cardio=d28.filter(cardioOn).length,prs=d28.filter(prOn).length;
+  HBc={L,atk:6+2*L+2*lvU('str'),maxhp:80+8*L+12*lvU('hp'),agi:5+Math.min(20,cardio),crit:10+Math.min(15,prs),cardio,prs};HBt=Date.now();return HBc;}
+const weekDays=()=>{const t=today(),m=mondayOf(t);return [...Array(7)].map((_,i)=>addDays(m,i)).filter(d=>d<=t);};
+const weekProtDays=()=>{const tg=targets();return tg?weekDays().filter(d=>dayTot(d).p>=tg.p*0.95).length:0;};
+const weekCardio=()=>weekDays().filter(cardioOn).length;
+const pMax=r=>heroBase().maxhp+((r&&r.hpB)||0)+(has(r,'stone')?30:0);
+const pAtk=r=>heroBase().atk+((r&&r.atkB)||0)+(has(r,'dragon')?2*weekProtDays():0);
+const pDef=r=>(r&&r.defB)||0;
+const pAgi=r=>Math.max(0,Math.min(45,heroBase().agi+((r&&r.agiB)||0)+(has(r,'boots')?3*weekCardio():0)-(has(r,'stone')?5:0)));
+const pCrit=r=>Math.min(60,heroBase().crit+((r&&r.critB)||0)+(has(r,'hawk')?10:0));
+const fMax=r=>has(r,'monk')?4:3;
+function heal(r,n){const b=r.hp;r.hp=Math.min(pMax(r),r.hp+Math.round(n));return r.hp-b;}
+
+/* ---- misiones con datos reales: dan almas ---- */
 function prOn(d){const s=S.workouts[d];if(!s)return false;
   return Object.entries(s.ex).some(([id,e])=>{if(!EX[id]||EX[id].type!=='str')return false;
     const t=Math.max(0,...e.sets.filter(x=>x.done).map(x=>num(x.kg)||0));if(!t)return false;let prev=0;
     Object.keys(S.workouts).filter(k=>k<d).forEach(k=>{const p=S.workouts[k].ex[id];if(p)p.sets.forEach(x=>{if(x.done)prev=Math.max(prev,num(x.kg)||0);});});
     return prev>0&&t>prev;});}
 const cardioOn=d=>{const s=S.workouts[d];return !!s&&Object.entries(s.ex).some(([id,e])=>EX[id]&&EX[id].type==='cardio'&&e.done);};
-function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCount(d),q=[];
-  if(trainDay(d)){q.push({id:'gym',ic:'🏋️',n:`Completa tu entreno de ${RT(r).name.toLowerCase()}`,ok:dayDone(d),rw:'+40 oro · +1 ATQ'});
-    q.push({id:'cardio',ic:'🫀',n:'Termina tu cardio',ok:cardioOn(d),rw:'+3% esquiva'});
-    q.push({id:'pr',ic:'📈',n:'Supera una marca (más peso que nunca)',ok:prOn(d),rw:'+1 ATQ'});}
-  else if(r==='S')q.push({id:'gym',ic:'🚶',n:'Caminata o escaladora (opcional)',ok:dayDone(d),rw:'+25 oro · +3% esquiva'});
-  q.push({id:'meals',ic:'🍽️',n:'Registra tus 3 comidas sin pasarte',ok:mc>=3&&!!tg&&t.k<=tg.kcal*1.05,rw:'+30 HP · +10 oro'});
-  q.push({id:'prot',ic:'🥚',n:`Llega a ${tg?tg.p:135} g de proteína`,ok:!!tg&&t.p>=tg.p*0.95,rw:'+15 HP'});
-  q.push({id:'water',ic:'💧',n:`Toma tus ${WATER_GOAL} vasos de agua`,ok:(S.water[d]||0)>=WATER_GOAL,rw:'+1 poción'});
-  q.push({id:'clean',ic:'✨',n:'Día limpio (sin los 5 antojos)',ok:CUTS.every(c=>(S.cuts[d]||{})[c.id]),rw:'+20 oro'});
-  q.push({id:'peso',ic:'⚖️',n:'Pésate',ok:S.weights.some(w=>w.date===d),rw:'+5 oro'});
+const QS={gym:8,walk:4,cardio:3,pr:4,meals:4,prot:3,water:2,clean:3,peso:1};
+function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCount(d),q=[],a=k=>`+${QS[k]} 👻`;
+  if(trainDay(d)){q.push({id:'gym',ic:'🏋️',n:`Completa tu entreno de ${RT(r).name.toLowerCase()}`,ok:dayDone(d),rw:a('gym')+' · y sube tu nivel'});
+    q.push({id:'cardio',ic:'🫀',n:'Termina tu cardio',ok:cardioOn(d),rw:a('cardio')+' · sube tu esquiva'});
+    q.push({id:'pr',ic:'📈',n:'Supera una marca (más peso que nunca)',ok:prOn(d),rw:a('pr')+' · sube tu crítico'});}
+  else if(r==='S')q.push({id:'walk',ic:'🚶',n:'Caminata o escaladora (opcional)',ok:dayDone(d),rw:a('walk')});
+  q.push({id:'meals',ic:'🍽️',n:`Registra tus ${MEALS.length} comidas sin pasarte`,ok:mc>=Math.min(3,MEALS.length)&&!!tg&&t.k<=tg.kcal*1.05,rw:a('meals')});
+  q.push({id:'prot',ic:'🥚',n:`Llega a ${tg?tg.p:135} g de proteína`,ok:!!tg&&t.p>=tg.p*0.95,rw:a('prot')});
+  q.push({id:'water',ic:'💧',n:`Toma tus ${WATER_GOAL} vasos de agua`,ok:(S.water[d]||0)>=WATER_GOAL,rw:a('water')});
+  q.push({id:'clean',ic:'✨',n:'Día limpio (sin los 5 antojos)',ok:CUTS.every(c=>(S.cuts[d]||{})[c.id]),rw:a('clean')});
+  q.push({id:'peso',ic:'⚖️',n:'Pésate',ok:S.weights.some(w=>w.date===d),rw:a('peso')});
   return q;}
-function runSouls(r){let s=0;Object.keys(r.cleared).forEach(k=>{const t=(EN[k.split('|')[2]]||{}).tier;s+=t==='final'?25:t==='boss'?10:t==='mini'?4:1;});return s;}
-function syncRun(){const g=G();let r=g.run;const t=today();let changed=false;
-  if(!r){newRun();r=g.run;changed=true;}
-  if(t>=addDays(r.mon,7)){changed=true;if(!r.won&&!r.dead){const s=runSouls(r);g.souls+=s;glog(`⌛ La run #${r.id} terminó sin vencer al jefe · +${s} almas`);}newRun();r=g.run;}
-  const msgs=[];
-  if(!r.dead&&!r.won){
-    for(let d=r.start;d<=t&&d<=addDays(r.mon,5);d=addDays(d,1)){
-      if(d>r.regen){r.regen=d;const h=heal(r,Math.round(r.maxhp*0.1));if(h)msgs.push(`🌅 Nuevo día: +${h} HP`);}
-      questsFor(d).forEach(q=>{const key=d+'|'+q.id;if(!q.ok||r.claimed[key])return;r.claimed[key]=1;
-        switch(q.id){
-          case 'gym':if(trainDay(d)){r.gold+=40;r.atk+=1;msgs.push('🏋️ Entreno completo: +40 oro, +1 ATQ');}else{r.gold+=25;r.agi+=3;msgs.push('🚶 Día activo: +25 oro, +3% esquiva');}break;
-          case 'cardio':{const a=has(r,'boots')?6:3;r.agi+=a;msgs.push(`🫀 Cardio: +${a}% esquiva`);break;}
-          case 'pr':r.atk+=1;msgs.push('📈 ¡Nueva marca personal! +1 ATQ');break;
-          case 'meals':heal(r,30);r.gold+=10;msgs.push('🍽️ Comidas en meta: +30 HP, +10 oro');break;
-          case 'prot':heal(r,15);if(has(r,'dragon'))r.atk+=2;msgs.push('🥚 Proteína: +15 HP'+(has(r,'dragon')?', +2 ATQ':''));break;
-          case 'water':if(r.potions<3){r.potions++;msgs.push('💧 Agua: +1 poción');}else{r.gold+=10;msgs.push('💧 Agua: +10 oro');}if(has(r,'amulet'))heal(r,15);break;
-          case 'clean':{const gg=20+(has(r,'monk')?20:0);r.gold+=gg;msgs.push(`✨ Día limpio: +${gg} oro`);break;}
-          case 'peso':r.gold+=5;msgs.push('⚖️ Pesaje: +5 oro');break;}});
-      const tg=targets(),tt=dayTot(d);
-      if(d<t&&tg&&tt.any&&tt.k>tg.kcal*1.15&&!r.claimed[d+'|pen']){r.claimed[d+'|pen']=1;r.hp=Math.max(1,r.hp-15);msgs.push(`☠️ ${DAYN[(parseKey(d).getDay()+6)%7]}: te pasaste de calorías, −15 HP`);}
-    }}
-  if(msgs.length)msgs.slice().reverse().forEach(glog);
-  if(msgs.length||changed){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+const overDay=d=>{const tg=targets(),t=dayTot(d);return !!tg&&t.any&&t.k>tg.kcal*1.15;};
+function syncRun(){const g=G(),t=today(),cur=mondayOf(t),msgs=[];if(!g.first)g.first=cur;
+  if(g.run&&g.run.mon!==cur){if(!g.run.dead&&!g.run.won)glog(`⌛ La run #${g.run.id} se quedó a medias al cambiar de zona`);g.run=null;}
+  for(let d=cur;d<=t;d=addDays(d,1))questsFor(d).forEach(q=>{const k=d+'|'+q.id;if(!q.ok||g.qc[k])return;g.qc[k]=1;const s=QS[q.id]||0;g.souls+=s;msgs.push(`${q.ic} ${q.n}: +${s} almas`);});
+  const old=addDays(t,-21);Object.keys(g.qc).forEach(k=>{if(k.slice(0,10)<old)delete g.qc[k];});
+  if(msgs.length){msgs.slice().reverse().forEach(glog);try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
   return msgs;}
-function canFight(r,di){const d=addDays(r.mon,di);if(r.dead||r.won||d<r.start||d>today())return false;
-  if(di===5){for(let i=0;i<5;i++){if(addDays(r.mon,i)<r.start)continue;if(!FLOORS[i].every((id,ei)=>r.cleared[i+'|'+ei+'|'+id]))return false;}}
-  return true;}
 
-/* combate */
+/* ---- mapa de la run ---- */
+function rng(seed){let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const pickW=(R,w)=>{let s=0;for(const k in w)s+=w[k];let x=R()*s;for(const k in w){x-=w[k];if(x<0)return k;}return Object.keys(w)[0];};
+const FW={2:{E:5,Q:3,S:1,C:1},3:{E:5,Q:3,S:1,C:1},4:{E:4,L:2,Q:2,C:1},6:{E:4,L:2,Q:2,S:1},7:{E:4,L:2,Q:2,S:1},8:{E:3,L:1,S:2,C:2}};
+function genMap(seed,fin){const R=rng(seed),M=[];
+  for(let f=1;f<=10;f++){const row=[];
+    for(let l=0;l<3;l++){const t=f===1?'E':f===5?'T':f===9?'C':f===10?'B':pickW(R,FW[f]),n={t};
+      if(t==='E'){const P=NORMALS[f<=3?0:f<=6?1:2];n.en=P[Math.floor(R()*P.length)];}
+      if(t==='L')n.en=ELITES[Math.floor(R()*ELITES.length)];
+      if(t==='B')n.en=fin?'traje':'rey';
+      if(t==='Q')n.q=Math.floor(R()*EVENTS.length);
+      row.push(n);}
+    if(FW[f]&&row.every(n=>n.t!=='E')){row[1]={t:'E',en:NORMALS[f<=3?0:f<=6?1:2][0]};}
+    M.push(row);}
+  return M;}
+const nodeAt=(r,f,l)=>r.map[f-1][f===10?1:l];
+const canGo=(r,f,l)=>!!r&&!r.dead&&!r.won&&!r.reward&&f===r.f+1&&(f===1||f===10||Math.abs(l-r.lane)<=1);
+function randRelic(r,ex){const o=Object.keys(RELICS).filter(k=>!r.relics.includes(k)&&!(ex||[]).includes(k));return o.length?o[Math.floor(Math.random()*o.length)]:null;}
+function newRun(){const g=G(),mon=mondayOf(today());if(!g.first)g.first=mon;const seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0;
+  const r={v:2,id:++g.runs,mon,seed,map:genMap(seed,isFinalWeek(mon)),f:0,lane:1,path:[],hpB:0,atkB:0,defB:0,agiB:0,critB:0,gold:0,potions:lvU('pot'),relics:[],foco0:0,dead:false,won:false,revived:false,bought:{},reward:null,cur:null};
+  if(lvU('relic')){const k=randRelic(r);if(k)r.relics.push(k);}
+  g.bless.forEach(k=>{if(RELICS[k]&&!r.relics.includes(k))r.relics.push(k);});const bl=g.bless.length;g.bless=[];
+  r.hp=pMax(r);const y=addDays(today(),-1);if(overDay(y)){r.hp=Math.round(pMax(r)*0.85);r.curse=1;}
+  g.run=r;glog(`⚔️ Comienza la run #${r.id} en ${zoneOf(mon)[0]}${bl?` con ${bl} bendición${bl>1?'es':''}`:''}`);}
+function advance(r){r.f=r.cur.f;r.lane=r.cur.f===10?1:r.cur.l;r.path.push(r.f+'|'+r.lane);r.cur=null;const s=addRunSouls(1);return s;}
+function enterNode(f,l){const r=G().run;if(!canGo(r,f,l))return;const n=nodeAt(r,f,l);r.cur={f,l};save();sfx('tap');
+  if(n.t==='E'||n.t==='L'||n.t==='B')startFight(f,l);else if(n.t==='C')showCamp();else if(n.t==='S')showShopNode();else if(n.t==='Q')showEvent(n.q);else if(n.t==='T'){r.reward={kind:'treasure',opts:relicOpts(r,3)};advance(r);save();showReward();}}
+
+/* ---- combate ---- */
 let C=null;
+function enemyStats(id,f,r){const z=weekIdx(r.mon),Ls=Lstar(z),A=6+2*Ls,H=80+8*Ls,e=EN[id],fm=0.8+0.045*f,big=e.tier==='boss'||e.tier==='final';
+  return {id,n:enName(id),maxhp:Math.round((big?15:3.6*fm)*A*e.h),atk:Math.round(0.2*H*e.a*(big?1:fm))};}
 function nextIntent(){const e=C.e,ai=EN[C.id].ai;let k=ai[e.turn%ai.length];e.turn++;if(k==='heavy'&&!e.charged)k='atk';
   const v=k==='heavy'?Math.round(e.atk*1.9):k==='steal'?Math.round(e.atk*0.6):k==='poison'?Math.round(e.atk*0.5):e.atk;return {k,v};}
-function startFight(di,ei){const r=G().run,id=floorEnemies(r,di)[ei],st=enemyStats(id,r,di);
-  C={di,ei,id,e:{...st,hp:st.maxhp,block:false,turn:0,charged:false},foco:1,def:false,poison:0,fx:{},over:null,
-    log:[`¡Aparece ${st.n}!${st.rage?' Está enfurecido porque faltaste al gym.':''}`]};
+function startFight(f,l,override){const r=G().run,id=override||nodeAt(r,f,l).en,st=enemyStats(id,f,r);
+  C={f,l,id,e:{...st,hp:st.maxhp,block:false,turn:0,charged:false},foco:Math.min(fMax(r),1+(has(r,'hourglass')?1:0)+lvU('focus')+(r.foco0||0)),def:false,poison:0,fx:{},over:null,
+    log:[`¡Aparece ${st.n}!`]};
   C.intent=nextIntent();renderFight();const m=document.getElementById('modal');m.dataset.lock='1';m.classList.add('on');musicStart('battle');}
+function hitEnemy(r,mult){const e=C.e;let dmg=pAtk(r)*rnd(0.85,1.15)*mult;const crit=Math.random()*100<pCrit(r);
+  if(has(r,'rage'))dmg*=1+Math.min(0.5,1-r.hp/pMax(r));if(has(r,'belt')&&r.hp>=pMax(r)*0.8)dmg*=1.25;
+  if(crit)dmg*=1.8;if(e.block)dmg*=0.5;dmg=Math.max(1,Math.round(dmg));e.hp=Math.max(0,e.hp-dmg);
+  if(crit){if(has(r,'hawk'))C.foco=Math.min(fMax(r),C.foco+1);if(has(r,'critheal'))heal(r,8);}
+  if(has(r,'vamp'))heal(r,3);return {dmg,crit};}
 function act(kind){if(!C||C.over)return;const r=G().run,e=C.e;C.fx={};
-  if(kind==='pot'){if(r.potions<=0)return;r.potions--;const h=heal(r,40);C.log.unshift(`🧪 Tomas una poción: +${h} HP`);C.fx.heal=h;}
-  else if(kind==='def'){C.def=true;C.foco=Math.min(3,C.foco+1);C.log.unshift('🛡️ Te pones en guardia (+1 foco)');}
+  if(kind==='pot'){if(r.potions<=0)return;r.potions--;const h=heal(r,40+(has(r,'whey')?25:0));C.log.unshift(`🧪 Tomas una poción: +${h} de vida`);C.fx.heal=h;}
+  else if(kind==='def'){C.def=true;C.foco=Math.min(fMax(r),C.foco+(has(r,'templar')?2:1));if(has(r,'templar')){const h=heal(r,5);if(h)C.fx.heal=h;}C.log.unshift(`🛡️ Te pones en guardia (+${has(r,'templar')?2:1} foco)`);}
   else{if(kind==='skill'&&C.foco<3)return;
-    if(kind==='atk'&&Math.random()*100<(EN[C.id].dodge||0)){C.log.unshift(`💨 ${e.n} esquiva tu golpe`);C.fx.miss=1;}
-    else{let dmg=pAtk(r)*rnd(0.85,1.15);const crit=Math.random()*100<pCrit(r);
-      if(kind==='skill')dmg*=2.5*(has(r,'gaunt')?1.3:1);if(crit)dmg*=1.8;if(e.block)dmg*=0.5;
-      dmg=Math.max(1,Math.round(dmg));e.hp=Math.max(0,e.hp-dmg);C.fx.edmg=dmg;C.fx.crit=crit;
-      C.log.unshift(`${kind==='skill'?'✨ Golpe cargado':'⚔️ Atacas'}: ${dmg} de daño${crit?' · ¡CRÍTICO!':''}${e.block?' (se cubrió)':''}`);
-      if(has(r,'fang'))heal(r,3);}
-    if(kind==='skill')C.foco=0;else C.foco=Math.min(3,C.foco+1);}
+    if(kind==='skill'){const m=(C.foco>=4&&has(r,'monk')?3.5:2.5)*(has(r,'gaunt')?1.3:1);const h=hitEnemy(r,m);C.fx.edmg=h.dmg;C.fx.crit=h.crit;
+      C.log.unshift(`✨ Golpe cargado: ${h.dmg} de daño${h.crit?' · ¡CRÍTICO!':''}`);C.foco=0;}
+    else{const hits=has(r,'twin')?[0.6,0.6]:[1];let tot=0,cr=false,miss=0;
+      hits.forEach(m=>{if(e.hp<=0)return;if(Math.random()*100<(EN[C.id].dodge||0)){miss++;return;}const h=hitEnemy(r,m);tot+=h.dmg;cr=cr||h.crit;});
+      if(tot){C.fx.edmg=tot;C.fx.crit=cr;C.log.unshift(`⚔️ Atacas${hits.length>1?' dos veces':''}: ${tot} de daño${cr?' · ¡CRÍTICO!':''}${e.block?' (se cubrió)':''}`);}
+      else{C.log.unshift(`💨 ${e.n} esquiva tu golpe`);C.fx.miss=1;}
+      C.foco=Math.min(fMax(r),C.foco+1);}}
   e.block=false;
   if(e.hp<=0)return winFight();
-  if(C.poison>0){r.hp=Math.max(0,r.hp-3);C.poison--;C.log.unshift('🧪 El veneno te quita 3 HP');}
+  if(C.poison>0){r.hp=Math.max(0,r.hp-3);C.poison--;C.log.unshift('🧪 El veneno te quita 3 de vida');}
   const it=C.intent;
   if(it.k==='def'){e.block=true;C.log.unshift(`🛡️ ${e.n} se cubre`);}
   else if(it.k==='charge'){e.charged=true;C.log.unshift(`⚠️ ${e.n} está cargando un golpe fuerte`);}
-  else if(it.k==='buff'){e.atk+=2;C.log.unshift(`🔺 ${e.n} se enfurece (+2 ATQ)`);}
+  else if(it.k==='buff'){e.atk=Math.round(e.atk*1.08)+1;C.log.unshift(`🔺 ${e.n} se enfurece (+ataque)`);}
   else{if(Math.random()*100<pAgi(r)){C.log.unshift('💨 ¡Esquivas el ataque!');C.fx.dodge=1;}
     else{let dmg=it.v*rnd(0.9,1.1)-pDef(r);if(C.def)dmg*=0.4;dmg=Math.max(1,Math.round(dmg));r.hp=Math.max(0,r.hp-dmg);C.fx.pdmg=dmg;
       C.log.unshift(`${INT[it.k][0]} ${e.n} te pega ${dmg}${C.def?' (te cubriste)':''}`);
+      if(has(r,'thorns')){const t=Math.max(1,Math.round(dmg*0.3));e.hp=Math.max(0,e.hp-t);C.log.unshift(`🌵 Las espinas le regresan ${t}`);}
       if(it.k==='steal'){const s=Math.min(r.gold,10);r.gold-=s;if(s)C.log.unshift(`💰 Te roba ${s} de oro`);}
       if(it.k==='poison'){C.poison=3;C.log.unshift('🧪 Quedas envenenado 3 turnos');}}
     if(it.k==='heavy')e.charged=false;}
   C.def=false;
   if(r.hp<=0)return loseFight();
+  if(e.hp<=0)return winFight();
   C.intent=nextIntent();save();fightSfx();renderFight();}
 function fightSfx(){const f=C.fx||{};if(f.edmg)sfx(f.crit?'crit':'hit');if(f.miss)sfx('dodge');if(f.heal)sfx('heal');if(f.pdmg)sfx('hurt',0.28);if(f.dodge)sfx('dodge',0.28);}
-function flee(){if(!C||C.over)return;const r=G().run,lost=Math.min(r.gold,10);r.gold-=lost;glog(`🏃 Huiste de ${enName(C.id)}${lost?` · −${lost} oro`:''}`);save();
-  const m=document.getElementById('modal');m.dataset.lock='';C=null;renderAventura();if(DUN)openDungeon();else{m.classList.remove('on');musicStart('map');}toast('Huiste del combate. El enemigo te espera.');}
-function rollChest(tier){const pool=tier==='legend'?[['weapon','legend'],['relic'],['gold',150]]:tier==='rare'?[['relic'],['weapon','axe'],['armor','mail'],['gold',80]]:[['gold',30],['potion'],['potion'],['weapon','wood'],['armor','leather'],['gold',40]];
-  return {tier,p:pool[Math.floor(Math.random()*pool.length)]};}
-function applyChest(ch){const r=G().run,[k,v]=ch.p;
-  if(k==='gold'){r.gold+=v;ch.txt=`💰 ${v} de oro`;}
-  else if(k==='potion'){if(r.potions<3){r.potions++;ch.txt='🧪 Una poción';}else{r.gold+=15;ch.txt='💰 15 de oro (pociones llenas)';}}
-  else if(k==='weapon'){if(!r.weapon||WEAP[v].atk>WEAP[r.weapon].atk){r.weapon=v;ch.txt=`${WEAP[v].ic} ${WEAP[v].n} · equipada`;}else{r.gold+=30;ch.txt=`${WEAP[v].ic} ${WEAP[v].n} · vendida por 30 oro`;}}
-  else if(k==='armor'){if(!r.armor||ARM[v].def>ARM[r.armor].def){r.armor=v;ch.txt=`${ARM[v].ic} ${ARM[v].n} · equipada`;}else{r.gold+=30;ch.txt=`${ARM[v].ic} ${ARM[v].n} · vendida por 30 oro`;}}
-  else{const o=Object.keys(RELICS).filter(x=>!r.relics.includes(x));if(o.length){const x=o[Math.floor(Math.random()*o.length)];r.relics.push(x);ch.txt=`${RELICS[x].ic} ${RELICS[x].n}`;}else{r.gold+=60;ch.txt='💰 60 de oro';}}}
-function winFight(){const g=G(),r=g.run,en=EN[C.id];const gold=Math.round(rnd(en.gold[0],en.gold[1])*(1+0.1*weekIdx(r.mon)));
-  r.gold+=gold;r.cleared[C.di+'|'+C.ei+'|'+C.id]=1;const roll=Math.random();let chest=null;
-  if(en.tier==='boss'||en.tier==='final')chest=rollChest(en.tier==='final'?'legend':'rare');
-  else if(en.tier==='mini'||roll<0.18)chest=rollChest(roll<0.05?'rare':'common');
-  if(chest)applyChest(chest);
-  C.over={win:true,gold,chest};
-  if(en.tier==='boss'||en.tier==='final'){r.won=true;const s=runSouls(r)+10;g.souls+=s;C.over.souls=s;g.trophies.push({id:C.id,mon:r.mon,run:r.id});glog(`👑 ¡Venciste a ${enName(C.id)}! +${s} almas`);}
-  else glog(`🏆 Venciste a ${enName(C.id)} · +${gold} oro`);
-  save();fightSfx();sfx('win',0.3);if(curTab==='aventura')setTimeout(()=>musicStart('map'),1200);renderFight();}
+function flee(){if(!C||C.over)return;const r=G().run,lost=Math.min(r.gold,10);r.gold-=lost;r.cur=null;glog(`🏃 Huiste de ${enName(C.id)}${lost?` · −${lost} oro`:''}`);save();
+  const m=document.getElementById('modal');m.dataset.lock='';C=null;renderAventura();openDungeon();toast('Huiste. El enemigo te sigue esperando.');}
+function winFight(){const g=G(),r=g.run,en=EN[C.id],z=weekIdx(r.mon),big=en.tier==='boss'||en.tier==='final',elite=en.tier==='elite';
+  const gold=Math.round((big?40:elite?rnd(18,26):rnd(6,10))*(1+0.1*z)*(has(r,'purse')?1.5:1));r.gold+=gold;
+  const xp=addAxp(big?20:elite?5:2),s=advance(r);C.over={win:true,gold,xp,souls:s};
+  if(big){r.won=true;const first=!g.trophies.some(x=>x.mon===r.mon),bs=first?(en.tier==='final'?40:15):4;g.souls+=bs;C.over.souls=s+bs;C.over.boss=1;C.over.first=first;
+    if(first)g.trophies.push({id:C.id,mon:r.mon,run:r.id});glog(`👑 ¡Venciste a ${enName(C.id)}! Zona conquistada · +${bs} almas`);}
+  else{r.reward={kind:elite?'elite':'normal',opts:elite?relicOpts(r,3):statOpts(r)};glog(`🏆 Venciste a ${enName(C.id)} · +${gold} oro`);}
+  save();fightSfx();sfx('win',0.3);renderFight();}
 function loseFight(){const g=G(),r=g.run;
-  if(lvU('revive')&&!r.revived){r.revived=true;r.hp=Math.round(r.maxhp*0.3);C.log.unshift('🪽 ¡Segunda oportunidad! Revives con 30% de HP');C.intent=nextIntent();save();renderFight();return;}
-  r.dead=true;const s=runSouls(r);g.souls+=s;C.over={win:false,souls:s};glog(`💀 Caíste ante ${enName(C.id)} · +${s} almas`);save();musicStop();sfx('lose');renderFight();}
+  if(lvU('revive')&&!r.revived){r.revived=true;r.hp=Math.round(pMax(r)*0.3);C.log.unshift('🪽 ¡Segunda oportunidad! Revives con 30% de vida');C.intent=nextIntent();save();renderFight();return;}
+  r.dead=true;r.cur=null;C.over={win:false};glog(`💀 Caíste ante ${enName(C.id)} en el piso ${C.f}`);save();musicStop();sfx('lose');renderFight();}
 const gbar=(v,m,cls)=>`<div class="ghp ${cls}"><i style="width:${clamp(v/m,0,1)*100}%"></i><span>${v} / ${m}</span></div>`;
-function renderFight(){const r=G().run,e=C.e,en=EN[C.id],it=C.intent,fx=C.fx||{};let body;
+function renderFight(){const r=G().run,e=C.e,en=EN[C.id],it=C.intent,fx=C.fx||{},tc=tierCls(C.id);let body;
   if(C.over){const o=C.over;
-    body=o.win?`<div class="gover"><div class="gbig">${o.souls!=null?'👑':'🏆'}</div><div class="gtitle">¡Victoria!</div><div class="small muted">Venciste a ${enName(C.id)}</div>
-      <div class="grew">💰 +${o.gold} oro${o.souls?` · 👻 +${o.souls} almas`:''}</div>
-      ${o.chest?`<div class="chestbox">${spr('chest',4)}<div><b>Cofre ${o.chest.tier==='legend'?'legendario':o.chest.tier==='rare'?'raro':'común'}</b><div class="small">${o.chest.txt}</div></div></div>`:''}
-      ${o.souls!=null?`<div class="banquet">🎉 <b>Banquete del Héroe desbloqueado.</b> ${satOn()?'Disfruta tu sábado especial: te lo ganaste.':'Semana superada: date un gusto, te lo ganaste.'}</div>`:''}
-      <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`
-    :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">Fin de la run</div><div class="small muted">${enName(C.id)} te derrotó.</div>
-      <div class="grew">👻 +${o.souls} almas para mejoras permanentes</div>
-      <div class="small muted" style="margin:10px 0 0;line-height:1.45">Tus registros reales siguen intactos. Usa tus almas en Mejoras y empieza una nueva run.</div>
+    body=o.win?`<div class="gover"><div class="gbig">${o.boss?'👑':'🏆'}</div><div class="gtitle">${o.boss?'¡Zona conquistada!':'¡Victoria!'}</div><div class="small muted">Venciste a ${enName(C.id)}</div>
+      <div class="grew">🪙 +${o.gold} oro${o.xp?` · ⭐ +${o.xp} XP`:''}${o.souls?` · 👻 +${o.souls} almas`:''}</div>
+      ${o.boss?`<div class="banquet">${o.first?'🏆 Trofeo de la semana ganado. ':''}Puedes seguir jugando runs en esta zona; el lunes se abre la siguiente, más difícil.</div>`:''}
+      ${!o.xp&&!o.boss?'<div class="small muted" style="margin-top:8px">Ya juntaste el máximo de XP de aventura de hoy. Tu nivel sube entrenando.</div>':''}
+      <button class="btn block" style="margin-top:14px" data-act="gclose">${o.boss?'Continuar':'Elegir recompensa'}</button></div>`
+    :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">Fin de la run</div><div class="small muted">${enName(C.id)} te derrotó en el piso ${C.f}.</div>
+      <div class="small muted" style="margin:10px 0 0;line-height:1.45">Puedes empezar otra run cuando quieras. Si ya no pasas de aquí, la llave está en el gym: entrenar y comer bien sube tu nivel, y tu nivel es tu fuerza.</div>
       <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`;}
   else body=`<div class="arena"><button class="fleex" data-act="gflee" aria-label="Huir">🏃 Huir</button>
-      <div class="foe ${fx.edmg?'hit':''} ${en.tier||''}">
+      <div class="foe ${fx.edmg?'hit':''} ${tc}">
         <div class="intent ${['heavy','charge'].includes(it.k)?'warn':''}">${INT[it.k][0]} ${INT[it.k][1]}${['atk','heavy','steal','poison'].includes(it.k)?` · ${it.v}`:''}</div>
-        <div class="foespr">${enSpr(C.id,en.tier?7.5:6.5)}${fx.edmg?`<div class="dmgn">−${fx.edmg}${fx.crit?'!':''}</div>`:''}${fx.miss?'<div class="dmgn miss">Falla</div>':''}</div>
-        <div class="fname">${enName(C.id)}${e.rage?' 😤':''}${e.block?' 🛡️':''}</div>${gbar(e.hp,e.maxhp,'hpr')}</div>
+        <div class="foespr">${enSpr(C.id,tc?7.5:6.5)}${fx.edmg?`<div class="dmgn">−${fx.edmg}${fx.crit?'!':''}</div>`:''}${fx.miss?'<div class="dmgn miss">Falla</div>':''}</div>
+        <div class="fname">${enName(C.id)}${e.block?' 🛡️':''}</div>${gbar(e.hp,e.maxhp,'hpr')}</div>
       <div class="me ${fx.pdmg?'hit':''}"><div class="mespr">${heroSpr(3.5)}${fx.pdmg?`<div class="dmgn">−${fx.pdmg}</div>`:''}${fx.dodge?'<div class="dmgn miss">Esquiva</div>':''}${fx.heal?`<div class="dmgn heal">+${fx.heal}</div>`:''}</div>
-        <div style="flex:1;min-width:0"><div class="fname">${esc(S.settings.name||'Héroe')}${C.poison?' 🧪':''}</div>${gbar(r.hp,r.maxhp,'hpg')}
-        <div class="foco">${[0,1,2].map(i=>`<i class="${i<C.foco?'on':''}"></i>`).join('')}<span>Foco</span></div></div></div>
+        <div style="flex:1;min-width:0"><div class="fname">${esc(S.settings.name||'Héroe')}${C.poison?' 🧪':''}</div>${gbar(r.hp,pMax(r),'hpg')}
+        <div class="foco">${[...Array(fMax(r))].map((_,i)=>`<i class="${i<C.foco?'on':''}"></i>`).join('')}<span>Foco</span></div>
+        ${r.relics.length?`<div class="small" style="margin-top:6px">${r.relics.map(k=>RELICS[k].ic).join(' ')}</div>`:''}</div></div>
     </div>
     <div class="glog">${C.log.slice(0,4).map((l,i)=>`<div style="opacity:${1-i*0.22}">${l}</div>`).join('')}</div>
     <div class="gact">
-      <button class="btn" data-act="gact" data-k="atk">⚔️ Atacar<small>~${pAtk(r)} de daño</small></button>
-      <button class="btn ghost" data-act="gact" data-k="def">🛡️ Defender<small>−60% daño · +1 foco</small></button>
-      <button class="btn ${C.foco>=3?'gold':'ghost'}" data-act="gact" data-k="skill" ${C.foco<3?'disabled':''}>✨ Golpe cargado<small>${C.foco>=3?'¡Listo! ×2.5':'Necesita 3 de foco'}</small></button>
-      <button class="btn ghost" data-act="gact" data-k="pot" ${r.potions<=0?'disabled':''}>🧪 Poción<small>${r.potions} · +40 HP</small></button>
+      <button class="btn" data-act="gact" data-k="atk">⚔️ Atacar<small>~${pAtk(r)}${has(r,'twin')?' ×2 (60%)':''} de daño</small></button>
+      <button class="btn ghost" data-act="gact" data-k="def">🛡️ Defender<small>−60% daño · +${has(r,'templar')?2:1} foco</small></button>
+      <button class="btn ${C.foco>=3?'gold':'ghost'}" data-act="gact" data-k="skill" ${C.foco<3?'disabled':''}>✨ Golpe cargado<small>${C.foco>=3?(C.foco>=4&&has(r,'monk')?'¡×3.5!':'¡Listo! ×2.5'):'Necesita 3 de foco'}</small></button>
+      <button class="btn ghost" data-act="gact" data-k="pot" ${r.potions<=0?'disabled':''}>🧪 Poción<small>${r.potions} · +${40+(has(r,'whey')?25:0)} vida</small></button>
     </div>
     <button class="fleebtn" data-act="gflee">🏃 Huir${r.gold>0?` · pierdes ${Math.min(r.gold,10)} de oro`:''}</button>`;
   document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="fight">${body}</div>`;}
 
-/* tienda y mejoras */
-const price2=c=>Math.round(c*(lvU('disc')?0.9:1));
-function showShop(){const r=G().run;const row=(t,k,it,extra,owned,cost)=>`<div class="it"><div class="shopic">${it.ic}</div><div class="grow"><div class="t">${it.n}</div><div class="s">${extra}</div></div>
-    ${owned?'<span class="pill">Equipado</span>':`<button class="btn ${r.gold>=cost?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gbuy" data-t="${t}" data-k="${k}" ${r.gold>=cost?'':'disabled'}>🪙 ${cost}</button>`}</div>`;
-  document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="row between"><div class="exn" style="font-size:22px">🛒 Tienda</div><span class="pill">🪙 ${r.gold} oro</span></div>
-    <div class="small muted" style="margin:4px 0 12px">Lo que compres dura toda la run. Si caes, se pierde.</div>
-    <div class="small muted" style="font-weight:800;margin:10px 2px 6px">CONSUMIBLES</div><div class="card list" style="background:var(--card2)">
-      ${row('pot','pot',{ic:'🧪',n:'Poción'},`+40 HP en combate · tienes ${r.potions}/3`,false,price2(15))}
-      ${row('elixir','elixir',{ic:'⚗️',n:'Elixir'},'Te cura toda la vida ahora',false,price2(45))}</div>
-    <div class="small muted" style="font-weight:800;margin:14px 2px 6px">ARMAS</div><div class="card list" style="background:var(--card2)">
-      ${Object.entries(WEAP).filter(([k,w])=>!w.chest).map(([k,w])=>row('weapon',k,w,`+${w.atk} ATQ${w.crit?` · +${w.crit}% crítico`:''}`,r.weapon===k,price2(w.cost))).join('')}</div>
-    <div class="small muted" style="font-weight:800;margin:14px 2px 6px">ARMADURAS</div><div class="card list" style="background:var(--card2)">
-      ${Object.entries(ARM).map(([k,a])=>row('armor',k,a,`−${a.def} de daño recibido`,r.armor===k,price2(a.cost))).join('')}</div>
-    <div class="small muted" style="font-weight:800;margin:14px 2px 6px">RELIQUIAS</div><div class="card list" style="background:var(--card2)">
-      ${Object.entries(RELICS).map(([k,x])=>row('relic',k,x,x.d,r.relics.includes(k),price2(x.cost))).join('')}</div>
-    ${DUN?'<button class="btn ghost block" style="margin-top:12px" data-act="dungeon">‹ Volver a la mazmorra</button>':'<button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>'}`;
-  const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
-function buy(t,k){const r=G().run;
-  const cost=t==='pot'?price2(15):t==='elixir'?price2(45):t==='weapon'?price2(WEAP[k].cost):t==='armor'?price2(ARM[k].cost):price2(RELICS[k].cost);
-  if(r.gold<cost)return;
-  if(t==='pot'){if(r.potions>=3){toast('Ya llevas 3 pociones');return;}r.potions++;}
-  else if(t==='elixir'){if(r.hp>=r.maxhp){toast('Ya tienes la vida llena');return;}r.hp=r.maxhp;}
-  else if(t==='weapon')r.weapon=k;else if(t==='armor')r.armor=k;else r.relics.push(k);
-  r.gold-=cost;glog(`🛒 Compraste ${t==='pot'?'una poción':t==='elixir'?'un elixir':(t==='weapon'?WEAP:t==='armor'?ARM:RELICS)[k].n}`);save();sfx('coin');showShop();renderAventura();toast('Compra hecha ✓');}
-function showUpg(){const g=G();
-  document.getElementById('sheet').innerHTML=`<div class="grab"></div><div class="row between"><div class="exn" style="font-size:22px">👻 Mejoras permanentes</div><span class="pill">👻 ${g.souls}</span></div>
-    <div class="small muted" style="margin:4px 0 12px;line-height:1.4">Las almas no se pierden al caer. Lo que compres aquí se queda para todas las runs.</div>
-    <div class="card list" style="background:var(--card2)">${Object.entries(UPG).map(([k,u])=>{const l=lvU(k),mx=l>=u.max;return `<div class="it"><div class="shopic">${u.ic}</div><div class="grow"><div class="t">${u.n} <span class="small muted">${l}/${u.max}</span></div><div class="s">${u.d}</div></div>
-      ${mx?'<span class="pill">Máximo</span>':`<button class="btn ${g.souls>=u.cost?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gup" data-k="${k}" ${g.souls>=u.cost?'':'disabled'}>👻 ${u.cost}</button>`}</div>`;}).join('')}</div>
-    <div class="small muted" style="margin-top:10px;line-height:1.4">Las mejoras de vida, ataque y pociones aplican desde tu siguiente run.</div>
-    ${DUN?'<button class="btn ghost block" style="margin-top:12px" data-act="dungeon">‹ Volver a la mazmorra</button>':'<button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>'}`;
-  const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
+/* ---- recompensas: elige 1 de 3 ---- */
+function statOpts(r){const a=Math.max(3,Math.round(pAtk(r)*0.12)),h=Math.max(15,Math.round(pMax(r)*0.1)),P=[
+    {k:'atk',v:a,ic:'⚔️',n:`+${a} de ataque`,d:'Para el resto de la run'},
+    {k:'hp',v:h,ic:'❤️',n:`+${h} de vida máxima`,d:'Y te cura lo mismo'},
+    {k:'crit',v:6,ic:'🎯',n:'+6% de crítico',d:'Para el resto de la run'},
+    {k:'agi',v:5,ic:'💨',n:'+5% de esquiva',d:'Para el resto de la run'},
+    {k:'def',v:2,ic:'🛡️',n:'+2 de defensa',d:'Cada golpe que recibas pega menos'},
+    {k:'gold',v:25,ic:'🪙',n:'+25 de oro',d:'Para el mercader'}];
+  if(r.potions<3)P.push({k:'pot',v:1,ic:'🧪',n:'Una poción',d:`Tienes ${r.potions}/3`});
+  if(r.hp<pMax(r)*0.85)P.push({k:'heal',v:0.3,ic:'💚',n:'Curarte 30%',d:`Tienes ${r.hp}/${pMax(r)}`});
+  const o=[];while(o.length<3&&P.length)o.push(P.splice(Math.floor(Math.random()*P.length),1)[0]);
+  if(Math.random()<0.25){const k=randRelic(r);if(k)o[2]={k:'relic',v:k,ic:RELICS[k].ic,n:RELICS[k].n,d:RELICS[k].d,rel:1};}
+  return o;}
+function relicOpts(r,n){const o=[],ex=[];for(let i=0;i<n;i++){const k=randRelic(r,ex);if(!k)break;ex.push(k);o.push({k:'relic',v:k,ic:RELICS[k].ic,n:RELICS[k].n,d:RELICS[k].d,rel:1});}
+  if(!o.length)o.push({k:'gold',v:60,ic:'🪙',n:'+60 de oro',d:'Ya tienes todas las reliquias'});return o;}
+function applyOpt(r,o){switch(o.k){case 'atk':r.atkB+=o.v;break;case 'hp':r.hpB+=o.v;heal(r,o.v);break;case 'crit':r.critB+=o.v;break;case 'agi':r.agiB+=o.v;break;
+  case 'def':r.defB+=o.v;break;case 'gold':r.gold+=o.v;break;case 'pot':r.potions=Math.min(3,r.potions+1);break;case 'heal':heal(r,pMax(r)*o.v);break;
+  case 'relic':r.relics.push(o.v);if(o.v==='stone')heal(r,30);break;}}
+function showReward(){const r=G().run;if(!r||!r.reward)return openDungeon();const R=r.reward;
+  openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:40px">${R.kind==='normal'?'🎁':R.kind==='elite'?'💀':'✨'}</div>
+    <div class="exn" style="font-size:24px">${R.kind==='normal'?'Elige tu recompensa':R.kind==='elite'?'Botín de élite: elige una reliquia':'Tesoro: elige una reliquia'}</div>
+    <div class="small muted" style="margin-top:4px">Solo te puedes quedar con una</div></div>
+    <div class="ropts">${R.opts.map((o,i)=>`<button class="ropt ${o.rel?'rel':''}" data-act="gpick" data-i="${i}"><span class="ric">${o.ic}</span><span><b>${o.n}</b><small>${o.d}</small></span></button>`).join('')}</div>
+    ${R.kind==='normal'?'<button class="btn ghost block" style="margin-top:10px" data-act="gskip">Saltar</button>':''}`);
+  MD().dataset.lock='1';}
+function pickReward(i){const r=G().run;if(!r||!r.reward)return;const o=r.reward.opts[i];if(!o)return;applyOpt(r,o);r.reward=null;save();sfx(o.rel?'lvl':'coin');MD().dataset.lock='';openDungeon();toast(`${o.ic} ${o.n}`);}
 
-/* pantalla principal */
-function fightsBlock(r,days,t){if(r.dead||r.won)return '';const L=[];
-  days.forEach((d,di)=>floorEnemies(r,di).forEach((id,ei)=>{if(!r.cleared[di+'|'+ei+'|'+id]&&canFight(r,di))L.push({d,di,ei,id});}));
-  L.sort((a,b)=>(b.d===t)-(a.d===t)||a.di-b.di);
-  if(!L.length){const bossDone=r.cleared['5|0|'+floorEnemies(r,5)[0]],pend=days.slice(0,5).some((d,di)=>d>t&&d>=r.start);
-    return `<div class="card fnone"><div class="e">${t>addDays(r.mon,5)?'🌙':'✅'}</div><b>${t>addDays(r.mon,5)?'La run de esta semana terminó':'Ya no hay enemigos disponibles hoy'}</b>
-      <div class="small muted" style="margin-top:6px;line-height:1.45">${pend?'Mañana aparecen nuevos enemigos. Mientras, cumple tus misiones para llegar más fuerte.':'El jefe del sábado aparece cuando limpies los pisos de lunes a viernes.'}</div></div>`;}
-  return `<div class="fcards">${L.slice(0,4).map(x=>{const st=enemyStats(x.id,r,x.di),tier=EN[x.id].tier||'';
-    return `<button class="fcard ${tier}" data-act="gfight" data-di="${x.di}" data-ei="${x.ei}"><div class="fsp">${enSpr(x.id,tier?3.4:3)}</div>
-      <div style="min-width:0"><div class="t">${enName(x.id)}${st.rage?' 😤':''}</div><div class="s">${tier==='final'?'👑 Jefe final':tier==='boss'?'👑 Jefe de la semana':tier==='mini'?'⭐ Minijefe':'Enemigo'} · ${x.d===t?'hoy':DAYN[x.di]}</div><div class="s">❤️ ${st.maxhp} · ⚔️ ${st.atk}${st.rage?' · enfurecido':''}</div></div>
-      <span class="fgo">⚔️ Pelear</span></button>`;}).join('')}${L.length>4?`<div class="small muted" style="text-align:center">+${L.length-4} más en el mapa de la semana</div>`:''}</div>`;}
-function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldMap();
-  const days=[...Array(6)].map((_,i)=>addDays(r.mon,i));
-  const map=days.map((d,di)=>{const pre=d<r.start;
-    const cells=floorEnemies(r,di).map((id,ei)=>{const done=r.cleared[di+'|'+ei+'|'+id],can=!done&&canFight(r,di),st=enemyStats(id,r,di),tier=EN[id].tier||'';
-      return `<button class="node ${done?'done':can?'ready':'locked'} ${tier}" ${can?`data-act="gfight" data-di="${di}" data-ei="${ei}"`:'disabled'}>
-        <div class="nspr">${enSpr(id,tier?3.2:2.5)}</div><div class="nname">${enName(id)}</div>
-        <div class="nsub">${done?'✓ Vencido':pre?'—':can?`❤️ ${st.maxhp} · ⚔️ ${st.atk}${st.rage?' 😤':''}`:d>t?'🔒 '+fmtShort(d):di===5?'🔒 Limpia la semana':'🔒'}</div></button>`;}).join('');
-    return `<div class="floor ${d===t?'today':''} ${pre?'pre':''} ${di===5?'bossfloor':''}"><div class="fday">${DAYN[di]} <span class="muted">${fmtShort(d)}</span>${d===t?' · <b class="acc">hoy</b>':''}${!pre&&enraged(d)?' <span class="rage">😤 enfurecidos</span>':''}</div><div class="fnodes">${cells}</div></div>`;}).join('');
-  const qd=t>addDays(r.mon,5)?addDays(r.mon,5):t;
-  const qs=t<r.start?'':questsFor(qd).map(q=>`<div class="it ${q.ok?'qok':''}"><span class="qic">${q.ok?'✅':q.ic}</span><div class="grow"><div class="t">${q.n}</div><div class="s">${q.rw}</div></div></div>`).join('');
-  const eq=[r.weapon?`${WEAP[r.weapon].ic} ${WEAP[r.weapon].n}`:'👊 Sin arma',r.armor?`${ARM[r.armor].ic} ${ARM[r.armor].n}`:'👕 Sin armadura',...r.relics.map(k=>`${RELICS[k].ic} ${RELICS[k].n}`)];
-  const status=r.dead?`<div class="card gstatus lose"><b>💀 Caíste en esta run</b><div class="small muted" style="margin:4px 0 12px">Usa tus almas en Mejoras y vuelve a intentarlo. Tus misiones de hoy en adelante cuentan para la nueva run.</div><button class="btn block" data-act="gnew">⚔️ Empezar nueva run</button></div>`
-    :r.won?`<div class="card gstatus win"><b>👑 Semana superada</b><div class="small muted" style="margin-top:4px;line-height:1.45">Venciste al jefe de la semana. Disfruta tu Banquete del Héroe. La siguiente run empieza el lunes.</div></div>`:'';
+/* ---- fogata, mercader, eventos ---- */
+function showCamp(){const r=G().run,a=Math.max(3,Math.round(pAtk(r)*0.12)),h=Math.round(pMax(r)*0.35);
+  openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:44px">🔥</div><div class="exn" style="font-size:24px">Fogata</div><div class="small muted">Puedes hacer una sola cosa</div></div>
+  <div class="ropts"><button class="ropt" data-act="gcamp" data-k="rest"><span class="ric">😴</span><span><b>Descansar</b><small>Curas ${h} de vida (tienes ${r.hp}/${pMax(r)})</small></span></button>
+  <button class="ropt" data-act="gcamp" data-k="train"><span class="ric">🏋️</span><span><b>Entrenar</b><small>+${a} de ataque para el resto de la run</small></span></button></div>
+  <button class="btn ghost block" style="margin-top:10px" data-act="dungeon">‹ Volver al mapa</button>`);}
+function campDo(k){const r=G().run;if(!r||!r.cur)return;if(k==='rest'){const h=heal(r,pMax(r)*0.35);toast(`😴 +${h} de vida`);sfx('heal');}else{const a=Math.max(3,Math.round(pAtk(r)*0.12));r.atkB+=a;toast(`🏋️ +${a} de ataque`);sfx('coin');}
+  advance(r);save();openDungeon();}
+const SHOPR=r=>{const R=rng(r.seed+r.cur.f*31+r.cur.l*7),o=Object.keys(RELICS).filter(k=>!r.relics.includes(k)),L=[];for(let i=0;i<3&&o.length;i++)L.push(o.splice(Math.floor(R()*o.length),1)[0]);return L;};
+const sprice=c=>Math.round(c*(lvU('disc')?0.85:1));
+function showShopNode(){const r=G().run;if(!r||!r.cur)return openDungeon();const key=r.cur.f+'|'+r.cur.l,B=r.bought[key]=r.bought[key]||{},rel=SHOPR(r);
+  const row=(id,ic,n,d,c,dis)=>`<div class="it"><div class="shopic">${ic}</div><div class="grow"><div class="t">${n}</div><div class="s">${d}</div></div>
+    ${B[id]?'<span class="pill">Comprado</span>':`<button class="btn ${r.gold>=c&&!dis?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gsbuy" data-id="${id}" ${r.gold>=c&&!dis?'':'disabled'}>🪙 ${c}</button>`}</div>`;
+  openSheet(`<div class="row between"><div class="exn" style="font-size:22px">🛒 Mercader</div><span class="pill">🪙 ${r.gold} oro</span></div>
+    <div class="small muted" style="margin:4px 0 12px">Compra lo que quieras y sigue tu camino.</div>
+    <div class="card list" style="background:var(--card2)">
+      ${rel.map(k=>row('r_'+k,RELICS[k].ic,RELICS[k].n,RELICS[k].d,sprice(75))).join('')}
+      ${row('pot','🧪','Poción',`+40 de vida en combate · tienes ${r.potions}/3`,sprice(20),r.potions>=3)}
+      ${row('heal','💚','Curación',`Te cura 30% ahora (${r.hp}/${pMax(r)})`,sprice(30),r.hp>=pMax(r))}
+      ${row('def','🛡️','Escudo reforzado','+2 de defensa para la run',sprice(40))}</div>
+    <button class="btn block" style="margin-top:12px" data-act="gsleave">Seguir adelante ›</button>`);}
+function shopBuy(id){const r=G().run;if(!r||!r.cur)return;const key=r.cur.f+'|'+r.cur.l,B=r.bought[key]=r.bought[key]||{};if(B[id])return;
+  const c=sprice(id.startsWith('r_')?75:id==='pot'?20:id==='heal'?30:40);if(r.gold<c)return;
+  if(id.startsWith('r_')){const k=id.slice(2);r.relics.push(k);if(k==='stone')heal(r,30);}else if(id==='pot'){if(r.potions>=3)return;r.potions++;}else if(id==='heal')heal(r,pMax(r)*0.3);else r.defB+=2;
+  r.gold-=c;B[id]=1;save();sfx('coin');showShopNode();}
+const EVENTS=[
+  {n:'Altar oscuro',ic:'🗿',t:'Una estatua antigua te pide sangre a cambio de poder.',ch:[
+    {t:'Sacrificar 25% de tu vida',d:'Ganas una reliquia al azar',f:r=>{r.hp=Math.max(1,r.hp-Math.round(pMax(r)*0.25));const k=randRelic(r);if(k){r.relics.push(k);return `${RELICS[k].ic} Obtuviste ${RELICS[k].n}`;}r.gold+=50;return '🪙 +50 de oro';}},
+    {t:'Irte',d:'Mejor no arriesgarse',f:()=>'Sigues tu camino.'}]},
+  {n:'Cofre sospechoso',ic:'📦',t:'Hay un cofre solo en medio del camino. Demasiado fácil…',ch:[
+    {t:'Abrirlo',d:'60%: reliquia · 40%: es un Mímico (pelea de élite)',f:r=>{if(Math.random()<0.6){const k=randRelic(r);if(k){r.relics.push(k);return `${RELICS[k].ic} Obtuviste ${RELICS[k].n}`;}}return 'FIGHT:mimic';}},
+    {t:'Dejarlo',d:'Nada pasa',f:()=>'Lo dejas en paz.'}]},
+  {n:'Fuente del manantial',ic:'⛲',t:'Agua cristalina brota de la roca.',ch:[
+    {t:'Beber',d:'Curas 40% de tu vida',f:r=>`💚 +${heal(r,pMax(r)*0.4)} de vida`},
+    {t:'Lanzar 10 de oro',d:'Pides un deseo: +2 de ataque',f:r=>{if(r.gold<10)return 'No tienes oro suficiente.';r.gold-=10;r.atkB+=2;return '⚔️ +2 de ataque';}}]},
+  {n:'Taquería nocturna',ic:'🌮',t:'Son las 2 am y huele increíble.',ch:[
+    {t:'Comer',d:'Curas toda tu vida, pero −3 de ataque',f:r=>{heal(r,9999);r.atkB-=3;return '🌮 Vida llena… pero te sientes pesado (−3 ataque)';}},
+    {t:'Resistir',d:'+1 de foco al empezar cada pelea',f:r=>{r.foco0=(r.foco0||0)+1;return '🧠 Disciplina: +1 de foco inicial';}}]},
+  {n:'Gimnasio abandonado',ic:'🏚️',t:'Unas pesas oxidadas siguen en su lugar.',ch:[
+    {t:'Entrenar',d:'−15 de vida, +3 de ataque',f:r=>{r.hp=Math.max(1,r.hp-15);r.atkB+=3;return '🏋️ +3 de ataque';}},
+    {t:'Estirar',d:'Curas 15',f:r=>`🧘 +${heal(r,15)} de vida`}]},
+  {n:'Apuesta del goblin',ic:'🎲',t:'Un goblin te reta a un volado.',ch:[
+    {t:'Apostar 20 de oro',d:'50%: ganas 50',f:r=>{if(r.gold<20)return 'No tienes oro suficiente.';r.gold-=20;if(Math.random()<0.5){r.gold+=50;return '🪙 ¡Ganaste! +50 de oro';}return '💸 Perdiste los 20 de oro';}},
+    {t:'Pasar',d:'Nada pasa',f:()=>'El goblin se ríe y se va.'}]},
+  {n:'Viajero herido',ic:'🧝',t:'Un viajero te pide ayuda.',ch:[
+    {t:'Darle una poción',d:'+12 de vida máxima',f:r=>{if(r.potions<1)return 'No tienes pociones.';r.potions--;r.hpB+=12;heal(r,12);return '❤️ Te bendice: +12 de vida máxima';}},
+    {t:'Seguir',d:'Nada pasa',f:()=>'Sigues tu camino.'}]},
+  {n:'Mercader misterioso',ic:'🧙',t:'"Tengo algo especial… si tienes con qué pagar."',ch:[
+    {t:'Pagar 50 de oro',d:'Una reliquia al azar',f:r=>{if(r.gold<50)return 'No tienes oro suficiente.';const k=randRelic(r);if(!k)return 'Ya no tiene nada que venderte.';r.gold-=50;r.relics.push(k);return `${RELICS[k].ic} Obtuviste ${RELICS[k].n}`;}},
+    {t:'Ignorarlo',d:'Nada pasa',f:()=>'Desaparece entre la niebla.'}]},
+];
+function showEvent(q){const E=EVENTS[q];openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:44px">${E.ic}</div><div class="exn" style="font-size:24px">${E.n}</div><div class="small muted" style="margin-top:4px;line-height:1.45">${E.t}</div></div>
+  <div class="ropts">${E.ch.map((c,i)=>`<button class="ropt" data-act="gevent" data-q="${q}" data-i="${i}"><span class="ric">${i?'🅱️':'🅰️'}</span><span><b>${c.t}</b><small>${c.d}</small></span></button>`).join('')}</div>`);}
+function eventDo(q,i){const r=G().run;if(!r||!r.cur)return;const res=EVENTS[q].ch[i].f(r);
+  if(res==='FIGHT:mimic'){save();toast('📦 ¡Era un Mímico!');startFight(r.cur.f,r.cur.l,'mimic');return;}
+  advance(r);save();sfx('tap');openSheet(`<div style="text-align:center;padding:10px 0"><div class="gbig" style="font-size:44px">${EVENTS[q].ic}</div><div style="font-weight:800;font-size:18px;margin-top:6px">${res}</div></div>
+  <button class="btn block" style="margin-top:14px" data-act="dungeon">Seguir ›</button>`);}
+
+/* ---- mejoras permanentes ---- */
+function showUpg(){const g=G();
+  openSheet(`<div class="row between"><div class="exn" style="font-size:22px">👻 Mejoras permanentes</div><span class="pill">👻 ${g.souls}</span></div>
+    <div class="small muted" style="margin:4px 0 12px;line-height:1.4">Las almas salen sobre todo de tu vida real: misiones del día y el jefe del gym. Lo que compres aquí se queda para siempre.</div>
+    <div class="card list" style="background:var(--card2)">${Object.entries(UPG).map(([k,u])=>{const l=lvU(k),c=upCost(k);return `<div class="it"><div class="shopic">${u.ic}</div><div class="grow"><div class="t">${u.n} <span class="small muted">${l}/${u.cost.length}</span></div><div class="s">${u.d}</div></div>
+      ${c==null?'<span class="pill">Máximo</span>':`<button class="btn ${g.souls>=c?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gup" data-k="${k}" ${g.souls>=c?'':'disabled'}>👻 ${c}</button>`}</div>`;}).join('')}</div>
+    <button class="btn ghost block" style="margin-top:12px" data-act="${DUN?'dungeon':'closemodal'}">${DUN?'‹ Volver':'Cerrar'}</button>`);}
+function buyUpg(k){const g=G(),c=upCost(k);if(c==null||g.souls<c)return;g.souls-=c;g.meta[k]=lvU(k)+1;HBc=null;save();sfx('lvl');showUpg();toast(`${UPG[k].ic} ${UPG[k].n} nivel ${lvU(k)}`);}
+
+/* ---- pantalla principal ---- */
+function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldMap(),b=heroBase(),z=zoneOf(mondayOf(t)),zi=weekIdx(mondayOf(t)),rec=Math.round(Lstar(zi)),gap=rec-b.L,won=g.trophies.some(x=>x.mon===mondayOf(t));
+  const qs=questsFor(t).map(q=>`<div class="it ${q.ok?'qok':''}"><span class="qic">${q.ok?'✅':q.ic}</span><div class="grow"><div class="t">${q.n}</div><div class="s">${q.rw}</div></div></div>`).join('');
+  const active=r&&!r.dead&&!r.won;
   document.getElementById('v-aventura').innerHTML=`
-  <div class="eyebrow">Run #${r.id} · semana ${weekIdx(r.mon)+1}${isFinalWeek(r.mon)?' · ¡semana del jefe final!':''}</div>
+  <div class="eyebrow">Semana ${zi+1} · ${g.runs} run${g.runs===1?'':'s'} jugadas</div>
   <div class="row between" style="align-items:flex-end"><h1>Aventura</h1><div class="sndbar" style="margin-bottom:8px"><button class="sndbtn ${sfxOn()?'':'off'}" data-act="tsfx" aria-label="Efectos de sonido">${sfxOn()?'🔊':'🔇'}</button><button class="sndbtn ${S.settings.music?'':'off'}" data-act="tmus" aria-label="Música">🎵</button></div></div>
   <div class="card ghero">
     <div class="row" style="gap:14px;align-items:center"><div class="herospr">${heroSpr(4)}</div>
-      <div style="flex:1;min-width:0"><div class="row between"><b>${esc(S.settings.name||'Héroe')}</b><span class="small muted">🪙 ${r.gold} · 👻 ${g.souls}</span></div>
-      ${gbar(r.hp,r.maxhp,'hpg')}
-      <div class="gstats"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>💨 ${pAgi(r)}%</span><span>🎯 ${pCrit(r)}%</span><span>🧪 ${r.potions}</span></div></div></div>
-    <div class="eqs">${eq.map(x=>`<span>${x}</span>`).join('')}</div>
-    <div class="grid2" style="margin-top:12px"><button class="btn ghost" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" data-act="gupg">👻 Mejoras</button></div>
-  </div>
-  ${status}
-  ${(()=>{const z=zoneOf(r.mon),L=runFights(r),ids=[...new Set([...Array(6)].flatMap((_,di)=>floorEnemies(r,di)))].slice(0,3);
-    return `<div class="zban" style="${zBg(z)}"><div class="zt">ZONA DE ESTA SEMANA · <span class="stars">${zStars(r.mon)}</span></div><div class="zn">${z[1]} ${z[0]}</div>
-    <div class="zs">${r.dead?'💀 Caíste en esta zona':r.won?'👑 Zona superada':L.length?`${L.length} pelea${L.length>1?'s':''} disponible${L.length>1?'s':''} · jefe: ${enName(floorEnemies(r,5)[0])}`:'Sin peleas por hoy · mañana avanzas'}</div>
-    <div class="zpre">${ids.map(id=>`<div>${enSpr(id,2.4)}</div>`).join('')}<div style="margin-left:auto">${enSpr(floorEnemies(r,5)[0],3)}</div></div>
-    <button class="btn block" data-act="dungeon" style="${L.length&&!r.dead&&!r.won?'':'background:rgba(255,255,255,.12);color:#fff'}">${L.length&&!r.dead&&!r.won?'⚔️ Entrar a la mazmorra':'🗺️ Ver la mazmorra'}</button></div>`;})()}
+      <div style="flex:1;min-width:0"><div class="row between"><b>${esc(S.settings.name||'Héroe')} · Nivel ${b.L}</b><span class="small muted">👻 ${g.souls}</span></div>
+      <div class="gstats"><span>⚔️ ${pAtk(null)}</span><span>❤️ ${pMax(null)}</span><span>💨 ${pAgi(null)}%</span><span>🎯 ${pCrit(null)}%</span></div>
+      <div class="small muted" style="margin-top:6px;line-height:1.35">Tu fuerza sale de tu vida real: nivel → ataque y vida · cardio → esquiva · récords → crítico.</div></div></div>
+    ${g.bless.length?`<div class="eqs"><span>✨ Bendiciones para tu próxima run: ${g.bless.map(k=>RELICS[k].ic+' '+RELICS[k].n).join(', ')}</span></div>`:''}
+    <button class="btn ghost block" style="margin-top:12px" data-act="gupg">👻 Mejoras permanentes</button></div>
+  <div class="zban" style="${zBg(z)}"><div class="zt">ZONA DE ESTA SEMANA · <span class="stars">${zStars(mondayOf(t))}</span></div><div class="zn">${z[1]} ${z[0]}</div>
+    <div class="zs">Nivel recomendado ${rec} · tú eres nivel ${b.L}${won?' · 👑 conquistada':''}</div>
+    ${gap>=2?`<div class="zwarn">⚠️ Estás ${gap} niveles abajo. Vas a sentir la pared: ve al gym y cumple tus misiones para subir.</div>`:gap<=-3?'<div class="zwarn ok">💪 Vas sobrado para esta zona.</div>':''}
+    <div class="zs" style="margin-top:6px">${active?`Run en curso · piso ${r.f}/10 · ❤️ ${r.hp}/${pMax(r)} · 🪙 ${r.gold}`:r&&r.dead?'💀 Tu última run terminó. Puedes empezar otra.':r&&r.won?'👑 Ganaste tu última run. Puedes jugar otra.':'Sin run activa'}</div>
+    <button class="btn block" style="margin-top:12px" data-act="dungeon">${active?'⚔️ Continuar run':'⚔️ Nueva run'}</button></div>
+  <div class="sec">Misiones de hoy <small>dan almas 👻</small></div><div class="card list">${qs}</div>
+  <div class="small muted" style="margin:-4px 6px 0;line-height:1.4">Se cumplen solas con lo que registras. Pelear en la aventura da poquito: lo fuerte sale de aquí y del jefe del gym.</div>
   <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
-  ${qs?`<div class="sec">Misiones ${qd===t?'de hoy':'del sábado'} <small>en la vida real</small></div><div class="card list">${qs}</div>
-  <div class="small muted" style="margin:-4px 6px 0;line-height:1.4">Se cumplen solas con lo que registras en Gym, Comida y Peso. Si te pasas de calorías pierdes vida, y si faltas al gym, los enemigos de ese día se enfurecen. <b style="color:#fff">Tip:</b> pelea en la noche, ya con tus misiones cumplidas, para llegar más fuerte.</div>`:''}
-
   <div class="sec">Bitácora</div><div class="card list">${g.log.slice(0,8).map(l=>`<div class="it"><div class="grow small">${l.t}</div><span class="small muted">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div>
   ${g.trophies.length?`<div class="sec">Trofeos</div><div class="card trophies">${g.trophies.map(x=>`<div>${enSpr(x.id,2.4)}<span>Sem. ${fmtShort(x.mon)}</span></div>`).join('')}</div>`:''}
   <div class="foot">Combate por turnos: el enemigo te avisa qué va a hacer. Cúbrete cuando cargue un golpe fuerte y guarda el foco para el golpe cargado.</div>`;
-  if(msgs&&msgs.length){toast(`🎁 ${msgs.length} recompensa${msgs.length>1?'s':''} nueva${msgs.length>1?'s':''}`);sfx('coin');}
+  if(msgs&&msgs.length){toast(`👻 ${msgs.length} misión${msgs.length>1?'es':''} cumplida${msgs.length>1?'s':''}`);sfx('coin');}
   const wm=document.getElementById('wmap');if(wm)wm.scrollLeft=Math.max(0,+wm.dataset.x-wm.clientWidth/2);
 }
 
@@ -2065,8 +2154,8 @@ const runEq=()=>{const r=G().run;return r&&!r.dead?r:null;};
 function enemyTurn(d,heavy){const rd=rdOf(d),rs=raidState(d),en=EN[rs.mon],r=runEq();rd.pend=0;
   if(rs.dead||rs.clear)return;
   if(rd.stun&&!heavy){rd.stun=0;RFX2={stun:1,ts:Date.now()};save();refreshRaid();toast(`💫 ${en.n} sigue aturdido por tu récord: pierde su turno`);return;}
-  if(Math.random()*100<(r?pAgi(r):5)){RFX2={dodge:1,ts:Date.now()};sfx('dodge');save();refreshRaid();return;}
-  const dmg=Math.max(1,Math.round(en.atk*(heavy?1.7:0.65)*rnd(0.85,1.15))-(r?pDef(r):0)),max=raidHPMax(),alive=rd.dmg<max;
+  if(Math.random()*100<pAgi(r)){RFX2={dodge:1,ts:Date.now()};sfx('dodge');save();refreshRaid();return;}
+  const dmg=Math.max(1,Math.round(9*en.a*(heavy?1.7:0.65)*rnd(0.85,1.15))-pDef(r)),max=raidHPMax(),alive=rd.dmg<max;
   rd.dmg=Math.min(max,rd.dmg+dmg);RFX2={pdmg:dmg,heavy,ts:Date.now()};sfx(heavy?'crit':'hurt');save();refreshRaid();
   if(heavy)toast(`💥 Te tardaste en volver: ${en.n} te dio un golpe fuerte (−${dmg})`);
   if(alive&&rd.dmg>=max)setTimeout(()=>toast('😵 Te noquearon: el botín baja a la mitad. Termina igual tu rutina.'),500);}
@@ -2085,20 +2174,18 @@ function raidAfter(before,d){const a=raidState(d);if(a.dealt>before.dealt){const
   if(a.clear&&!before.clear){stopRest();setTimeout(()=>raidWin(d),650);}}
 function raidLoot(d){const g=G(),rs=raidState(d);g.raids=g.raids||{};if(g.raids[d])return g.raids[d];try{syncRun();}catch(e){}
   const rd=rdOf(d),ko=rd.dmg>=raidHPMax(),hpPct=1-rd.dmg/raidHPMax();
-  const gold=Math.round((20+rs.crits*10)*(ko?0.5:1))+(!ko&&hpPct>=0.7?15:0),L={gold,crits:rs.crits,items:[]};
-  const r=g.run,inRun=r&&!r.dead&&!r.won&&d>=r.start&&d<=addDays(r.mon,6);
-  if(inRun){r.gold+=gold;L.items.push(`🪙 +${gold} oro para tu run`);
-    if(ko)L.items.push('😵 Te noquearon: botín a la mitad y sin cofre');else if(hpPct>=0.7)L.items.push('🛡️ Defensa sólida (70%+ de vida): +15 oro incluidos');
-    if(rs.crits&&!ko){const ch=rollChest(rs.crits>=3?'rare':'common');applyChest(ch);L.items.push(`🎁 Cofre ${ch.tier==='rare'?'raro':'común'}: ${ch.txt}`);}
-    else if(!ko&&r.potions<3&&Math.random()<0.35){r.potions++;L.items.push('🧪 Una poción');}}
-  else{g.souls+=2;L.items.push('👻 +2 almas (tu run de esta semana ya terminó)');}
-  if(rs.crits)L.items.unshift(`📈 ${rs.crits} récord${rs.crits>1?'s':''} personal${rs.crits>1?'es':''} = ${rs.crits} crítico${rs.crits>1?'s':''}`);
-  g.raids[d]=L;glog(`🏋️ Venciste al jefe del gym: ${EN[rs.mon].n}`);save();return L;}
+  const souls=Math.round((10+rs.crits*4)*(ko?0.5:1))+(!ko&&hpPct>=0.7?3:0),L={souls,crits:rs.crits,items:[],opts:null};g.souls+=souls;
+  if(rs.crits)L.items.push(`📈 ${rs.crits} récord${rs.crits>1?'s':''} personal${rs.crits>1?'es':''} = ${rs.crits} crítico${rs.crits>1?'s':''}`);
+  L.items.push(`👻 +${souls} almas para mejoras permanentes`);
+  if(ko)L.items.push('😵 Te noquearon: almas a la mitad y sin bendición');else if(hpPct>=0.7)L.items.push('🛡️ Defensa sólida: +3 almas incluidas');
+  if(rs.crits&&!ko){const ex=[...g.bless],o=[];for(let i=0;i<3;i++){const k=Object.keys(RELICS).filter(x=>!ex.includes(x)&&!o.includes(x));if(!k.length)break;o.push(k[Math.floor(Math.random()*k.length)]);}L.opts=o;}
+  g.raids[d]=L;glog(`🏋️ Venciste al jefe del gym: ${EN[rs.mon].n} · +${souls} almas`);save();return L;}
 function raidWin(d){const L=raidLoot(d),m=raidMon(d);sfx('win');
   openSheet(`<div class="vict"><div class="vspr">${enSpr(m,5.5)}</div><div class="vt">¡VICTORIA!</div>
     <div class="small muted">Derrotaste a ${EN[m].n} con tu entreno de hoy</div>
-    <div class="loot">${L.items.map(x=>`<div>${x}</div>`).join('')}<div>⭐ XP por cada serie, ya sumada a tu nivel</div></div>
-    <button class="btn block" style="margin-top:16px" data-act="closemodal">Continuar</button></div>`);
+    <div class="loot">${L.items.map(x=>`<div>${x}</div>`).join('')}<div>⭐ Tu entreno ya subió tu nivel: más ataque y vida en la Aventura</div></div>
+    ${L.opts&&!L.chosen?`<div style="font-weight:800;margin:16px 0 0">✨ Por romper récords, elige una bendición para tu próxima run:</div><div class="ropts">${L.opts.map(k=>`<button class="ropt rel" data-act="gbless" data-d="${d}" data-k="${k}"><span class="ric">${RELICS[k].ic}</span><span><b>${RELICS[k].n}</b><small>${RELICS[k].d}</small></span></button>`).join('')}</div>`
+      :`<button class="btn block" style="margin-top:16px" data-act="closemodal">Continuar</button>`}</div>`);
   setTimeout(()=>sfx('coin'),700);}
 function raidCard(k){const t=today(),rs=raidState(k),en=EN[rs.mon],fx=RFX&&Date.now()-RFX.ts<900?RFX:null,fx2=RFX2&&Date.now()-RFX2.ts<900?RFX2:null,left=Math.max(0,rs.max-rs.dealt);
   const rd=rdOf(k),hmax=raidHPMax(),hp=Math.max(0,hmax-rd.dmg),ko=hp<=0;
@@ -2138,24 +2225,39 @@ const zoneOf=mon=>isFinalWeek(mon)?FINALZ:ZONES[weekIdx(mon)%ZONES.length];
 const zStars=mon=>{const n=isFinalWeek(mon)?5:Math.min(5,1+Math.floor(weekIdx(mon)/2));return '★'.repeat(n)+`<i>${'★'.repeat(5-n)}</i>`;};
 const zBg=z=>`background:radial-gradient(120% 100% at 100% 0%,rgba(255,255,255,.08),rgba(0,0,0,0) 60%),linear-gradient(160deg,${z[2]},${z[3]})`;
 let DUN=false;
-function runFights(r){const t=today(),L=[];for(let di=0;di<6;di++)floorEnemies(r,di).forEach((id,ei)=>{if(!r.cleared[di+'|'+ei+'|'+id]&&canFight(r,di))L.push({di,ei,id,d:addDays(r.mon,di)});});return L;}
-function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),z=zoneOf(r.mon),L=runFights(r),nx=L[0];
-  const rows=[...Array(6)].map((_,di)=>{const d=addDays(r.mon,di),pre=d<r.start,ids=floorEnemies(r,di),clear=!pre&&ids.every((id,ei)=>r.cleared[di+'|'+ei+'|'+id]);
-    const cells=ids.map((id,ei)=>{const done=r.cleared[di+'|'+ei+'|'+id],can=!done&&canFight(r,di),tier=EN[id].tier||'',st=enemyStats(id,r,di),isN=nx&&nx.di===di&&nx.ei===ei;
-      return `<button class="dn ${done?'done':can?'ready':'locked'} ${isN?'next':''} ${tier}" ${can?`data-act="gfight" data-di="${di}" data-ei="${ei}"`:'disabled'}>
-        ${isN?`<div class="dh">${heroSpr(1.6)}</div>`:''}<div class="ds">${enSpr(id,tier?3:2.6)}</div><b>${enName(id)}</b>
-        <small>${done?'✓ Vencido':pre?'—':can?`❤️ ${st.maxhp} · ⚔️ ${st.atk}${st.rage?' 😤':''}`:d>t?'🔒 '+fmtShort(d):di===5?'🔒 Limpia L–V':'🔒'}</small></button>`;}).join('');
-    return `<div class="dfl ${clear?'clear':''} ${d===t?'now':''} ${d>t?'lock':''} ${di===5?'bossf':''} ${pre?'lock':''}"><div class="dd">${clear?'✓':DAYN[di]}</div><div class="dnodes">${cells}</div></div>`;}).join('');
-  const cta=r.dead?'<div class="card small" style="text-align:center">💀 Caíste en esta run. La siguiente zona se abre el lunes.</div>'
-    :r.won?'<div class="card small" style="text-align:center">👑 Zona superada. La siguiente se abre el lunes.</div>'
-    :nx?`<button class="btn block dcta" data-act="gfight" data-di="${nx.di}" data-ei="${nx.ei}">⚔️ Pelear contra ${enName(nx.id)}</button>`
-    :`<div class="card small" style="text-align:center;line-height:1.45">✅ No hay más enemigos por hoy. ${t<addDays(r.mon,5)?'Mañana avanzas al siguiente piso.':''}</div>`;
-  openSheet(`<div class="dhead" style="${zBg(z)}"><div class="row between"><div><div class="zt" style="font-size:11px;font-weight:900;letter-spacing:1.2px;color:rgba(255,255,255,.7)">SEMANA ${weekIdx(r.mon)+1} · <span class="stars">${zStars(r.mon)}</span></div>
-      <div style="font-size:22px;font-weight:900;margin-top:2px">${z[1]} ${z[0]}</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>
-    <div class="row" style="margin-top:10px;align-items:center"><div>${heroSpr(2.4)}</div><div style="flex:1;min-width:0">${gbar(r.hp,r.maxhp,'hpg')}<div class="gstats" style="margin-top:6px"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>🧪 ${r.potions}</span><span>🪙 ${r.gold}</span></div></div></div>
-    <div class="grid2" style="margin-top:10px"><button class="btn" style="padding:10px;font-size:15px" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" style="padding:10px;font-size:15px" data-act="gupg">👻 Mejoras</button></div></div>
-    <div class="dpath">${rows}</div>${cta}`);
-  musicStart('map');setTimeout(()=>{const n=document.querySelector('#sheet .dn.next')||document.querySelector('#sheet .dfl.now');if(n)n.scrollIntoView({block:'center',behavior:'smooth'});},250);}
+function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),mon=mondayOf(t),z=zoneOf(mon);MD().dataset.lock='';
+  if(r&&r.reward)return showReward();
+  if(r&&r.cur&&!r.dead&&!r.won){const n=nodeAt(r,r.cur.f,r.cur.l);if(n.t==='S')return showShopNode();if(n.t==='C')return showCamp();if(n.t==='Q')return showEvent(n.q);r.cur=null;}
+  const head=`<div class="dhead" style="${zBg(z)}"><div class="row between"><div><div style="font-size:11px;font-weight:900;letter-spacing:1.2px;color:rgba(255,255,255,.7)">SEMANA ${weekIdx(mon)+1} · <span class="stars">${zStars(mon)}</span></div>
+      <div style="font-size:22px;font-weight:900;margin-top:2px">${z[1]} ${z[0]}</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>`;
+  if(!r||r.dead||r.won){const b=heroBase(),rec=Math.round(Lstar(weekIdx(mon)));
+    openSheet(`${head}<div class="small" style="margin-top:8px;color:rgba(255,255,255,.85);line-height:1.45">Recorre 10 pisos: enemigos, élites, eventos, fogatas y el jefe al final. Si caes, empiezas de nuevo cuando quieras.</div></div>
+      <div class="card" style="text-align:center"><div style="display:flex;justify-content:center">${heroSpr(4.2)}</div>
+        <div style="font-weight:800;margin-top:6px">Nivel ${b.L} · ⚔️ ${pAtk(null)} · ❤️ ${pMax(null)} · 💨 ${pAgi(null)}% · 🎯 ${pCrit(null)}%</div>
+        <div class="small muted" style="margin-top:4px">Nivel recomendado para esta zona: ${rec}</div>
+        ${g.bless.length?`<div class="small" style="margin-top:8px">✨ Empiezas con: ${g.bless.map(k=>RELICS[k].ic+' '+RELICS[k].n).join(', ')}</div>`:''}
+        ${overDay(addDays(t,-1))?'<div class="small" style="margin-top:8px;color:#ffb3ad">🍩 Maldición del antojo: ayer te pasaste de calorías, empiezas con 85% de vida.</div>':''}
+        <button class="btn block" style="margin-top:14px" data-act="gnew">⚔️ Empezar run</button>
+        <button class="btn ghost block" style="margin-top:8px" data-act="gupg">👻 Mejoras permanentes</button></div>`);
+    musicStart('map');return;}
+  const RH=78,top=34,X=[18,50,82];let lines='',nodes='';
+  for(let f=1;f<=10;f++){const ls=f===10?[1]:[0,1,2];
+    ls.forEach(l=>{const n=nodeAt(r,f,l),y=top+(f-1)*RH,vis=r.path.includes(f+'|'+l),go=canGo(r,f,l),here=r.f===f&&r.lane===l,tc=n.en?tierCls(n.en):'';
+      if(f<10){(f===9?[1]:[l-1,l,l+1]).filter(x=>x>=0&&x<=2).forEach(x=>{const a=r.path.includes(f+'|'+l)&&r.path.includes((f+1)+'|'+x);
+        lines+=`<line x1="${X[l]}" y1="${y}" x2="${X[x]}" y2="${y+RH}" stroke="${a?'#32d74b':'rgba(255,255,255,.14)'}" stroke-width="${a?1.2:0.6}" vector-effect="non-scaling-stroke" ${a?'':'stroke-dasharray="3 4"'}/>`;});}
+      const ic=n.en&&(n.t!=='E'||go||vis)?`<span class="mi">${enSpr(n.en,n.t==='B'?2.6:1.7)}</span>`:`<span class="me2">${NODE[n.t][0]}</span>`;
+      nodes+=`<button class="mn t${n.t} ${vis?'vis':''} ${go?'go':''} ${here?'here':''} ${tc}" style="left:${X[l]}%;top:${y}px" ${go?`data-act="gnode" data-f="${f}" data-l="${l}"`:'disabled'} aria-label="${NODE[n.t][1]}">${ic}${here?`<span class="mh">${heroSpr(1.5)}</span>`:''}</button>`;
+      if(go&&n.en)nodes+=`<div class="mlbl" style="left:${X[l]}%;top:${y+30}px">${enName(n.en)}</div>`;
+      else if(go)nodes+=`<div class="mlbl" style="left:${X[l]}%;top:${y+30}px">${NODE[n.t][1]}</div>`;});
+    nodes+=`<div class="mfl" style="top:${top+(f-1)*RH-8}px">${f===10?'JEFE':'P'+f}</div>`;}
+  const H=top+9*RH+60;
+  openSheet(`${head}<div class="row" style="margin-top:10px;align-items:center"><div>${heroSpr(2.2)}</div><div style="flex:1;min-width:0">${gbar(r.hp,pMax(r),'hpg')}
+      <div class="gstats" style="margin-top:6px"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>💨 ${pAgi(r)}%</span><span>🎯 ${pCrit(r)}%</span><span>🧪 ${r.potions}</span><span>🪙 ${r.gold}</span></div></div></div>
+      ${r.relics.length?`<div class="rels">${r.relics.map(k=>`<button class="relb" data-act="grel" data-k="${k}">${RELICS[k].ic}</button>`).join('')}</div>`:''}</div>
+    <div class="small muted" style="text-align:center;margin:-2px 0 8px">Piso ${r.f}/10 · toca uno de los círculos verdes para avanzar</div>
+    <div class="rmap" style="height:${H}px"><svg viewBox="0 0 100 ${H}" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">${lines}</svg>${nodes}</div>
+    <div class="mleg">${Object.entries(NODE).map(([k,v])=>`<span>${v[0]} ${v[1]}</span>`).join('')}</div>`);
+  musicStart('map');setTimeout(()=>{const n=document.querySelector('#sheet .mn.go')||document.querySelector('#sheet .mn.here');if(n)n.scrollIntoView({block:'center',behavior:'smooth'});},250);}
 
 /* ================= Mapa del mundo ================= */
 function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
@@ -2267,16 +2369,22 @@ document.addEventListener('click',ev=>{
     case 'setchk':setCheck(b.dataset.id,+b.dataset.i);break;
     case 'exdone':exDone(b.dataset.id);break;
     case 'player':showPlayer();break;
-    case 'gfight':startFight(+b.dataset.di,+b.dataset.ei);break;
+    case 'dungeon':sfx('tap');openDungeon();break;
+    case 'gnode':enterNode(+b.dataset.f,+b.dataset.l);break;
     case 'gact':act(b.dataset.k);break;
     case 'gflee':flee();break;
-    case 'gclose':{const m=document.getElementById('modal');m.dataset.lock='';C=null;renderAventura();if(DUN)openDungeon();else{m.classList.remove('on');musicStart('map');}break;}
-    case 'dungeon':sfx('tap');openDungeon();break;
-    case 'gnew':newRun();save();renderAventura();toast('⚔️ ¡Nueva run!');break;
-    case 'gshop':showShop();break;
-    case 'gbuy':buy(b.dataset.t,b.dataset.k);break;
+    case 'gclose':{const m=document.getElementById('modal');m.dataset.lock='';const won=C&&C.over&&C.over.win;C=null;renderAventura();if(won)sfx('tap');openDungeon();break;}
+    case 'gnew':newRun();save();renderAventura();openDungeon();break;
     case 'gupg':showUpg();break;
-    case 'gup':{const g=G(),u=UPG[b.dataset.k];if(g.souls<u.cost||lvU(b.dataset.k)>=u.max)return;g.souls-=u.cost;g.meta[b.dataset.k]=lvU(b.dataset.k)+1;save();showUpg();toast(`${u.ic} ${u.n} mejorado`);break;}
+    case 'gup':buyUpg(b.dataset.k);break;
+    case 'gpick':pickReward(+b.dataset.i);break;
+    case 'gskip':{const r=G().run;if(r){r.reward=null;save();}MD().dataset.lock='';openDungeon();break;}
+    case 'gcamp':campDo(b.dataset.k);break;
+    case 'gsbuy':shopBuy(b.dataset.id);break;
+    case 'gsleave':{const r=G().run;if(r&&r.cur){advance(r);save();}openDungeon();break;}
+    case 'gevent':eventDo(+b.dataset.q,+b.dataset.i);break;
+    case 'grel':{const x=RELICS[b.dataset.k];toast(`${x.ic} ${x.n}: ${x.d}`);break;}
+    case 'gbless':{const g=G(),L=g.raids&&g.raids[b.dataset.d];if(L&&!L.chosen){L.chosen=b.dataset.k;g.bless.push(b.dataset.k);save();sfx('lvl');toast(`✨ ${RELICS[b.dataset.k].n} te espera en tu próxima run`);}MD().classList.remove('on');break;}
     case 'unit':{const id=b.dataset.id,nu=WU(id)==='lb'?'kg':'lb';S.exu=S.exu||{};S.exu[id]=nu;const ss=S.workouts[gymDate];if(ss&&ss.ex[id])ss.ex[id].u=nu;save();renderGym();toast(`${EX[id].n}: ahora en ${nu}`);break;}
     case 'zoom':zoom(b.dataset.id);break;
     case 'rest-':restAdj(-15);break;
