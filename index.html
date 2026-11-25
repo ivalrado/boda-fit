@@ -325,6 +325,36 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .trophies{display:flex;flex-wrap:wrap;gap:14px}.trophies div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--sub)}
 .shopic{font-size:24px;width:36px;text-align:center;flex:none}
+.zban{border-radius:22px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.zban .zt{font-size:12px;font-weight:900;letter-spacing:1.2px;color:rgba(255,255,255,.7)}
+.zban .zn{font-size:24px;font-weight:900;letter-spacing:-.4px;margin-top:2px}
+.zban .zs{font-size:13px;color:rgba(255,255,255,.78);font-weight:650;margin-top:4px}
+.zban .zpre{display:flex;gap:6px;margin:12px 0 14px;align-items:flex-end}
+.zban .zpre .spr{animation:bob 1.3s steps(2) infinite}
+.zban .zpre div:nth-child(2) .spr{animation-delay:.3s}.zban .zpre div:nth-child(3) .spr{animation-delay:.6s}
+.stars{color:#ffd60a;letter-spacing:1px}.stars i{font-style:normal;color:rgba(255,255,255,.25)}
+.wn.cur{width:44px;height:44px;font-size:18px}
+.wn.fut{font-size:14px}
+.wgo{position:absolute;transform:translateX(-50%);font-size:11px;font-weight:900;color:#06290f;background:#32d74b;border-radius:999px;padding:3px 9px;white-space:nowrap;pointer-events:none;box-shadow:0 2px 0 #0a5a1f}
+/* mazmorra */
+.dhead{border-radius:20px;padding:14px;margin-bottom:12px}
+.dhead .row{gap:10px}
+.dpath{position:relative;padding-left:4px}
+.dpath:before{content:'';position:absolute;left:21px;top:20px;bottom:20px;border-left:3px dotted rgba(255,255,255,.18)}
+.dfl{display:flex;gap:12px;margin-bottom:12px;position:relative}
+.dfl .dd{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11px;font-weight:900;background:#2a3347;color:#c9d1e0;border:3px solid #14142b;z-index:1}
+.dfl.clear .dd{background:#2f9e5b;color:#fff}.dfl.now .dd{background:#32d74b;color:#06290f}.dfl.lock{opacity:.5}
+.dfl .dnodes{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dfl.bossf .dnodes{grid-template-columns:1fr}
+.dn{border:1.5px solid transparent;background:rgba(255,255,255,.05);border-radius:16px;padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#fff;position:relative}
+.dn .ds{height:52px;display:grid;place-items:center}
+.dn b{font-size:12.5px;line-height:1.15;text-align:center}.dn small{font-size:11px;color:var(--sub);font-weight:700}
+.dn.ready{border-color:rgba(50,215,75,.65);background:rgba(50,215,75,.08)}.dn.ready .ds .spr{animation:bob 1.2s steps(2) infinite}
+.dn.next{box-shadow:0 0 0 4px rgba(50,215,75,.18)}
+.dn.done{opacity:.5}.dn.done .ds{filter:grayscale(1)}.dn.locked .ds{filter:brightness(.3)}
+.dn.boss,.dn.final{background:rgba(255,214,10,.07)}.dn.boss.ready,.dn.final.ready{border-color:rgba(255,214,10,.7)}
+.dn .dh{position:absolute;left:-6px;bottom:4px}.dn .dh .spr{animation:bob 1s steps(2) infinite}
+.dcta{position:sticky;bottom:0;margin-top:6px;box-shadow:0 -10px 20px rgba(0,0,0,.4)}
 .fcards{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
 .fcard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid rgba(50,215,75,.45);background:radial-gradient(120% 120% at 100% 0%,rgba(255,69,58,.14),rgba(0,0,0,0) 60%),var(--card);border-radius:20px;padding:12px 14px;color:#fff}
 .fcard.boss,.fcard.final{border-color:rgba(255,214,10,.6);background:radial-gradient(120% 120% at 100% 0%,rgba(255,214,10,.16),rgba(0,0,0,0) 60%),var(--card)}
@@ -571,7 +601,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125162424';
+const APP_V='20261125163104';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1840,7 +1870,7 @@ function act(kind){if(!C||C.over)return;const r=G().run,e=C.e;C.fx={};
   C.intent=nextIntent();save();fightSfx();renderFight();}
 function fightSfx(){const f=C.fx||{};if(f.edmg)sfx(f.crit?'crit':'hit');if(f.miss)sfx('dodge');if(f.heal)sfx('heal');if(f.pdmg)sfx('hurt',0.28);if(f.dodge)sfx('dodge',0.28);}
 function flee(){if(!C||C.over)return;const r=G().run,lost=Math.min(r.gold,10);r.gold-=lost;glog(`🏃 Huiste de ${enName(C.id)}${lost?` · −${lost} oro`:''}`);save();
-  const m=document.getElementById('modal');m.dataset.lock='';m.classList.remove('on');C=null;renderAventura();musicStart('map');toast('Huiste del combate. El enemigo te espera.');}
+  const m=document.getElementById('modal');m.dataset.lock='';C=null;renderAventura();if(DUN)openDungeon();else{m.classList.remove('on');musicStart('map');}toast('Huiste del combate. El enemigo te espera.');}
 function rollChest(tier){const pool=tier==='legend'?[['weapon','legend'],['relic'],['gold',150]]:tier==='rare'?[['relic'],['weapon','axe'],['armor','mail'],['gold',80]]:[['gold',30],['potion'],['potion'],['weapon','wood'],['armor','leather'],['gold',40]];
   return {tier,p:pool[Math.floor(Math.random()*pool.length)]};}
 function applyChest(ch){const r=G().run,[k,v]=ch.p;
@@ -1907,7 +1937,7 @@ function showShop(){const r=G().run;const row=(t,k,it,extra,owned,cost)=>`<div c
       ${Object.entries(ARM).map(([k,a])=>row('armor',k,a,`−${a.def} de daño recibido`,r.armor===k,price2(a.cost))).join('')}</div>
     <div class="small muted" style="font-weight:800;margin:14px 2px 6px">RELIQUIAS</div><div class="card list" style="background:var(--card2)">
       ${Object.entries(RELICS).map(([k,x])=>row('relic',k,x,x.d,r.relics.includes(k),price2(x.cost))).join('')}</div>
-    <button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`;
+    ${DUN?'<button class="btn ghost block" style="margin-top:12px" data-act="dungeon">‹ Volver a la mazmorra</button>':'<button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>'}`;
   const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
 function buy(t,k){const r=G().run;
   const cost=t==='pot'?price2(15):t==='elixir'?price2(45):t==='weapon'?price2(WEAP[k].cost):t==='armor'?price2(ARM[k].cost):price2(RELICS[k].cost);
@@ -1922,7 +1952,7 @@ function showUpg(){const g=G();
     <div class="card list" style="background:var(--card2)">${Object.entries(UPG).map(([k,u])=>{const l=lvU(k),mx=l>=u.max;return `<div class="it"><div class="shopic">${u.ic}</div><div class="grow"><div class="t">${u.n} <span class="small muted">${l}/${u.max}</span></div><div class="s">${u.d}</div></div>
       ${mx?'<span class="pill">Máximo</span>':`<button class="btn ${g.souls>=u.cost?'':'ghost'}" style="padding:9px 12px;font-size:14px" data-act="gup" data-k="${k}" ${g.souls>=u.cost?'':'disabled'}>👻 ${u.cost}</button>`}</div>`;}).join('')}</div>
     <div class="small muted" style="margin-top:10px;line-height:1.4">Las mejoras de vida, ataque y pociones aplican desde tu siguiente run.</div>
-    <button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`;
+    ${DUN?'<button class="btn ghost block" style="margin-top:12px" data-act="dungeon">‹ Volver a la mazmorra</button>':'<button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>'}`;
   const m=document.getElementById('modal');m.dataset.lock='';m.classList.add('on');}
 
 /* pantalla principal */
@@ -1958,14 +1988,18 @@ function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldM
       ${gbar(r.hp,r.maxhp,'hpg')}
       <div class="gstats"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>💨 ${pAgi(r)}%</span><span>🎯 ${pCrit(r)}%</span><span>🧪 ${r.potions}</span></div></div></div>
     <div class="eqs">${eq.map(x=>`<span>${x}</span>`).join('')}</div>
-    <div class="grid2" style="margin-top:12px"><button class="btn" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" data-act="gupg">👻 Mejoras</button></div>
+    <div class="grid2" style="margin-top:12px"><button class="btn ghost" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" data-act="gupg">👻 Mejoras</button></div>
   </div>
   ${status}
-  ${r.dead||r.won?'':`<div class="sec">⚔️ Peleas disponibles <small>toca para pelear</small></div>${fightsBlock(r,days,t)}`}
+  ${(()=>{const z=zoneOf(r.mon),L=runFights(r),ids=[...new Set([...Array(6)].flatMap((_,di)=>floorEnemies(r,di)))].slice(0,3);
+    return `<div class="zban" style="${zBg(z)}"><div class="zt">ZONA DE ESTA SEMANA · <span class="stars">${zStars(r.mon)}</span></div><div class="zn">${z[1]} ${z[0]}</div>
+    <div class="zs">${r.dead?'💀 Caíste en esta zona':r.won?'👑 Zona superada':L.length?`${L.length} pelea${L.length>1?'s':''} disponible${L.length>1?'s':''} · jefe: ${enName(floorEnemies(r,5)[0])}`:'Sin peleas por hoy · mañana avanzas'}</div>
+    <div class="zpre">${ids.map(id=>`<div>${enSpr(id,2.4)}</div>`).join('')}<div style="margin-left:auto">${enSpr(floorEnemies(r,5)[0],3)}</div></div>
+    <button class="btn block" data-act="dungeon" style="${L.length&&!r.dead&&!r.won?'':'background:rgba(255,255,255,.12);color:#fff'}">${L.length&&!r.dead&&!r.won?'⚔️ Entrar a la mazmorra':'🗺️ Ver la mazmorra'}</button></div>`;})()}
+  <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
   ${qs?`<div class="sec">Misiones ${qd===t?'de hoy':'del sábado'} <small>en la vida real</small></div><div class="card list">${qs}</div>
   <div class="small muted" style="margin:-4px 6px 0;line-height:1.4">Se cumplen solas con lo que registras en Gym, Comida y Peso. Si te pasas de calorías pierdes vida, y si faltas al gym, los enemigos de ese día se enfurecen. <b style="color:#fff">Tip:</b> pelea en la noche, ya con tus misiones cumplidas, para llegar más fuerte.</div>`:''}
-  <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
-  <div class="sec">Mapa de la semana</div>${map}
+
   <div class="sec">Bitácora</div><div class="card list">${g.log.slice(0,8).map(l=>`<div class="it"><div class="grow small">${l.t}</div><span class="small muted">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div>
   ${g.trophies.length?`<div class="sec">Trofeos</div><div class="card trophies">${g.trophies.map(x=>`<div>${enSpr(x.id,2.4)}<span>Sem. ${fmtShort(x.mon)}</span></div>`).join('')}</div>`:''}
   <div class="foot">Combate por turnos: el enemigo te avisa qué va a hacer. Cúbrete cuando cargue un golpe fuerte y guarda el foco para el golpe cargado.</div>`;
@@ -2092,6 +2126,33 @@ function raidHud(k){const rs=raidState(k),en=EN[rs.mon],rd=rdOf(k),hmax=raidHPMa
     <div class="rbars"><div><div class="rbl">${esc(S.settings.name||'Tú')}${ko?' · 😵':''}</div>${gbar(hp,hmax,'hpg')}</div><div><div class="rbl" style="text-align:right">${en.n}${rs.dead?' · 💀':''}</div>${gbar(left,rs.max,'hpr')}</div></div>
     <div class="rint2" id="rint2"></div></div>`;}
 
+/* ================= Zonas y mazmorra ================= */
+const ZONES=[['Pradera del Inicio','🌱','#1f5a32','#0e2a18'],['Bosque Sombrío','🌲','#17463a','#0a1f18'],['Cueva de Hierro','⛏️','#353b4a','#15171e'],['Pantano del Antojo','🍩','#3a4a22','#161d0e'],
+  ['Desierto del Ayuno','🏜️','#6a4c22','#2a1e0e'],['Montaña del Esfuerzo','⛰️','#3a4766','#171d2c'],['Volcán del Sudor','🌋','#6a2219','#2a0d0a'],['Tundra de la Disciplina','❄️','#2f5670','#12222d'],['Ruinas del Gimnasio','🏛️','#54472f','#221d14']];
+const FINALZ=['Castillo de la Sombra','🏰','#3a2266','#0b0716'];
+const zoneOf=mon=>isFinalWeek(mon)?FINALZ:ZONES[weekIdx(mon)%ZONES.length];
+const zStars=mon=>{const n=isFinalWeek(mon)?5:Math.min(5,1+Math.floor(weekIdx(mon)/2));return '★'.repeat(n)+`<i>${'★'.repeat(5-n)}</i>`;};
+const zBg=z=>`background:radial-gradient(120% 100% at 100% 0%,rgba(255,255,255,.08),rgba(0,0,0,0) 60%),linear-gradient(160deg,${z[2]},${z[3]})`;
+let DUN=false;
+function runFights(r){const t=today(),L=[];for(let di=0;di<6;di++)floorEnemies(r,di).forEach((id,ei)=>{if(!r.cleared[di+'|'+ei+'|'+id]&&canFight(r,di))L.push({di,ei,id,d:addDays(r.mon,di)});});return L;}
+function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),z=zoneOf(r.mon),L=runFights(r),nx=L[0];
+  const rows=[...Array(6)].map((_,di)=>{const d=addDays(r.mon,di),pre=d<r.start,ids=floorEnemies(r,di),clear=!pre&&ids.every((id,ei)=>r.cleared[di+'|'+ei+'|'+id]);
+    const cells=ids.map((id,ei)=>{const done=r.cleared[di+'|'+ei+'|'+id],can=!done&&canFight(r,di),tier=EN[id].tier||'',st=enemyStats(id,r,di),isN=nx&&nx.di===di&&nx.ei===ei;
+      return `<button class="dn ${done?'done':can?'ready':'locked'} ${isN?'next':''} ${tier}" ${can?`data-act="gfight" data-di="${di}" data-ei="${ei}"`:'disabled'}>
+        ${isN?`<div class="dh">${heroSpr(1.6)}</div>`:''}<div class="ds">${enSpr(id,tier?3:2.6)}</div><b>${enName(id)}</b>
+        <small>${done?'✓ Vencido':pre?'—':can?`❤️ ${st.maxhp} · ⚔️ ${st.atk}${st.rage?' 😤':''}`:d>t?'🔒 '+fmtShort(d):di===5?'🔒 Limpia L–V':'🔒'}</small></button>`;}).join('');
+    return `<div class="dfl ${clear?'clear':''} ${d===t?'now':''} ${d>t?'lock':''} ${di===5?'bossf':''} ${pre?'lock':''}"><div class="dd">${clear?'✓':DAYN[di]}</div><div class="dnodes">${cells}</div></div>`;}).join('');
+  const cta=r.dead?'<div class="card small" style="text-align:center">💀 Caíste en esta run. La siguiente zona se abre el lunes.</div>'
+    :r.won?'<div class="card small" style="text-align:center">👑 Zona superada. La siguiente se abre el lunes.</div>'
+    :nx?`<button class="btn block dcta" data-act="gfight" data-di="${nx.di}" data-ei="${nx.ei}">⚔️ Pelear contra ${enName(nx.id)}</button>`
+    :`<div class="card small" style="text-align:center;line-height:1.45">✅ No hay más enemigos por hoy. ${t<addDays(r.mon,5)?'Mañana avanzas al siguiente piso.':''}</div>`;
+  openSheet(`<div class="dhead" style="${zBg(z)}"><div class="row between"><div><div class="zt" style="font-size:11px;font-weight:900;letter-spacing:1.2px;color:rgba(255,255,255,.7)">SEMANA ${weekIdx(r.mon)+1} · <span class="stars">${zStars(r.mon)}</span></div>
+      <div style="font-size:22px;font-weight:900;margin-top:2px">${z[1]} ${z[0]}</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>
+    <div class="row" style="margin-top:10px;align-items:center"><div>${heroSpr(2.4)}</div><div style="flex:1;min-width:0">${gbar(r.hp,r.maxhp,'hpg')}<div class="gstats" style="margin-top:6px"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>🧪 ${r.potions}</span><span>🪙 ${r.gold}</span></div></div></div>
+    <div class="grid2" style="margin-top:10px"><button class="btn" style="padding:10px;font-size:15px" data-act="gshop" ${r.dead||r.won?'disabled':''}>🛒 Tienda</button><button class="btn ghost" style="padding:10px;font-size:15px" data-act="gupg">👻 Mejoras</button></div></div>
+    <div class="dpath">${rows}</div>${cta}`);
+  musicStart('map');setTimeout(()=>{const n=document.querySelector('#sheet .dn.next')||document.querySelector('#sheet .dfl.now');if(n)n.scrollIntoView({block:'center',behavior:'smooth'});},250);}
+
 /* ================= Mapa del mundo ================= */
 function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
   let start=g.first||cur;if(w.length&&mondayOf(w[0].date)<start)start=mondayOf(w[0].date);
@@ -2108,8 +2169,9 @@ function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
       nodes+=`<div class="wl" style="left:${X(i)+20}px;top:${Y(i)+28}px">${evIcon()} ${fmtShort(EV())}</div>`;continue;}
     const won=g.trophies.some(x=>x.mon===mon),gd=[0,1,2,3,4,5,6].filter(j=>dayDone(addDays(mon,j))).length;
     const st=mon===cur?'cur':mon>cur?'':won?'won':mon<fa?'pre':gd?'past':'lost';
-    nodes+=`<div class="wn ${st}" style="left:${X(i)}px;top:${Y(i)}px" data-act="wnode" data-mon="${mon}">${({won:'👑',cur:'!',past:'✓',lost:'💀',pre:'·'})[st]||i+1}</div>`;
-    const kgv=wk(mon);if(kgv&&mon<=cur)nodes+=`<div class="wl" style="left:${X(i)}px;top:${Y(i)+20}px">${kg(kgv)}</div>`;
+    nodes+=`<div class="wn ${st||'fut'}" style="left:${X(i)}px;top:${Y(i)}px" data-act="${mon===cur?'dungeon':'wnode'}" data-mon="${mon}">${({won:'👑',cur:'⚔️',past:'✓',lost:'💀',pre:'·'})[st]||(mon>cur?zoneOf(mon)[1]:i+1)}</div>`;
+    if(mon===cur)nodes+=`<div class="wgo" style="left:${X(i)}px;top:${Y(i)+26}px">Entrar</div>`;
+    const kgv=wk(mon);if(kgv&&mon<cur)nodes+=`<div class="wl" style="left:${X(i)}px;top:${Y(i)+20}px">${kg(kgv)}</div>`;
     if(mon===cur)hero=`<div class="whero" style="left:${X(i)}px;top:${Y(i)-16}px">${heroSpr(2.4)}</div>`;}
   const ci=Math.round(daysBetween(start,cur)/7);
   return {html:`<div class="wmap" id="wmap" data-x="${X(Math.max(0,Math.min(n-1,ci)))}"><div class="wtrack" style="width:${Wd}px">
@@ -2117,12 +2179,12 @@ function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
     ${dec}${nodes}${hero}</div></div>`,left:Math.max(0,n-1-ci)};}
 function wnodeInfo(mon){const g=G(),w=sortedW().filter(x=>x.date>=mon&&x.date<=addDays(mon,6)),won=g.trophies.some(x=>x.mon===mon),cur=mondayOf(today());
   const gd=[...Array(7)].map((_,i)=>addDays(mon,i)).filter(dayDone).length;
-  toast(`Semana del ${fmtShort(mon)} · ${mon>cur?'por venir':`${gd} entreno${gd===1?'':'s'}${won?' · 👑 jefe vencido':gd||mon===cur?'':' · 💀 semana perdida'}${w.length?' · '+kg(w[w.length-1].kg)+' kg':''}`}`);}
+  toast(`${zoneOf(mon)[1]} ${zoneOf(mon)[0]} · ${fmtShort(mon)} · ${mon>cur?'se abre ese lunes':`${gd} entreno${gd===1?'':'s'}${won?' · 👑 jefe vencido':gd||mon===cur?'':' · 💀 semana perdida'}${w.length?' · '+kg(w[w.length-1].kg)+' kg':''}`}`);}
 
 /* ================= Navegación y eventos ================= */
 let curTab='peso';
 const R={peso:renderPeso,gym:renderGym,comida:renderComida,super:renderSuper,aventura:renderAventura,plan:renderPlan};
-function show(tab){applyTheme();curTab=tab;document.body.classList.remove('hudon');if(tab==='aventura')musicStart('map');else musicStop();document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+tab));
+function show(tab){applyTheme();curTab=tab;DUN=false;document.body.classList.remove('hudon');if(tab==='aventura')musicStart('map');else musicStop();document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+tab));
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));R[tab]();window.scrollTo(0,0);}
 function applyTheme(){document.body.classList.toggle('pixel',S.settings.theme==='pixel');}
 function rerender(){applyTheme();R[curTab]();}
@@ -2182,7 +2244,7 @@ document.addEventListener('click',ev=>{
   const tabB=ev.target.closest('[data-tab]');if(tabB){sfx('tap');show(tabB.dataset.tab);return;}
   const b=ev.target.closest('[data-act]');if(!b)return;
   const a=b.dataset.act;
-  if(a==='closemodal'){if(b.id==='modal'&&ev.target!==b)return;if(document.getElementById('modal').dataset.lock==='1')return;document.getElementById('modal').classList.remove('on');return;}
+  if(a==='closemodal'){if(b.id==='modal'&&ev.target!==b)return;if(document.getElementById('modal').dataset.lock==='1')return;document.getElementById('modal').classList.remove('on');DUN=false;return;}
   if(rEvent(a,b)||fpEvent(a,b))return;
   switch(a){
     case 'tsfx':S.settings.sfx=!sfxOn();save();if(sfxOn()){actx();sfx('coin');}renderAventura();break;
@@ -2204,7 +2266,8 @@ document.addEventListener('click',ev=>{
     case 'gfight':startFight(+b.dataset.di,+b.dataset.ei);break;
     case 'gact':act(b.dataset.k);break;
     case 'gflee':flee();break;
-    case 'gclose':{const m=document.getElementById('modal');m.dataset.lock='';m.classList.remove('on');C=null;renderAventura();musicStart('map');break;}
+    case 'gclose':{const m=document.getElementById('modal');m.dataset.lock='';C=null;renderAventura();if(DUN)openDungeon();else{m.classList.remove('on');musicStart('map');}break;}
+    case 'dungeon':sfx('tap');openDungeon();break;
     case 'gnew':newRun();save();renderAventura();toast('⚔️ ¡Nueva run!');break;
     case 'gshop':showShop();break;
     case 'gbuy':buy(b.dataset.t,b.dataset.k);break;
