@@ -601,7 +601,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125163104';
+const APP_V='20261125164038';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -761,7 +761,7 @@ const BASER=['PU','PL','LG','AR','GB','UP','S','R'];
 function applyCustom(){
   Object.keys(EX).forEach(k=>delete EX[k]);Object.assign(EX,JSON.parse(JSON.stringify(EX0)));
   Object.entries(S.cex||{}).forEach(([id,c])=>{EX[id]=c.type==='cardio'?{n:c.n,img:'',type:'cardio',m:c.m||'Cardio',target:'20 min',tip:'',fields:[['min','Min','20']],cx:1}:{n:c.n,img:'',type:'str',m:c.m||'',tip:'',cx:1};});
-  Object.entries(S.exo||{}).forEach(([id,o])=>{const e=EX[id];if(!e)return;if(e.type==='str'){if(o.sets)e.sets=o.sets;if(o.reps)e.reps=o.reps;}else if(e.type==='cardio'&&o.t)e.target=o.t;});
+  Object.entries(S.exo||{}).forEach(([id,o])=>{const e=EX[id];if(!e)return;if(e.type==='str'){if(o.sets)e.sets=o.sets;if(o.reps)e.reps=o.reps;if(o.rest)e.rest=o.rest;}else if(e.type==='cardio'&&o.t)e.target=o.t;});
   setMeals();
   Object.keys(ROUT).forEach(k=>delete ROUT[k]);Object.assign(ROUT,JSON.parse(JSON.stringify(ROUT0)),JSON.parse(JSON.stringify(S.rout||{})));
   Object.values(ROUT).forEach(r=>{r.ex=(r.ex||[]).filter(id=>EX[id]);});}
@@ -1001,7 +1001,7 @@ function exCard(k,id,e,data){
     <div class="sr ${cls} ${x.done?'ok':''}">${e.fields.map(f=>`<input ${ro} inputmode="decimal" data-set="${id}|0|${f[0]}" value="${esc(x[f[0]]||'')}" placeholder="${p&&p[f[0]]?esc(p[f[0]]):f[2]}">`).join('')}
     <button ${ro} class="ck ${x.done?'on':''}" data-act="setchk" data-id="${id}" data-i="0" aria-label="Hecho">✓</button></div>`;
   }
-  const meta=e.type==='str'?`<b>${e.sets||3} × ${e.reps||'10–12'}</b> · ${e.m}${e.ref?`<br><span style="color:var(--sub2)">📌 Antes: ${e.ref[0]} ${e.ref[1]} × ${e.ref[2]}</span>`:''}`:`<b>${e.target}</b> · ${e.m}`;
+  const meta=e.type==='str'?`<b>${e.sets||3} × ${e.reps||'10–12'}</b> · ⏱️ ${Math.floor((e.rest||90)/60)}:${pad((e.rest||90)%60)} · ${e.m}${e.ref?`<br><span style="color:var(--sub2)">📌 Antes: ${e.ref[0]} ${e.ref[1]} × ${e.ref[2]}</span>`:''}`:`<b>${e.target}</b> · ${e.m}`;
   return `<div class="card ex ${data.done?'done':''}">
     <div class="exh">
       ${IMG(e.img,0)?'':'<div class="exi" style="display:grid;place-items:center;font-size:30px;background:var(--card2)">🏋️</div>'}
@@ -1065,7 +1065,10 @@ function _renderGym(){
 }
 
 /* descanso */
-let restEnd=0,restTimer=null;
+let restEnd=0,restTimer=null,restEx=null,restDur=0,restSaveT=null;
+const fmtRest=sec=>sec%60?`${Math.floor(sec/60)}:${pad(sec%60)} min`:`${sec/60} min`;
+function restAdj(d){restEnd+=d*1000;tickRest();if(!restEx||!EX[restEx])return;restDur=clamp(restDur+d,30,600);clearTimeout(restSaveT);
+  restSaveT=setTimeout(()=>{S.exo=S.exo||{};S.exo[restEx]={...(S.exo[restEx]||{}),rest:restDur};applyCustom();save();toast(`⏱️ Descanso de ${fmtRest(restDur)} guardado para ${EX[restEx].n}`);},1200);}
 function startRest(sec){restEnd=Date.now()+sec*1000;document.getElementById('rest').classList.add('on');tickRest();clearInterval(restTimer);restTimer=setInterval(tickRest,250);}
 function stopRest(){clearInterval(restTimer);document.getElementById('rest').classList.remove('on');}
 function tickRest(){const left=Math.max(0,Math.round((restEnd-Date.now())/1000));
@@ -1621,11 +1624,12 @@ function showWeekEd(){const wp=weekPlan(),opts=routList();
   <button class="btn ghost block" style="margin-top:10px" data-act="rnew">➕ Nueva rutina</button>
   ${S.plan||Object.keys(S.rout||{}).some(k=>ROUT0[k])||Object.keys(S.exo||{}).length?'<button class="btn ghost block" style="margin-top:8px" data-act="rreset">↺ Volver a la rutina recomendada</button>':''}
   <button class="btn block" style="margin-top:12px" data-act="closemodal">Listo</button>`);}
-function redFrom(k,from){const r=k?ROUT[k]:null;RED={k:k||null,from,name:r?r.name:'',ex:(r?r.ex:[]).map(id=>({id,sets:EX[id].sets||3,reps:EX[id].reps||'10–12',t:EX[id].target||''}))};}
+function redFrom(k,from){const r=k?ROUT[k]:null;RED={k:k||null,from,name:r?r.name:'',ex:(r?r.ex:[]).map(id=>({id,sets:EX[id].sets||3,reps:EX[id].reps||'10–12',rest:EX[id].rest||90,t:EX[id].target||''}))};}
 function showRoutEd(){const r=RED;
   const rows=r.ex.map((x,i)=>{const e=EX[x.id],im=IMG(e.img,0);return `<div class="redrow"><div class="rth ${im?'':'e'}">${im?`<img src="${im}" alt="">`:(e.type==='cardio'?'🏃':'🏋️')}</div>
     <div class="grow" style="min-width:0"><div class="t">${esc(e.n)}</div>
-    ${e.type==='str'?`<div class="redin"><input inputmode="numeric" data-red="${i}|sets" value="${esc(x.sets)}" aria-label="Series"><span>series ×</span><input class="w" data-red="${i}|reps" value="${esc(x.reps)}" aria-label="Repeticiones"><span>reps</span></div>`:e.type==='cardio'?`<div class="redin"><input class="w" style="width:120px" data-red="${i}|t" value="${esc(x.t)}" aria-label="Duración"><span>cardio</span></div>`:`<div class="s small muted">${esc(e.target||'')}</div>`}</div>
+    ${e.type==='str'?`<div class="redin"><input inputmode="numeric" data-red="${i}|sets" value="${esc(x.sets)}" aria-label="Series"><span>series ×</span><input class="w" data-red="${i}|reps" value="${esc(x.reps)}" aria-label="Repeticiones"><span>reps</span></div>
+      <div class="redin"><span>⏱️ descanso</span><input inputmode="numeric" data-red="${i}|rest" value="${esc(x.rest)}" aria-label="Descanso en segundos"><span>seg</span></div>`:e.type==='cardio'?`<div class="redin"><input class="w" style="width:120px" data-red="${i}|t" value="${esc(x.t)}" aria-label="Duración"><span>cardio</span></div>`:`<div class="s small muted">${esc(e.target||'')}</div>`}</div>
     <div class="redbtns"><button data-act="rup" data-i="${i}" ${i?'':'disabled'} aria-label="Subir">↑</button><button data-act="rdown" data-i="${i}" ${i<r.ex.length-1?'':'disabled'} aria-label="Bajar">↓</button><button class="d" data-act="rdel" data-i="${i}" aria-label="Quitar">✕</button></div></div>`;}).join('');
   const custom=r.k&&!ROUT0[r.k],edited=r.k&&ROUT0[r.k]&&S.rout&&S.rout[r.k];
   openSheet(`<div class="exn" style="font-size:24px">${r.k?'✏️ Editar rutina':'➕ Nueva rutina'}</div>
@@ -1633,7 +1637,7 @@ function showRoutEd(){const r=RED;
   <div class="small muted" style="font-weight:700;margin:16px 2px 4px">EJERCICIOS · ${r.ex.length}</div>
   <div class="card" style="background:var(--card2);padding:4px 12px">${rows||'<div class="empty" style="padding:18px 0">Todavía no hay ejercicios.</div>'}</div>
   <button class="btn ghost block" style="margin-top:10px" data-act="rpick">➕ Agregar ejercicio</button>
-  <div class="small muted" style="margin-top:10px;line-height:1.4">Las series y reps se guardan por ejercicio. Si hoy ya empezaste esta rutina, conserva lo que ya registraste.</div>
+  <div class="small muted" style="margin-top:10px;line-height:1.4">Las series, reps y descanso se guardan por ejercicio. Si hoy ya empezaste esta rutina, conserva lo que ya registraste.</div>
   <button class="btn block" style="margin-top:14px" data-act="rsave">Guardar rutina</button>
   <button class="btn ghost block" style="margin-top:8px" data-act="rcancel">Cancelar</button>
   ${edited?'<button class="btn ghost block" style="margin-top:8px" data-act="rrestore">↺ Restaurar la original</button>':''}
@@ -1653,7 +1657,7 @@ function saveRout(){const r=RED,name=(r.name||'').trim();
   if(!r.ex.length){toast('Agrega al menos un ejercicio');return;}
   const k=r.k||('C'+Date.now().toString(36));S.rout=S.rout||{};S.exo=S.exo||{};
   S.rout[k]={name:name.slice(0,30),sub:subOf(r.ex.map(x=>x.id)),ex:r.ex.map(x=>x.id)};
-  r.ex.forEach(x=>{const e=EX[x.id];if(e.type==='str'){const sets=clamp(parseInt(x.sets)||3,1,10),reps=String(x.reps||'').trim().replace(/-/g,'–').slice(0,9)||'10–12';S.exo[x.id]={...(S.exo[x.id]||{}),sets,reps};}
+  r.ex.forEach(x=>{const e=EX[x.id];if(e.type==='str'){const sets=clamp(parseInt(x.sets)||3,1,10),reps=String(x.reps||'').trim().replace(/-/g,'–').slice(0,9)||'10–12';const rest=clamp(parseInt(x.rest)||90,15,600);S.exo[x.id]={...(S.exo[x.id]||{}),sets,reps,rest};}
     else if(e.type==='cardio'&&String(x.t).trim())S.exo[x.id]={...(S.exo[x.id]||{}),t:String(x.t).trim().slice(0,30)};});
   applyCustom();syncSessions(k);save();rerender();
   if(r.from==='gym'){MD().classList.remove('on');toast('Rutina guardada ✓');}else{showWeekEd();toast(r.k?'Rutina guardada ✓':'Rutina creada · asígnala a un día');}
@@ -1666,10 +1670,10 @@ function rEvent(a,b){switch(a){
   case 'rdel':RED.ex.splice(+b.dataset.i,1);showRoutEd();return true;
   case 'rpick':showExPick();return true;
   case 'rback':showRoutEd();return true;
-  case 'radd':{const id=b.dataset.id,e=EX[id];RED.ex.push({id,sets:e.sets||3,reps:e.reps||'10–12',t:e.target||''});showRoutEd();toast(`${e.n} agregado`);return true;}
+  case 'radd':{const id=b.dataset.id,e=EX[id];RED.ex.push({id,sets:e.sets||3,reps:e.reps||'10–12',rest:e.rest||90,t:e.target||''});showRoutEd();toast(`${e.n} agregado`);return true;}
   case 'cxadd':{const n=document.getElementById('cxN').value.trim(),g=document.getElementById('cxG').value;if(!n){toast('Escribe el nombre');return true;}
     const id='x'+Date.now().toString(36);S.cex=S.cex||{};S.cex[id]={n:n.slice(0,40),m:g,type:g==='Cardio'?'cardio':'str'};save();applyCustom();
-    RED.ex.push({id,sets:3,reps:'10–12',t:'20 min'});showRoutEd();toast(`${n} creado ✓`);return true;}
+    RED.ex.push({id,sets:3,reps:'10–12',rest:90,t:'20 min'});showRoutEd();toast(`${n} creado ✓`);return true;}
   case 'rsave':saveRout();return true;
   case 'rcancel':{const f=RED&&RED.from;RED=null;if(f==='gym')MD().classList.remove('on');else showWeekEd();return true;}
   case 'rrestore':{if(!confirm('¿Regresar esta rutina a como venía?'))return true;delete S.rout[RED.k];applyCustom();syncSessions(RED.k);save();rerender();const f=RED.from;RED=null;if(f==='gym')MD().classList.remove('on');else showWeekEd();toast('Rutina restaurada ✓');return true;}
@@ -2203,7 +2207,7 @@ function setCheck(id,i){
   s.ex[id].done=s.ex[id].sets.every(z=>z.done);
   save();
   const wasLast=s.ex[id].done;
-  if(x.done&&e.type!=='cardio'&&!wasLast){startRest(e.type==='time'?60:(e.rest||90));if(!raidState(gymDate).dead)raidRestStart(gymDate);}
+  if(x.done&&e.type!=='cardio'&&!wasLast){restEx=e.type==='str'?id:null;restDur=e.type==='time'?60:(e.rest||90);startRest(restDur);if(!raidState(gymDate).dead)raidRestStart(gymDate);}
   if(wasLast){stopRest();}
   if(gymDate<=today())raidAfter(rb,gymDate);
   renderGym();
@@ -2275,8 +2279,8 @@ document.addEventListener('click',ev=>{
     case 'gup':{const g=G(),u=UPG[b.dataset.k];if(g.souls<u.cost||lvU(b.dataset.k)>=u.max)return;g.souls-=u.cost;g.meta[b.dataset.k]=lvU(b.dataset.k)+1;save();showUpg();toast(`${u.ic} ${u.n} mejorado`);break;}
     case 'unit':{const id=b.dataset.id,nu=WU(id)==='lb'?'kg':'lb';S.exu=S.exu||{};S.exu[id]=nu;const ss=S.workouts[gymDate];if(ss&&ss.ex[id])ss.ex[id].u=nu;save();renderGym();toast(`${EX[id].n}: ahora en ${nu}`);break;}
     case 'zoom':zoom(b.dataset.id);break;
-    case 'rest-':restEnd-=15000;tickRest();break;
-    case 'rest+':restEnd+=15000;tickRest();break;
+    case 'rest-':restAdj(-15);break;
+    case 'rest+':restAdj(15);break;
     case 'restskip':{stopRest();const rd=G().rd&&G().rd[today()];if(rd&&rd.pend){rd.end=Date.now();enemyTurn(today(),false);}break;}
     case 'hudtop':{const c=document.getElementById('raidc');if(c)window.scrollTo({top:Math.max(0,c.offsetTop-12),behavior:'smooth'});break;}
     case 'fprev':foodDate=addDays(foodDate,-1);renderComida();break;
