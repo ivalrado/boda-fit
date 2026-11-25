@@ -372,12 +372,12 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .whero{position:absolute;transform:translate(-50%,-100%);z-index:2;pointer-events:none}
 .whero .spr{animation:bob 1.2s steps(2) infinite}
 .wcastle{position:absolute;transform:translate(-50%,-100%);display:flex;align-items:flex-end;pointer-events:none}
-.wcastle .boss{position:absolute;left:62%;bottom:4px}
-.wcastle .boss .spr{animation:bob 1.6s steps(2) infinite}
+.wcastle .wboss{position:absolute;left:62%;bottom:4px}
+.wcastle .wboss .spr{animation:bob 1.6s steps(2) infinite}
 .sndbar{display:flex;gap:8px}
 .sndbtn{border:0;background:var(--card);color:#fff;border-radius:12px;padding:8px 10px;font-size:15px;font-weight:700}
 .sndbtn.off{opacity:.45}
-@media (prefers-reduced-motion:reduce){.rhero .spr,.rmon .spr,.whero .spr,.wcastle .boss .spr,.wn.cur{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.rhero .spr,.rmon .spr,.whero .spr,.wcastle .wboss .spr,.wn.cur{animation:none!important}}
 /* combate */
 .fight{min-height:62vh}
 .arena{background:radial-gradient(90% 70% at 50% 35%,rgba(124,77,255,.20),rgba(0,0,0,0) 70%),#121220;border-radius:20px;padding:14px;position:relative;overflow:hidden}
@@ -543,7 +543,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125155955';
+const APP_V='20261125160454';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -555,7 +555,7 @@ const PACE=0.6;
 function EV(){if(ED!=='lb')return S.settings.event||'2027-02-20';if(S.settings.event)return S.settings.event;
   const w=sortedW(),st=S.settings,d0=w.length?w[0].date:(st.since||today());return addDays(d0,Math.max(7,Math.ceil(Math.max(0,st.start-st.goalMax)/PACE*7)));}
 const evLabel=()=>S.settings.evName||BX('la boda','tu evento');
-const evIcon=()=>/boda/i.test(S.settings.evName||'')||ED!=='lb'?'💍':S.settings.event?'📅':'🎯';
+const evIcon=()=>ED!=='lb'?'💍':S.settings.event?'📅':'🎯';
 const fmtLong=k=>{const d=parseKey(k);return `${d.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][d.getMonth()]} de ${d.getFullYear()}`;};
 const KEY0 = SLUG+'.v1', PKEY=SLUG+'.profiles';
 if(ED==='lb'){try{if(!localStorage.getItem('liftbound.profiles')&&!localStorage.getItem('liftbound.v1')&&localStorage.getItem('bodafit.v1')){for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('bodafit.'))localStorage.setItem('liftbound.'+k.slice(8),localStorage.getItem(k));}}}catch(e){}}
@@ -1434,11 +1434,11 @@ function heroBody(){const st=S.settings,c=latestW(),tot=Math.max(0.5,st.start-st
 const heroStage=()=>({hero_big:1,hero_mid:2,hero:3})[heroBody()];
 function heroSpr(px,l){const lv=l==null?heroLvl():l,b=heroBody(),t=heroTier(lv),f=S.settings.sex==='m'?'_f':'';
   const k=[`${b}${f}_t${t}`,`${b}${f}`,`${b}_t${t}`,b].find(x=>ART[x]);return spr(b,px,heroPal(lv),k||'_none');}
-const enSpr=(id,px)=>spr(id,px,enPal(id),id==='traje'&&isF()?'vestido':id);
+const enSpr=(id,px)=>id==='traje'&&!isBoda()?spr('sombra',px):spr(id,px,enPal(id),id==='traje'&&isF()?'vestido':id);
 const lvlNeed=n=>75*n*(n-1);
 const levelOf=xp=>{let n=1;while(lvlNeed(n+1)<=xp)n++;return n;};
 const titleOf=l=>{const T=S.settings.sex==='m'?TITLES_F:TITLES;let t=T[0];T.forEach(x=>{if(l>=x[0])t=x;});if(t[3]&&isBoda())t=[t[0],S.settings.sex==='m'?'Novia legendaria':'Novio legendario','💍'];return t;};
-const isBoda=()=>ED!=='lb'||(HASEV()&&/boda/i.test(S.settings.evName||''));
+const isBoda=()=>ED!=='lb';
 const BOSS=()=>!isBoda()?['🌑','La Sombra']:S.settings.sex==='m'?['👗','El Vestido']:['👔','El Traje'];
 function computeXP(){
   let xp=0,sets=0,days=0,cardioMin=0;
@@ -1655,6 +1655,7 @@ function switchProfile(id,isNew){const p=profs();p.cur=id;saveProfs(p);KEY=dataK
 /* ================= Aventura (roguelike semanal) ================= */
 const SPR={"hero":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","....kSSSSSSk..k.",".....kSSSSk..kWk","...kkkBBBBkkkkWk","..kBBBBYYBBBBkWk","..kBkBBYYBBkBkWk","..ksskBBBBkssk..","..ksskBBBBkssk..","..kkkkBBBBkkkk..",".....kGGkGGk....",".....kGGkGGk....",".....kkk.kkk...."]},"slime":{"p":{"k":"#14142b","G":"#46d36e","L":"#c4ffd6","D":"#249147"},"d":["................","................","................","................","......kkkk......","....kkGGGGkk....","...kGGGGGGGGk...","..kGGLGGGGGGGk..","..kGLLGGGGGGGk..",".kGGGGkGGGkGGGk.",".kGGGGkGGGkGGGk.",".kGGGGGGGGGGGGk.",".kGGGGGkkkGGGGk.","..kDGGGGGGGGDk..","...kkDDDDDDkk...",".....kkkkkk....."]},"goblin":{"p":{"k":"#14142b","G":"#7cc242","R":"#ff3b3b","W":"#ffffff","B":"#7a4a2a","Y":"#ffd23f","Q":"#cfd6e0"},"d":["................","..k..........k..","..kGk......kGk..","...kGkkkkkkGk...","....kGGGGGGk....","...kGGRGGRGGk...","...kGGGGGGGGk...","....kGkWWkGk....",".....kGGGGk.....","....kBBBBBBk....","...kGkBBBBkGk...","...kGkBYYBkGk..k","....kkBBBBkk..kQ",".....kBkkBk..kQk",".....kGk.kGk.kk.",".....kk...kk...."]},"bat":{"p":{"k":"#14142b","P":"#7b5cc7","L":"#a98af0","R":"#ff3b3b","W":"#ffffff"},"d":["................","................","................","k..............k","kk....k..k....kk","kPk...kkkk...kPk","kPPk.kPPPPk.kPPk","kPPPkPRPPRPkPPPk","kPLPPPPPPPPPPLPk",".kPPkPPWWPPkPPk.",".kPk.kPPPPk.kPk.","..k...kPPk...k..",".......kk.......","................","................","................"]},"gremlin":{"p":{"k":"#14142b","R":"#e8262e","S":"#c9d1e0","W":"#ffffff","D":"#a3161c"},"d":["......kkkk......",".....kSSSSk.....","....kkkkkkkk....","....kRRRRRRk....","....kRWRRWRk....","....kRkRRkRk....","....kRRRRRRk....","....kWWWWWWk....","....kDDkkDDk....","..kkkRRRRRRkkk..",".kRk.kRRRRk.kRk.","....kRRRRRRk....","....kSSSSSSk....",".....kk..kk.....",".....kk..kk.....","................"]},"ogre":{"p":{"k":"#14142b","P":"#f4a7c0","p":"#d9789c","T":"#e3b27a","R":"#ff3b3b","W":"#ffffff"},"d":["................","....kkkkkkkk....","..kkPpPpPpPpkk..",".kPpPpPpPpPpPpk.","kPpPkPpPpPkPpPpk","kpPpPpPpPpPpPpPk","kkkkkkkkkkkkkkkk","kTTTTTTTTTTTTTTk","kTTRkTTTTTTRkTTk","kTTkkTTTTTTkkTTk","kTTTTTkkkkTTTTTk","kTTTTkWkkWkTTTTk",".kTTTTTTTTTTTTk.","..kkTTTTTTTTkk..","....kk....kk....","....kk....kk...."]},"skel":{"p":{"k":"#14142b","W":"#ece7da","D":"#b9b3a4"},"d":[".....kkkkkk.....","....kWWWWWWk....","...kWWWWWWWWk...","...kWkkWWkkWk...","...kWkkWWkkWk...","...kWWWkkWWWk...","....kWkWkWkk....",".....kkkkkk.....","....kWkWWkWk....","...kWkDWWDkWk...","...kWkkWWkkWk...","....kkDWWDkk....",".....kWkkWk.....",".....kWk.kWk....",".....kWk.kWk....","....kkk...kkk..."]},"frituras":{"p":{"k":"#14142b","O":"#ff9f1c","Y":"#ffd23f","R":"#ff3b3b","Q":"#cfd6e0"},"d":["......kkkk......",".....kOOOOk.....","....kOOOOOOk....","....kOkkkkOk....","....kOkRRkOk....","....kOOOOOOk....","..kkkkOOOOkkkk..",".kYYYkkkkkkYYYk.",".kYkYYYOOYYYkYk.",".kYkYOOYYOOYkYk.",".kkkYYYYYYYYkkk.","....kYYOOYYk..k.","....kYYkkYYk.kQk","....kOOkkOOkkQk.","....kOOk.kOOkk..","....kkk...kkk..."]},"rey":{"p":{"k":"#14142b","Y":"#ffd23f","R":"#ff3b3b","T":"#e9c46a","G":"#4caf50","M":"#8b4a2b","W":"#ffffff"},"d":["....Y.Y..Y.Y....","....YYYYYYYY....","....YRYYYYRY....","...kkkkkkkkkk...","..kTTTTTTTTTTk..",".kTTGGGGGGGGTTk.","kTTGGRRGGRRGGTTk","kTGGMMMMMMMMGGTk","kTGMMRkMMkRMMGTk","kTGMMkkMMkkMMGTk","kTGMMMMMMMMMMGTk","kTGMMkWWWWkMMGTk","kTTMMMkkkkMMMTTk",".kTTTTTTTTTTTTk.","..kkkkkkkkkkkk..","................"]},"traje":{"p":{"k":"#05050c","D":"#2b2d42","R":"#e63946","W":"#f1f1f1","E":"#ff3b3b"},"d":["................","....kkkkkkkk....","...kDDDDDDDDk...","...kDEkDDkEDk...","...kDDDDDDDDk...","..kkWWkRRkWWkk..",".kDDkWkRRkWkDDk.",".kDDDkWRRWkDDDk.","kDDkDDkRRkDDkDDk","kDDkDDDRRDDDkDDk","kDDkDDDkkDDDkDDk","kWWkDDDDDDDDkWWk",".kk.kDDDDDDk.kk.","....kDDkkDDk....","....kDDk.kDDk...","....kkk...kkk..."]},"chest":{"p":{"k":"#14142b","B":"#a0522d","b":"#7a3d20","Y":"#ffd23f"},"d":["................","................","................","...kkkkkkkkkk...","..kBBBBBBBBBBk..","..kBYbbbbbbYBk..","..kBYBBBBBBYBk..","..kkkkkkkkkkkk..","..kBYBBkkBBYBk..","..kBYBBYYBBYBk..","..kBYBBkkBBYBk..","..kBYBBBBBBYBk..","..kbbbbbbbbbbk..","..kkkkkkkkkkkk..","................","................"]}};
 Object.assign(SPR,{"hero_mid":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","....kSSSSSSk..k.","....kkSSSSkk.kWk","..kkkBBBBBBkkkWk",".kBBBBBYYBBBBkWk",".kBkBBBYYBBBkBWk",".ksskBBBBBBkssk.",".ksskBBBBBBkssk.",".kkkkBBBBBBkkkk.",".....kGGkkGGk...",".....kGGk.kGGk..",".....kkk...kkk.."]},"hero_big":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","...kkSSSSSSkk.k.","..kkkkSSSSkkkkWk",".kBBBBBBBBBBBkWk","kBBBBBBYYBBBBBkk","kBkBBBBYYBBBBkBk","ksskBBBBBBBBkssk","ksskBBBBBBBBkssk","kkkkBBBBBBBBkkkk","....kBBBBBBk....","....kGGkkGGk....","....kkk..kkk...."]},"golem":{"p":{"k":"#14142b","I":"#6b7385","L":"#a9b3c6","D":"#3d4352","R":"#ff4d4d","O":"#ffb020"},"d":["....kkkkkkkk....","...kLLLLLLLIk...","...kLkkLLkkIk...","...kLkRLLRkIk...","...kIIIIIIIDk...","..kkkDOOOODkkk..",".kLLkIIIIIIkLLk.","kLLIkIOOOOIkILLk","kLIIkIIIIIIkIILk","kIIDkIIIIIIkDIIk","kkkkkDIIIIDkkkkk","kLLk.kIDDIk.kLLk","kIIk.kIkkIk.kIIk","kkkk.kLk.kLk.kkk",".....kIIkkIIk...",".....kkkk.kkkk.."]},"dona":{"p":{"k":"#14142b","P":"#ff7ab6","Q":"#ffb3d4","T":"#d99a52","D":"#a8692e","W":"#ffffff","Y":"#ffd23f","B":"#3dd6ff","R":"#e0313b"},"d":["................",".....kkkkkk.....","...kkPQPPYPkk...","..kPBPPQPPPRPk..",".kPPPkkkkkPPYPk.",".kPQPkWkkWkPPPk.","kPPYkkRkkRkkPBPk","kTPPkkkkkkkkPPTk","kTTPPkkWWkkPPTTk","kDTTPPkkkkPPTTDk",".kDTTTTTTTTTTDk.",".kkDDTTTTTTDDkk.","..kkkDDDDDDkkk..","....kkkkkkkk....","................","................"]},"castle":{"p":{"k":"#14142b","G":"#8f99ad","D":"#5b6478","L":"#c9d1e0","R":"#c62828","Y":"#ffd23f","W":"#ffd23f","F":"#32d74b"},"d":[".......kF.......",".......kFF......",".......k........","......kRk.......",".....kRRRk......","k.k.kRRRRRk.k.k.","kGkkkGGGGGkkkGk.","kGGGGGLGGGGGGGk.","kGDGGGGGGGGGDGk.","kGGGGkWWkGGGGGk.","kGGGkWWWWkGGGGk.","kGDGkWWWWkGGDGk.","kGGGkWWWWkGGGGk.","kDDDkWWWWkDDDDk.","kkkkkkkkkkkkkkk.","................"]},"tree":{"p":{"k":"#14142b","G":"#2f9e5b","L":"#46d36e","T":"#6b4f3a"},"d":["................","......kkkk......",".....kLLLGk.....","....kLLGGGGk....","...kLLGGGGGGk...","...kLGGGGGGGk...","..kLLGGGGGGGGk..","..kLGGGGGGGGGk..","..kGGGGGGGGGGk..","...kGGGGGGGGk...","....kkGTTGkk....","......kTTk......","......kTTk......",".....kTTTTk.....",".....kkkkkk.....","................"]},"flag":{"p":{"k":"#14142b","P":"#c9d1e0","F":"#32d74b","L":"#7dffa0","G":"#6b4f3a"},"d":["................","....kkkkkkk.....","....kPkFFFFk....","....kPkLFFFFk...","....kPkFFFFFk...","....kPkFFFFk....","....kPkkkkk.....","....kPk.........","....kPk.........","....kPk.........","....kPk.........","....kPk.........","...kkPkk........","..kGGGGGk.......","..kkkkkkk.......","................"]}});
+Object.assign(SPR,{"sombra":{"p":{"k":"#0b0716","D":"#2a1b4a","M":"#4b2f7a","L":"#9a6bff","E":"#ff3b6b"},"d":[".....kkkkkk.....","....kDDDDDDk....","...kDMMMMMMDk...","..kDMkkkkkkMDk..","..kDkkEkkEkkDk..","..kDkkkkkkkkDk..","..kDMkkkkkkMDk..",".kDMMDkkkkDMMDk.","kDMMMMDDDDMMMMDk","kDMLMMMMMMMMLMDk",".kDMMMMMMMMMMDk.","..kDMMLMMLMMDk..","..kDMMMMMMMMDk..",".kDMDkDMMDkDMDk.","kDDk.kDDDDk.kDDk",".kk...kkkk...kk."]}});
 const ART={};
 function spr(name,px,pal,key){const a=ART[key||name]||(!pal&&ART[name]);const W=Math.round(16*px);
   if(a)return `<img class="spr" src="${a}" alt="" style="width:${W}px;height:${W}px;image-rendering:pixelated;object-fit:contain">`;
@@ -1831,7 +1832,7 @@ function renderFight(){const r=G().run,e=C.e,en=EN[C.id],it=C.intent,fx=C.fx||{}
     body=o.win?`<div class="gover"><div class="gbig">${o.souls!=null?'👑':'🏆'}</div><div class="gtitle">¡Victoria!</div><div class="small muted">Venciste a ${enName(C.id)}</div>
       <div class="grew">💰 +${o.gold} oro${o.souls?` · 👻 +${o.souls} almas`:''}</div>
       ${o.chest?`<div class="chestbox">${spr('chest',4)}<div><b>Cofre ${o.chest.tier==='legend'?'legendario':o.chest.tier==='rare'?'raro':'común'}</b><div class="small">${o.chest.txt}</div></div></div>`:''}
-      ${o.souls!=null?'<div class="banquet">🎉 <b>Banquete del Héroe desbloqueado.</b> Disfruta tu sábado especial: te lo ganaste.</div>':''}
+      ${o.souls!=null?`<div class="banquet">🎉 <b>Banquete del Héroe desbloqueado.</b> ${satOn()?'Disfruta tu sábado especial: te lo ganaste.':'Semana superada: date un gusto, te lo ganaste.'}</div>`:''}
       <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`
     :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">Fin de la run</div><div class="small muted">${enName(C.id)} te derrotó.</div>
       <div class="grew">👻 +${o.souls} almas para mejoras permanentes</div>
@@ -2021,7 +2022,7 @@ function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
   let nodes='',dec='',hero='';
   for(let i=0;i<n;i++){const mon=addDays(start,7*i),last=i===n-1;
     if(i%2===0&&!last)dec+=`<div class="wdec" style="left:${X(i)+30}px;top:${Y(i)+(Y(i)>108?-30:58)}px">${spr('tree',1.6)}</div>`;
-    if(last){dec+=`<div class="wcastle" style="left:${X(i)+20}px;top:${Y(i)+22}px">${spr('castle',4)}<div class="boss">${enSpr('traje',2.2)}</div></div>`;
+    if(last){dec+=`<div class="wcastle" style="left:${X(i)+20}px;top:${Y(i)+22}px">${spr('castle',4)}<div class="wboss">${enSpr('traje',2.2)}</div></div>`;
       nodes+=`<div class="wl" style="left:${X(i)+20}px;top:${Y(i)+28}px">${evIcon()} ${fmtShort(EV())}</div>`;continue;}
     const won=g.trophies.some(x=>x.mon===mon),st=mon===cur?'cur':mon>cur?'':won?'won':'past';
     nodes+=`<div class="wn ${st}" style="left:${X(i)}px;top:${Y(i)}px" data-act="wnode" data-mon="${mon}">${won?'👑':mon===cur?'!':mon<cur?'✓':i+1}</div>`;
