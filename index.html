@@ -467,7 +467,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261124195308';
+const APP_V='20261124220225';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -898,14 +898,14 @@ const ING = {
   zanahoria:{n:'Zanahoria',k:41,p:0.9,c:9.6,f:0.2,cat:'verdura',buy:'kg',bn:'Zanahoria'},
   chayote:{n:'Chayote',k:19,p:0.8,c:4.5,f:0.1,cat:'verdura',buy:'kg',bn:'Chayote'},
 };
-/* precio por unidad de compra; src 'heb' = sacado de heb.com.mx, 'aprox' = estimado */
+/* precio por unidad de compra; 'real' = de ticket, 'aprox' = estimado */
 const PR={
-  huevo:[2.13,'heb','Huevo blanco 30 pz $64'],pechuga:[89.9,'heb','Pechuga sin hueso IQF 1 kg congelada $89.90 (si no hay: medias pechugas HEB $156)'],atun:[38,'heb','Atún en agua sobre jumbo 180 g (Dolores o HCF) $38'],
-  frijol:[19.9,'heb','Isadora peruanos 400 g'],tortilla:[18.5,'heb','Tortilla de nixtamal HEB 1 kg'],avena:[31,'heb','Avena HCF 1 kg'],
-  leche:[24.9,'heb','Leche light HEB 1.89 L $47'],arrachera:[348,'heb','Arrachera marinada HCF 600 g $209'],buldak:[50,'heb','Buldak 140 g'],
-  panela:[0.234,'heb','Panela Chen granel $234/kg'],tostada:[2.1,'heb','Tostada horneada HEB 200 g $34'],cebolla:[28,'heb','Cebolla blanca'],
-  arroz:[30,'aprox'],aceite:[0.045,'aprox'],platano:[25,'aprox'],manzana:[50,'aprox'],jitomate:[40,'aprox'],tomverde:[35,'aprox'],
-  chile:[0.06,'aprox'],limon:[2,'aprox'],espinaca:[0.06,'aprox'],brocoli:[50,'aprox'],zanahoria:[25,'aprox'],papaya:[30,'aprox'],calabacita:[30,'aprox'],chayote:[25,'aprox'],muslo:[110,'aprox'],
+  huevo:[2.9,'real','Huevo blanco 12 pz $34.90 (Soriana) · el de 30 suele salir a ~$2.70'],pechuga:[170,'real','Milanesa/pechuga de pollo ~$170–180/kg (Soriana $178.90 promo)'],atun:[42,'aprox','Atún en agua sobre jumbo 180 g'],
+  frijol:[24,'aprox','Isadora peruanos 400 g'],tortilla:[26,'aprox','Tortilla de maíz 1 kg'],avena:[38,'aprox','Avena 1 kg'],
+  leche:[28,'aprox','Leche light 1 L'],arrachera:[380,'aprox','Arrachera marinada'],buldak:[55,'aprox','Buldak 140 g'],
+  panela:[0.25,'aprox','Panela ~$250/kg'],tostada:[2.5,'aprox','Tostada horneada'],cebolla:[35,'aprox','Cebolla blanca'],
+  arroz:[34,'aprox'],aceite:[0.05,'aprox'],platano:[28,'aprox'],manzana:[55,'real','Manzana Granny ~$55/kg (Soriana)'],jitomate:[45,'aprox'],tomverde:[40,'aprox'],
+  chile:[0.07,'aprox'],limon:[2.5,'aprox'],espinaca:[0.15,'real','Espinaca en bolsa ~$46 (Soriana)'],brocoli:[60,'aprox'],zanahoria:[28,'aprox'],papaya:[35,'aprox'],calabacita:[35,'aprox'],chayote:[28,'aprox'],muslo:[120,'aprox'],
 };
 const OUTCOST={d4:100};
 const price=ig=>{const c=(S.prices||{})[ig];return c!=null?c:(PR[ig]?PR[ig][0]:0);};
