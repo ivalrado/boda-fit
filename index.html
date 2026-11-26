@@ -355,6 +355,40 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .dn.boss,.dn.final{background:rgba(255,214,10,.07)}.dn.boss.ready,.dn.final.ready{border-color:rgba(255,214,10,.7)}
 .dn .dh{position:absolute;left:-6px;bottom:4px}.dn .dh .spr{animation:bob 1s steps(2) infinite}
 .dcta{position:sticky;bottom:0;margin-top:6px;box-shadow:0 -10px 20px rgba(0,0,0,.4)}
+.hub{position:relative;height:360px;border-radius:24px;overflow:hidden;margin:0 -4px 14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.hub .sky{position:absolute;inset:0}
+.hub svg.hills{position:absolute;left:0;right:0;bottom:84px;width:100%;height:120px}
+.hub .ground{position:absolute;left:0;right:0;bottom:0;height:96px;background:linear-gradient(180deg,var(--g1),var(--g2));box-shadow:inset 0 4px 0 rgba(255,255,255,.08)}
+.hub .ground:before{content:'';position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(0,0,0,.12) 50%,transparent 50%),linear-gradient(rgba(0,0,0,.08) 50%,transparent 50%);background-size:16px 16px,16px 16px;opacity:.5}
+.hub .path{position:absolute;left:30%;right:4%;bottom:26px;height:22px;background:rgba(232,215,168,.35);border-radius:4px;transform:skewX(-20deg)}
+.hub .sfield i{position:absolute;width:2px;height:2px;background:#fff;opacity:.6;animation:tw 2.4s steps(2) infinite}
+@keyframes tw{50%{opacity:.15}}
+.hob{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;border:0;background:none;padding:0;color:#fff}
+.hob .spr{display:block}
+.hob .hl{font-family:'PXB',ui-monospace,monospace;font-size:17px;line-height:1;background:rgba(10,10,20,.78);border:2px solid rgba(255,255,255,.85);border-radius:4px;padding:3px 6px 2px;margin-bottom:5px;white-space:nowrap;box-shadow:0 2px 0 #000}
+.hob .hl.go{background:#32d74b;color:#06290f;border-color:#06290f;animation:hop 1.2s steps(2) infinite}
+.hob .hl b{color:#ffd60a}
+@keyframes hop{50%{transform:translateY(-3px)}}
+.hob.fire .spr{animation:flick .5s steps(2) infinite;filter:drop-shadow(0 0 14px rgba(255,150,40,.8))}
+@keyframes flick{50%{transform:scaleY(1.08) scaleX(.95);filter:drop-shadow(0 0 20px rgba(255,180,60,.95))}}
+.hob.spirit .spr{animation:float 2.2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.hob.portal .spr{filter:drop-shadow(0 0 16px rgba(124,77,255,.75))}
+.hob.hero .spr{animation:bob 1.2s steps(2) infinite}
+.firelight{position:absolute;width:220px;height:120px;left:52%;bottom:20px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,150,40,.32),transparent);pointer-events:none;animation:flick2 .9s steps(2) infinite}
+@keyframes flick2{50%{opacity:.75}}
+.htop{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.hzone{font-family:'PXB',ui-monospace,monospace;background:rgba(10,10,20,.72);border:2px solid rgba(255,255,255,.8);border-radius:6px;padding:5px 9px 4px;line-height:1;box-shadow:0 2px 0 #000}
+.hzone .a{font-size:22px}.hzone .b{font-size:15px;color:#d1d1d6;margin-top:3px}
+.hbub{position:absolute;max-width:62%;font-family:'PXB',ui-monospace,monospace;font-size:17px;line-height:1.05;color:#14142b;background:#fdf6e3;border:2px solid #14142b;border-radius:6px;padding:7px 9px 6px;box-shadow:0 3px 0 rgba(0,0,0,.5);animation:fade .5s both}
+.hbub:after{content:'';position:absolute;bottom:-9px;width:12px;height:12px;background:#fdf6e3;border-right:2px solid #14142b;border-bottom:2px solid #14142b;transform:rotate(45deg)}
+.hstat{position:absolute;left:10px;right:10px;bottom:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.hstat span{font-family:'PXB',ui-monospace,monospace;font-size:17px;line-height:1;background:rgba(10,10,20,.78);border:2px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 7px 3px}
+.parch{background:#efe3c4;color:#2b2213;border-radius:16px;padding:14px;border:3px solid #8a6d3b;box-shadow:inset 0 0 30px rgba(138,109,59,.35)}
+.parch .it{border-color:rgba(43,34,19,.15)!important}.parch .t{color:#2b2213}.parch .s{color:#6b5a3a}
+.parch .qok .t{text-decoration:line-through;opacity:.6}
+.ptitle{font-family:'PXB',ui-monospace,monospace;font-size:30px;line-height:1;text-align:center;color:#2b2213;margin-bottom:6px}
+.rmap.themed{border-radius:18px;padding:0;margin:0}
 .ropts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .ropt{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(255,255,255,.1);background:var(--card2);border-radius:18px;padding:14px;color:#fff;width:100%}
 .ropt.rel{border-color:rgba(255,214,10,.45);background:linear-gradient(160deg,rgba(255,214,10,.10),var(--card2))}
@@ -620,7 +654,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125165901';
+const APP_V='20261125185637';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1744,6 +1778,7 @@ function switchProfile(id,isNew){const p=profs();p.cur=id;saveProfs(p);KEY=dataK
 const SPR={"hero":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","....kSSSSSSk..k.",".....kSSSSk..kWk","...kkkBBBBkkkkWk","..kBBBBYYBBBBkWk","..kBkBBYYBBkBkWk","..ksskBBBBkssk..","..ksskBBBBkssk..","..kkkkBBBBkkkk..",".....kGGkGGk....",".....kGGkGGk....",".....kkk.kkk...."]},"slime":{"p":{"k":"#14142b","G":"#46d36e","L":"#c4ffd6","D":"#249147"},"d":["................","................","................","................","......kkkk......","....kkGGGGkk....","...kGGGGGGGGk...","..kGGLGGGGGGGk..","..kGLLGGGGGGGk..",".kGGGGkGGGkGGGk.",".kGGGGkGGGkGGGk.",".kGGGGGGGGGGGGk.",".kGGGGGkkkGGGGk.","..kDGGGGGGGGDk..","...kkDDDDDDkk...",".....kkkkkk....."]},"goblin":{"p":{"k":"#14142b","G":"#7cc242","R":"#ff3b3b","W":"#ffffff","B":"#7a4a2a","Y":"#ffd23f","Q":"#cfd6e0"},"d":["................","..k..........k..","..kGk......kGk..","...kGkkkkkkGk...","....kGGGGGGk....","...kGGRGGRGGk...","...kGGGGGGGGk...","....kGkWWkGk....",".....kGGGGk.....","....kBBBBBBk....","...kGkBBBBkGk...","...kGkBYYBkGk..k","....kkBBBBkk..kQ",".....kBkkBk..kQk",".....kGk.kGk.kk.",".....kk...kk...."]},"bat":{"p":{"k":"#14142b","P":"#7b5cc7","L":"#a98af0","R":"#ff3b3b","W":"#ffffff"},"d":["................","................","................","k..............k","kk....k..k....kk","kPk...kkkk...kPk","kPPk.kPPPPk.kPPk","kPPPkPRPPRPkPPPk","kPLPPPPPPPPPPLPk",".kPPkPPWWPPkPPk.",".kPk.kPPPPk.kPk.","..k...kPPk...k..",".......kk.......","................","................","................"]},"gremlin":{"p":{"k":"#14142b","R":"#e8262e","S":"#c9d1e0","W":"#ffffff","D":"#a3161c"},"d":["......kkkk......",".....kSSSSk.....","....kkkkkkkk....","....kRRRRRRk....","....kRWRRWRk....","....kRkRRkRk....","....kRRRRRRk....","....kWWWWWWk....","....kDDkkDDk....","..kkkRRRRRRkkk..",".kRk.kRRRRk.kRk.","....kRRRRRRk....","....kSSSSSSk....",".....kk..kk.....",".....kk..kk.....","................"]},"ogre":{"p":{"k":"#14142b","P":"#f4a7c0","p":"#d9789c","T":"#e3b27a","R":"#ff3b3b","W":"#ffffff"},"d":["................","....kkkkkkkk....","..kkPpPpPpPpkk..",".kPpPpPpPpPpPpk.","kPpPkPpPpPkPpPpk","kpPpPpPpPpPpPpPk","kkkkkkkkkkkkkkkk","kTTTTTTTTTTTTTTk","kTTRkTTTTTTRkTTk","kTTkkTTTTTTkkTTk","kTTTTTkkkkTTTTTk","kTTTTkWkkWkTTTTk",".kTTTTTTTTTTTTk.","..kkTTTTTTTTkk..","....kk....kk....","....kk....kk...."]},"skel":{"p":{"k":"#14142b","W":"#ece7da","D":"#b9b3a4"},"d":[".....kkkkkk.....","....kWWWWWWk....","...kWWWWWWWWk...","...kWkkWWkkWk...","...kWkkWWkkWk...","...kWWWkkWWWk...","....kWkWkWkk....",".....kkkkkk.....","....kWkWWkWk....","...kWkDWWDkWk...","...kWkkWWkkWk...","....kkDWWDkk....",".....kWkkWk.....",".....kWk.kWk....",".....kWk.kWk....","....kkk...kkk..."]},"frituras":{"p":{"k":"#14142b","O":"#ff9f1c","Y":"#ffd23f","R":"#ff3b3b","Q":"#cfd6e0"},"d":["......kkkk......",".....kOOOOk.....","....kOOOOOOk....","....kOkkkkOk....","....kOkRRkOk....","....kOOOOOOk....","..kkkkOOOOkkkk..",".kYYYkkkkkkYYYk.",".kYkYYYOOYYYkYk.",".kYkYOOYYOOYkYk.",".kkkYYYYYYYYkkk.","....kYYOOYYk..k.","....kYYkkYYk.kQk","....kOOkkOOkkQk.","....kOOk.kOOkk..","....kkk...kkk..."]},"rey":{"p":{"k":"#14142b","Y":"#ffd23f","R":"#ff3b3b","T":"#e9c46a","G":"#4caf50","M":"#8b4a2b","W":"#ffffff"},"d":["....Y.Y..Y.Y....","....YYYYYYYY....","....YRYYYYRY....","...kkkkkkkkkk...","..kTTTTTTTTTTk..",".kTTGGGGGGGGTTk.","kTTGGRRGGRRGGTTk","kTGGMMMMMMMMGGTk","kTGMMRkMMkRMMGTk","kTGMMkkMMkkMMGTk","kTGMMMMMMMMMMGTk","kTGMMkWWWWkMMGTk","kTTMMMkkkkMMMTTk",".kTTTTTTTTTTTTk.","..kkkkkkkkkkkk..","................"]},"traje":{"p":{"k":"#05050c","D":"#2b2d42","R":"#e63946","W":"#f1f1f1","E":"#ff3b3b"},"d":["................","....kkkkkkkk....","...kDDDDDDDDk...","...kDEkDDkEDk...","...kDDDDDDDDk...","..kkWWkRRkWWkk..",".kDDkWkRRkWkDDk.",".kDDDkWRRWkDDDk.","kDDkDDkRRkDDkDDk","kDDkDDDRRDDDkDDk","kDDkDDDkkDDDkDDk","kWWkDDDDDDDDkWWk",".kk.kDDDDDDk.kk.","....kDDkkDDk....","....kDDk.kDDk...","....kkk...kkk..."]},"chest":{"p":{"k":"#14142b","B":"#a0522d","b":"#7a3d20","Y":"#ffd23f"},"d":["................","................","................","...kkkkkkkkkk...","..kBBBBBBBBBBk..","..kBYbbbbbbYBk..","..kBYBBBBBBYBk..","..kkkkkkkkkkkk..","..kBYBBkkBBYBk..","..kBYBBYYBBYBk..","..kBYBBkkBBYBk..","..kBYBBBBBBYBk..","..kbbbbbbbbbbk..","..kkkkkkkkkkkk..","................","................"]}};
 Object.assign(SPR,{"hero_mid":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","....kSSSSSSk..k.","....kkSSSSkk.kWk","..kkkBBBBBBkkkWk",".kBBBBBYYBBBBkWk",".kBkBBBYYBBBkBWk",".ksskBBBBBBkssk.",".ksskBBBBBBkssk.",".kkkkBBBBBBkkkk.",".....kGGkkGGk...",".....kGGk.kGGk..",".....kkk...kkk.."]},"hero_big":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B":"#3b6ee8","Y":"#ffd23f","W":"#eef3fb","G":"#6b4f3a","s":"#8f99ad"},"d":["......kkkk......",".....kSSSSk.....","....kSSSSSSk....","....kSkkkkSk....","....kSkEEkSk....","...kkSSSSSSkk.k.","..kkkkSSSSkkkkWk",".kBBBBBBBBBBBkWk","kBBBBBBYYBBBBBkk","kBkBBBBYYBBBBkBk","ksskBBBBBBBBkssk","ksskBBBBBBBBkssk","kkkkBBBBBBBBkkkk","....kBBBBBBk....","....kGGkkGGk....","....kkk..kkk...."]},"golem":{"p":{"k":"#14142b","I":"#6b7385","L":"#a9b3c6","D":"#3d4352","R":"#ff4d4d","O":"#ffb020"},"d":["....kkkkkkkk....","...kLLLLLLLIk...","...kLkkLLkkIk...","...kLkRLLRkIk...","...kIIIIIIIDk...","..kkkDOOOODkkk..",".kLLkIIIIIIkLLk.","kLLIkIOOOOIkILLk","kLIIkIIIIIIkIILk","kIIDkIIIIIIkDIIk","kkkkkDIIIIDkkkkk","kLLk.kIDDIk.kLLk","kIIk.kIkkIk.kIIk","kkkk.kLk.kLk.kkk",".....kIIkkIIk...",".....kkkk.kkkk.."]},"dona":{"p":{"k":"#14142b","P":"#ff7ab6","Q":"#ffb3d4","T":"#d99a52","D":"#a8692e","W":"#ffffff","Y":"#ffd23f","B":"#3dd6ff","R":"#e0313b"},"d":["................",".....kkkkkk.....","...kkPQPPYPkk...","..kPBPPQPPPRPk..",".kPPPkkkkkPPYPk.",".kPQPkWkkWkPPPk.","kPPYkkRkkRkkPBPk","kTPPkkkkkkkkPPTk","kTTPPkkWWkkPPTTk","kDTTPPkkkkPPTTDk",".kDTTTTTTTTTTDk.",".kkDDTTTTTTDDkk.","..kkkDDDDDDkkk..","....kkkkkkkk....","................","................"]},"castle":{"p":{"k":"#14142b","G":"#8f99ad","D":"#5b6478","L":"#c9d1e0","R":"#c62828","Y":"#ffd23f","W":"#ffd23f","F":"#32d74b"},"d":[".......kF.......",".......kFF......",".......k........","......kRk.......",".....kRRRk......","k.k.kRRRRRk.k.k.","kGkkkGGGGGkkkGk.","kGGGGGLGGGGGGGk.","kGDGGGGGGGGGDGk.","kGGGGkWWkGGGGGk.","kGGGkWWWWkGGGGk.","kGDGkWWWWkGGDGk.","kGGGkWWWWkGGGGk.","kDDDkWWWWkDDDDk.","kkkkkkkkkkkkkkk.","................"]},"tree":{"p":{"k":"#14142b","G":"#2f9e5b","L":"#46d36e","T":"#6b4f3a"},"d":["................","......kkkk......",".....kLLLGk.....","....kLLGGGGk....","...kLLGGGGGGk...","...kLGGGGGGGk...","..kLLGGGGGGGGk..","..kLGGGGGGGGGk..","..kGGGGGGGGGGk..","...kGGGGGGGGk...","....kkGTTGkk....","......kTTk......","......kTTk......",".....kTTTTk.....",".....kkkkkk.....","................"]},"flag":{"p":{"k":"#14142b","P":"#c9d1e0","F":"#32d74b","L":"#7dffa0","G":"#6b4f3a"},"d":["................","....kkkkkkk.....","....kPkFFFFk....","....kPkLFFFFk...","....kPkFFFFFk...","....kPkFFFFk....","....kPkkkkk.....","....kPk.........","....kPk.........","....kPk.........","....kPk.........","....kPk.........","...kkPkk........","..kGGGGGk.......","..kkkkkkk.......","................"]}});
 Object.assign(SPR,{"sombra":{"p":{"k":"#0b0716","D":"#2a1b4a","M":"#4b2f7a","L":"#9a6bff","E":"#ff3b6b"},"d":[".....kkkkkk.....","....kDDDDDDk....","...kDMMMMMMDk...","..kDMkkkkkkMDk..","..kDkkEkkEkkDk..","..kDkkkkkkkkDk..","..kDMkkkkkkMDk..",".kDMMDkkkkDMMDk.","kDMMMMDDDDMMMMDk","kDMLMMMMMMMMLMDk",".kDMMMMMMMMMMDk.","..kDMMLMMLMMDk..","..kDMMMMMMMMDk..",".kDMDkDMMDkDMDk.","kDDk.kDDDDk.kDDk",".kk...kkkk...kk."]}});
+Object.assign(SPR,{"fire":{"p":{"k":"#14142b","R":"#e0313b","O":"#ff8a1f","Y":"#ffd23f","W":"#fff5b0","B":"#6b4f3a","D":"#4a3426","S":"#8f99ad"},"d":["................","................",".......R........","......RR........","......ROR..R....",".....ROOR.RR....",".....ROYORRO....","....ROYYYOOR....","....ROYWYYOR....","....RROYWYOR....",".....ROYYOR.....","...SBDBBDBBDS...","..SSkBDDBBDkSS..","..kBBkkDDkkBBk..","...kk..kk..kk...","................"]},"tent":{"p":{"k":"#14142b","T":"#c9a227","L":"#e6c75a","D":"#8a6d12","I":"#2a1f0e","P":"#6b4f3a"},"d":["................",".......kk.......","......kTLk......",".....kTTLLk.....","....kTTTLLLk....","....kTTTLLLk....","...kTTTkkLLLk...","...kTTkIIkLLk...","..kTTTkIIkLLLk..","..kTTkIIIIkLLk..",".kTTTkIIIIkLLLk.",".kTTkIIIIIIkLLk.","kDDDkIIIIIIkDDDk","kkkkkkkkkkkkkkkk","P..............P","................"]},"sign":{"p":{"k":"#14142b","W":"#b07a45","L":"#d9a066","D":"#7a4f28","P":"#e8dcc0","T":"#6b4f3a"},"d":["................",".kkkkkkkkkkkkkk.",".kLLLLLLLLLLLLk.",".kLPPPPPPPPPPLk.",".kLPkkPkkkPkPLk.",".kLPPPPPPPPPPLk.",".kLPkkkPkkPPPLk.",".kLPPPPPPPPPPLk.",".kWWWWWWWWWWWWk.",".kkkkkkkkkkkkkk.","......kWWk......","......kWDk......","......kWDk......","......kWDk......",".....kkWDkk.....","................"]},"portal":{"p":{"k":"#14142b","S":"#6b7385","L":"#a9b3c6","D":"#3d4352","P":"#7c4dff","Q":"#b388ff","V":"#3a1f7a","W":"#e9dcff"},"d":[".....kkkkkk.....","...kkLLLLLLkk...","..kLSSSSSSSSLk..",".kLSkkkkkkkkSLk.",".kSkVVPPPPVVkSk.","kLSkVPQQQQPVkSLk","kSSkPQWWWQQPkSSk","kSDkPQWWWWQPkDSk","kSSkPQQWWQQPkSSk","kLSkVPQQQQPVkSLk","kSSkVVPPPPVVkSSk","kSDkVVVPPVVVkDSk","kSSkVVVVVVVVkSSk","kLSkVVVVVVVVkSLk","kDDkkkkkkkkkkDDk","kkkk........kkkk"]},"spirit":{"p":{"k":"#14142b","W":"#dfe9ff","B":"#a9c4ff","D":"#6f8fd6","E":"#14142b","Y":"#ffd23f"},"d":["................",".....kkkkkk.....","....kWWWWWWk....","...kWWWWWWWWk...","...kWWkWWkWWk...","...kWWkWWkWWk...","..kBWWWWWWWWBk..","..kBWWWkkWWWBk..",".kBBWWWWWWWWBBk.",".kDBBWWWWWWBBDk.","..kDBBBWWBBBDk..","..kDDBBBBBBDDk..","...kDDBkkBDDk...","...kDk.kk.kDk...","....k......k....","................"]}});
 const ART={};
 function spr(name,px,pal,key){const a=ART[key||name]||(!pal&&ART[name]);const W=Math.round(16*px);
   if(a)return `<img class="spr" src="${a}" alt="" style="width:${W}px;height:${W}px;image-rendering:pixelated;object-fit:contain">`;
@@ -2072,33 +2107,54 @@ function showUpg(){const g=G();
 function buyUpg(k){const g=G(),c=upCost(k);if(c==null||g.souls<c)return;g.souls-=c;g.meta[k]=lvU(k)+1;HBc=null;save();sfx('lvl');showUpg();toast(`${UPG[k].ic} ${UPG[k].n} nivel ${lvU(k)}`);}
 
 /* ---- pantalla principal ---- */
-function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldMap(),b=heroBase(),z=zoneOf(mondayOf(t)),zi=weekIdx(mondayOf(t)),rec=Math.round(Lstar(zi)),gap=rec-b.L,won=g.trophies.some(x=>x.mon===mondayOf(t));
-  const qs=questsFor(t).map(q=>`<div class="it ${q.ok?'qok':''}"><span class="qic">${q.ok?'✅':q.ic}</span><div class="grow"><div class="t">${q.n}</div><div class="s">${q.rw}</div></div></div>`).join('');
-  const active=r&&!r.dead&&!r.won;
+function hubLine(g,r,b,rec,qd,qt){const t=today();
+  if(r&&!r.dead&&!r.won)return `Tu run sigue abierta en el piso ${r.f}. ¡El portal te espera!`;
+  if(rec-b.L>=2)return `Estás ${rec-b.L} niveles abajo de esta zona. Ve al gym y vuelve más fuerte.`;
+  if(g.bless.length)return `Traes ${g.bless.length} bendición${g.bless.length>1?'es':''} del gym. Úsala${g.bless.length>1?'s':''} en tu próxima run.`;
+  if(qd<qt&&!dayDone(t)&&trainDay(t))return 'Hoy te toca gym. Cada serie te hace más fuerte aquí.';
+  if(r&&r.dead)return 'Caer es parte del camino. Cuando quieras, cruzas el portal otra vez.';
+  if(g.trophies.some(x=>x.mon===mondayOf(t)))return 'Ya conquistaste esta zona. El lunes se abre una más difícil.';
+  return 'Bienvenido al campamento, héroe. Cruza el portal cuando estés listo.';}
+function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldMap(),b=heroBase(),mon=mondayOf(t),z=zoneOf(mon),zi=weekIdx(mon),rec=Math.round(Lstar(zi));
+  const Q=questsFor(t),qd=Q.filter(q=>q.ok).length,active=r&&!r.dead&&!r.won,ug=Object.keys(UPG).some(k=>{const c=upCost(k);return c!=null&&g.souls>=c;});
+  const hills=(seed,col,h)=>{const R=rng(seed);let p='0,120';for(let x=0;x<=100;x+=4){const y=Math.round(120-h-R()*h*0.8);p+=` ${x},${y} ${x+4},${y}`;}return `<polygon points="${p} 100,120" fill="${col}" shape-rendering="crispEdges"/>`;};
+  const stars=[...Array(14)].map((_,i)=>{const R=rng(i*97+3);return `<i style="left:${Math.round(R()*100)}%;top:${Math.round(R()*38)}%;animation-delay:${(R()*2).toFixed(1)}s"></i>`;}).join('');
+  const trees=[8,20,58,72,94].map((x,i)=>`<div style="position:absolute;left:${x}%;bottom:${150+(i%2)*12}px;transform:translateX(-50%);opacity:.55;filter:brightness(.6)">${spr('tree',1.5)}</div>`).join('');
   document.getElementById('v-aventura').innerHTML=`
-  <div class="eyebrow">Semana ${zi+1} · ${g.runs} run${g.runs===1?'':'s'} jugadas</div>
-  <div class="row between" style="align-items:flex-end"><h1>Aventura</h1><div class="sndbar" style="margin-bottom:8px"><button class="sndbtn ${sfxOn()?'':'off'}" data-act="tsfx" aria-label="Efectos de sonido">${sfxOn()?'🔊':'🔇'}</button><button class="sndbtn ${S.settings.music?'':'off'}" data-act="tmus" aria-label="Música">🎵</button></div></div>
-  <div class="card ghero">
-    <div class="row" style="gap:14px;align-items:center"><div class="herospr">${heroSpr(4)}</div>
-      <div style="flex:1;min-width:0"><div class="row between"><b>${esc(S.settings.name||'Héroe')} · Nivel ${b.L}</b><span class="small muted">👻 ${g.souls}</span></div>
-      <div class="gstats"><span>⚔️ ${pAtk(null)}</span><span>❤️ ${pMax(null)}</span><span>💨 ${pAgi(null)}%</span><span>🎯 ${pCrit(null)}%</span></div>
-      <div class="small muted" style="margin-top:6px;line-height:1.35">Tu fuerza sale de tu vida real: nivel → ataque y vida · cardio → esquiva · récords → crítico.</div></div></div>
-    ${g.bless.length?`<div class="eqs"><span>✨ Bendiciones para tu próxima run: ${g.bless.map(k=>RELICS[k].ic+' '+RELICS[k].n).join(', ')}</span></div>`:''}
-    <button class="btn ghost block" style="margin-top:12px" data-act="gupg">👻 Mejoras permanentes</button></div>
-  <div class="zban" style="${zBg(z)}"><div class="zt">ZONA DE ESTA SEMANA · <span class="stars">${zStars(mondayOf(t))}</span></div><div class="zn">${z[1]} ${z[0]}</div>
-    <div class="zs">Nivel recomendado ${rec} · tú eres nivel ${b.L}${won?' · 👑 conquistada':''}</div>
-    ${gap>=2?`<div class="zwarn">⚠️ Estás ${gap} niveles abajo. Vas a sentir la pared: ve al gym y cumple tus misiones para subir.</div>`:gap<=-3?'<div class="zwarn ok">💪 Vas sobrado para esta zona.</div>':''}
-    <div class="zs" style="margin-top:6px">${active?`Run en curso · piso ${r.f}/10 · ❤️ ${r.hp}/${pMax(r)} · 🪙 ${r.gold}`:r&&r.dead?'💀 Tu última run terminó. Puedes empezar otra.':r&&r.won?'👑 Ganaste tu última run. Puedes jugar otra.':'Sin run activa'}</div>
-    <button class="btn block" style="margin-top:12px" data-act="dungeon">${active?'⚔️ Continuar run':'⚔️ Nueva run'}</button></div>
-  <div class="sec">Misiones de hoy <small>dan almas 👻</small></div><div class="card list">${qs}</div>
-  <div class="small muted" style="margin:-4px 6px 0;line-height:1.4">Se cumplen solas con lo que registras. Pelear en la aventura da poquito: lo fuerte sale de aquí y del jefe del gym.</div>
+  <div class="hub" style="--g1:${z[2]};--g2:${z[3]}">
+    <div class="sky" style="background:linear-gradient(180deg,#0b0d1f 0%,${z[3]} 55%,${z[2]} 100%)"></div>
+    <div class="sfield">${stars}</div>
+    <svg class="hills" viewBox="0 0 100 120" preserveAspectRatio="none">${hills(zi*13+1,'rgba(0,0,0,.35)',50)}${hills(zi*13+7,'rgba(0,0,0,.5)',28)}</svg>
+    ${trees}
+    <div class="ground"></div><div class="path"></div><div class="firelight"></div>
+    <div class="htop"><div class="hzone"><div class="a">${z[1]} ${z[0]}</div><div class="b">Semana ${zi+1} · <span class="stars">${zStars(mon)}</span> · Nivel rec. ${rec}</div></div>
+      <div class="sndbar"><button class="sndbtn ${sfxOn()?'':'off'}" data-act="tsfx" aria-label="Efectos de sonido">${sfxOn()?'🔊':'🔇'}</button><button class="sndbtn ${S.settings.music?'':'off'}" data-act="tmus" aria-label="Música">🎵</button></div></div>
+    <div class="hbub" style="left:14%;top:88px">${esc(hubLine(g,r,b,rec,qd,Q.length))}</div>
+    <button class="hob tent" style="left:11%;bottom:74px" data-act="glogs"><span class="hl">Bitácora</span>${spr('tent',3.6)}</button>
+    <button class="hob sign" style="left:29%;bottom:60px" data-act="gquests"><span class="hl">Misiones <b>${qd}/${Q.length}</b></span>${spr('sign',2.6)}</button>
+    <button class="hob hero" style="left:43%;bottom:52px" data-act="player">${heroSpr(3)}</button>
+    <div class="hob fire" style="left:55%;bottom:50px">${spr('fire',2.4)}</div>
+    <button class="hob spirit" style="left:68%;bottom:128px" data-act="gupg"><span class="hl ${ug?'go':''}">Altar 👻${g.souls}</span>${spr('spirit',2.4)}</button>
+    <button class="hob portal" style="left:87%;bottom:46px" data-act="dungeon"><span class="hl go">${active?`Piso ${r.f}/10`:'¡Entrar!'}</span>${spr('portal',4.2)}</button>
+    <div class="hstat"><span>Nv ${b.L}</span><span>⚔️${pAtk(null)}</span><span>❤️${pMax(null)}</span><span>💨${pAgi(null)}%</span><span>🎯${pCrit(null)}%</span>${active?`<span>❤️ run ${r.hp}/${pMax(r)}</span>`:''}</div>
+  </div>
+  ${rec-b.L>=2?`<div class="zwarn" style="margin:-4px 0 12px">⚠️ Nivel recomendado ${rec} · tú eres ${b.L}. Sube entrenando y comiendo bien: tu nivel es tu fuerza.</div>`:''}
   <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
-  <div class="sec">Bitácora</div><div class="card list">${g.log.slice(0,8).map(l=>`<div class="it"><div class="grow small">${l.t}</div><span class="small muted">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div>
   ${g.trophies.length?`<div class="sec">Trofeos</div><div class="card trophies">${g.trophies.map(x=>`<div>${enSpr(x.id,2.4)}<span>Sem. ${fmtShort(x.mon)}</span></div>`).join('')}</div>`:''}
-  <div class="foot">Combate por turnos: el enemigo te avisa qué va a hacer. Cúbrete cuando cargue un golpe fuerte y guarda el foco para el golpe cargado.</div>`;
+  <div class="foot">Toca el portal para jugar, el letrero para ver tus misiones, el espíritu para tus mejoras y la tienda para tu bitácora.</div>`;
   if(msgs&&msgs.length){toast(`👻 ${msgs.length} misión${msgs.length>1?'es':''} cumplida${msgs.length>1?'s':''}`);sfx('coin');}
   const wm=document.getElementById('wmap');if(wm)wm.scrollLeft=Math.max(0,+wm.dataset.x-wm.clientWidth/2);
 }
+function showQuests(){const t=today(),Q=questsFor(t);
+  openSheet(`<div class="parch"><div class="ptitle">📜 Tablón de misiones</div>
+    <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Se cumplen solas con lo que registras. Dan almas 👻 para el altar.</div>
+    <div class="list">${Q.map(q=>`<div class="it ${q.ok?'qok':''}"><span class="qic">${q.ok?'✅':q.ic}</span><div class="grow"><div class="t">${q.n}</div><div class="s">${q.rw}</div></div></div>`).join('')}</div></div>
+    <button class="btn block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`);}
+function showLogs(){const g=G();
+  openSheet(`<div class="parch"><div class="ptitle">⛺ Bitácora</div>
+    <div class="list">${g.log.slice(0,25).map(l=>`<div class="it"><div class="grow" style="font-size:14px">${l.t}</div><span class="s" style="font-size:12px">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div></div>
+    <div class="small muted" style="margin-top:10px;line-height:1.45;text-align:center">${g.runs} run${g.runs===1?'':'s'} jugadas · ${g.trophies.length} zona${g.trophies.length===1?'':'s'} conquistada${g.trophies.length===1?'':'s'}</div>
+    <button class="btn block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`);}
 
 /* ================= Sonido ================= */
 const SND={ctx:null,mg:null,music:null};
@@ -2148,22 +2204,27 @@ function raidState(d){const s=S.workouts[d]||session(d,false),ids=Object.keys(s.
       dealt+=dm;});});
   return {mon:raidMon(d),max,dealt,crits,done,total,dead:max>0&&dealt>=max,clear:dayDone(d)};}
 let RFX=null,RFX2=null;
-const rdOf=d=>{const g=G();g.rd=g.rd||{};return g.rd[d]||(g.rd[d]={dmg:0,pend:0,end:0,ot:0,stun:0});};
+const rdOf=d=>{const g=G();g.rd=g.rd||{};const rd=g.rd[d]||(g.rd[d]={dmg:0,pend:0,end:0,ot:0,stun:0,log:{}});if(!rd.log)rd.log=rd.dmg?{_:rd.dmg}:{};return rd;};
+const rdSum=rd=>Math.min(raidHPMax(),Object.values(rd.log).reduce((a,b)=>a+b,0));
+function raidUndo(d,keys){if(d!==today())return;const rd=rdOf(d);let h=0;rd.ot=0;
+  Object.keys(rd.log).forEach(k=>{if(keys.some(x=>x.endsWith('|*')?k.startsWith(x.slice(0,-1)):k===x)){h+=rd.log[k];delete rd.log[k];}});
+  if(rd.pend&&keys.some(x=>x.endsWith('|*')?(rd.pkey||'').startsWith(x.slice(0,-1)):rd.pkey===x)){rd.pend=0;rd.ot=0;stopRest();}
+  const before=rd.dmg;rd.dmg=rdSum(rd);if(before>rd.dmg){RFX2={heal:before-rd.dmg,ts:Date.now()};sfx('heal');}save();}
 const raidHPMax=()=>100+lvU('hp')*10;
 const runEq=()=>{const r=G().run;return r&&!r.dead?r:null;};
-function enemyTurn(d,heavy){const rd=rdOf(d),rs=raidState(d),en=EN[rs.mon],r=runEq();rd.pend=0;
+function enemyTurn(d,heavy,key){const rd=rdOf(d),rs=raidState(d),en=EN[rs.mon],r=runEq();rd.pend=0;key=key||rd.pkey||'_';
   if(rs.dead||rs.clear)return;
   if(rd.stun&&!heavy){rd.stun=0;RFX2={stun:1,ts:Date.now()};save();refreshRaid();toast(`💫 ${en.n} sigue aturdido por tu récord: pierde su turno`);return;}
   if(Math.random()*100<pAgi(r)){RFX2={dodge:1,ts:Date.now()};sfx('dodge');save();refreshRaid();return;}
   const dmg=Math.max(1,Math.round(9*en.a*(heavy?1.7:0.65)*rnd(0.85,1.15))-pDef(r)),max=raidHPMax(),alive=rd.dmg<max;
-  rd.dmg=Math.min(max,rd.dmg+dmg);RFX2={pdmg:dmg,heavy,ts:Date.now()};sfx(heavy?'crit':'hurt');save();refreshRaid();
+  rd.log[key]=(rd.log[key]||0)+dmg;rd.dmg=rdSum(rd);RFX2={pdmg:dmg,heavy,ts:Date.now()};sfx(heavy?'crit':'hurt');save();refreshRaid();
   if(heavy)toast(`💥 Te tardaste en volver: ${en.n} te dio un golpe fuerte (−${dmg})`);
   if(alive&&rd.dmg>=max)setTimeout(()=>toast('😵 Te noquearon: el botín baja a la mitad. Termina igual tu rutina.'),500);}
 /* antes de registrar una serie: resuelve el turno pendiente del enemigo */
-function raidPre(d){if(d!==today())return;const rd=rdOf(d),now=Date.now();
-  if(rd.pend){const late=now>rd.end+150000;enemyTurn(d,late);rd.ot=0;}
-  else if(rd.ot&&now>rd.end+150000){rd.ot=0;enemyTurn(d,true);}else rd.ot=0;}
-function raidRestStart(d){if(d!==today())return;const rd=rdOf(d);rd.pend=1;rd.end=restEnd;rd.ot=1;save();}
+function raidPre(d,key){if(d!==today())return;const rd=rdOf(d),now=Date.now();
+  if(rd.pend){const late=now>rd.end+150000;enemyTurn(d,late,rd.pkey);rd.ot=0;}
+  else if(rd.ot&&now>rd.end+150000){rd.ot=0;enemyTurn(d,true,key);}else rd.ot=0;}
+function raidRestStart(d,key){if(d!==today())return;const rd=rdOf(d);rd.pend=1;rd.pkey=key;rd.end=restEnd;rd.ot=1;save();}
 function refreshRaid(){if(curTab!=='gym'||gymDate!==today())return;const c=document.getElementById('raidc'),h=document.getElementById('rhud');
   if(c)c.outerHTML=raidCard(gymDate);if(h)h.outerHTML=raidHud(gymDate);hudCheck();}
 function hudCheck(){const c=document.getElementById('raidc'),h=document.getElementById('rhud');const on=!!(c&&h&&curTab==='gym'&&c.getBoundingClientRect().bottom<70);
@@ -2199,7 +2260,7 @@ function raidCard(k){const t=today(),rs=raidState(k),en=EN[rs.mon],fx=RFX&&Date.
   return `<div class="card raid ${rs.clear?'won':''}" id="raidc">
     <div class="rtop"><span class="rtag">${rs.clear?'👑 JEFE VENCIDO':'⚔️ JEFE DEL GYM'}</span><span class="small muted">${rs.done}/${rs.total} golpes${rs.crits?` · <b style="color:#ffd60a">${rs.crits} crítico${rs.crits>1?'s':''}</b>`:''}</span></div>
     <div class="rarena ${fx&&fx.crit?'shake':''}">
-      <div class="rhero ${fx?'lunge':''} ${fx2&&fx2.pdmg?'ouch':''} ${ko?'ko':''}">${heroSpr(3.6)}${fx2&&fx2.pdmg?`<div class="dmgn ${fx2.heavy?'h':''}">−${fx2.pdmg}</div>`:''}${fx2&&fx2.dodge?'<div class="dmgn miss">Esquiva</div>':''}</div>
+      <div class="rhero ${fx?'lunge':''} ${fx2&&fx2.pdmg?'ouch':''} ${ko?'ko':''}">${heroSpr(3.6)}${fx2&&fx2.pdmg?`<div class="dmgn ${fx2.heavy?'h':''}">−${fx2.pdmg}</div>`:''}${fx2&&fx2.dodge?'<div class="dmgn miss">Esquiva</div>':''}${fx2&&fx2.heal?`<div class="dmgn heal">+${fx2.heal}</div>`:''}</div>
       ${fx&&fx.crit?'<div class="critlbl">¡CRÍTICO!</div>':''}${sp}
       <div class="rint" id="rint" style="display:none"></div><div class="rmon ${fx?(fx.crit?'hit crit':'hit'):''} ${fx2&&(fx2.pdmg||fx2.dodge)?'mlunge':''} ${rs.dead?'dead':''}">${enSpr(rs.mon,4.6)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}${fx2&&fx2.stun?'<div class="dmgn miss">💫</div>':''}</div>
     </div>
@@ -2210,7 +2271,7 @@ function raidHud(k){const rs=raidState(k),en=EN[rs.mon],rd=rdOf(k),hmax=raidHPMa
   const fx=RFX&&Date.now()-RFX.ts<900?RFX:null,fx2=RFX2&&Date.now()-RFX2.ts<900?RFX2:null;
   return `<div class="rhud" id="rhud" data-act="hudtop">
     <div class="rarena ${fx&&fx.crit?'shake':''}">
-      <div class="rhero ${fx?'lunge':''} ${fx2&&fx2.pdmg?'ouch':''} ${ko?'ko':''}">${heroSpr(2.9)}${fx2&&fx2.pdmg?`<div class="dmgn ${fx2.heavy?'h':''}">−${fx2.pdmg}</div>`:''}${fx2&&fx2.dodge?'<div class="dmgn miss">Esquiva</div>':''}</div>
+      <div class="rhero ${fx?'lunge':''} ${fx2&&fx2.pdmg?'ouch':''} ${ko?'ko':''}">${heroSpr(2.9)}${fx2&&fx2.pdmg?`<div class="dmgn ${fx2.heavy?'h':''}">−${fx2.pdmg}</div>`:''}${fx2&&fx2.dodge?'<div class="dmgn miss">Esquiva</div>':''}${fx2&&fx2.heal?`<div class="dmgn heal">+${fx2.heal}</div>`:''}</div>
       ${fx&&fx.crit?'<div class="critlbl">¡CRÍTICO!</div>':''}
       <div class="rmon ${fx?(fx.crit?'hit crit':'hit'):''} ${fx2&&(fx2.pdmg||fx2.dodge)?'mlunge':''} ${rs.dead?'dead':''}">${enSpr(rs.mon,3.5)}${fx?`<div class="dmgn ${fx.crit?'c':''}">−${fx.dmg}</div>`:''}${fx2&&fx2.stun?'<div class="dmgn miss">💫</div>':''}</div>
     </div>
@@ -2255,7 +2316,7 @@ function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),mo
       <div class="gstats" style="margin-top:6px"><span>⚔️ ${pAtk(r)}</span><span>🛡️ ${pDef(r)}</span><span>💨 ${pAgi(r)}%</span><span>🎯 ${pCrit(r)}%</span><span>🧪 ${r.potions}</span><span>🪙 ${r.gold}</span></div></div></div>
       ${r.relics.length?`<div class="rels">${r.relics.map(k=>`<button class="relb" data-act="grel" data-k="${k}">${RELICS[k].ic}</button>`).join('')}</div>`:''}</div>
     <div class="small muted" style="text-align:center;margin:-2px 0 8px">Piso ${r.f}/10 · toca uno de los círculos verdes para avanzar</div>
-    <div class="rmap" style="height:${H}px"><svg viewBox="0 0 100 ${H}" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">${lines}</svg>${nodes}</div>
+    <div class="rmap themed" style="height:${H+20}px;${zBg(z)}"><svg viewBox="0 0 100 ${H}" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">${lines}</svg>${nodes}</div>
     <div class="mleg">${Object.entries(NODE).map(([k,v])=>`<span>${v[0]} ${v[1]}</span>`).join('')}</div>`);
   musicStart('map');setTimeout(()=>{const n=document.querySelector('#sheet .mn.go')||document.querySelector('#sheet .mn.here');if(n)n.scrollIntoView({block:'center',behavior:'smooth'});},250);}
 
@@ -2297,7 +2358,7 @@ function rerender(){applyTheme();R[curTab]();}
 let toastT;function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('on'),1900);}
 
 function setCheck(id,i){
-  const s0=S.workouts[gymDate],x0=s0&&s0.ex[id]&&s0.ex[id].sets[i];if(!(x0&&x0.done))raidPre(gymDate);
+  const s0=S.workouts[gymDate],x0=s0&&s0.ex[id]&&s0.ex[id].sets[i];if(!(x0&&x0.done))raidPre(gymDate,id+'|'+i);else raidUndo(gymDate,[id+'|'+i]);
   const rb=raidState(gymDate);
   const s=session(gymDate,true),e=EX[id],x=s.ex[id].sets[i];
   x.done=!x.done;
@@ -2309,13 +2370,13 @@ function setCheck(id,i){
   s.ex[id].done=s.ex[id].sets.every(z=>z.done);
   save();
   const wasLast=s.ex[id].done;
-  if(x.done&&e.type!=='cardio'&&!wasLast){restEx=e.type==='str'?id:null;restDur=e.type==='time'?60:(e.rest||90);startRest(restDur);if(!raidState(gymDate).dead)raidRestStart(gymDate);}
+  if(x.done&&e.type!=='cardio'&&!wasLast){restEx=e.type==='str'?id:null;restDur=e.type==='time'?60:(e.rest||90);startRest(restDur);if(!raidState(gymDate).dead)raidRestStart(gymDate,id+'|'+i);}
   if(wasLast){stopRest();}
   if(gymDate<=today())raidAfter(rb,gymDate);
   renderGym();
 }
 function exDone(id){
-  {const s0=S.workouts[gymDate];if(!(s0&&s0.ex[id]&&s0.ex[id].done))raidPre(gymDate);}
+  {const s0=S.workouts[gymDate];if(!(s0&&s0.ex[id]&&s0.ex[id].done))raidPre(gymDate,id+'|x');else raidUndo(gymDate,[id+'|*']);}
   const rb=raidState(gymDate);
   const s=session(gymDate,true),ex=s.ex[id];ex.done=!ex.done;
   if(ex.done){ex.sets.forEach((x,i)=>{if(!x.done){x.done=true;
@@ -2370,6 +2431,8 @@ document.addEventListener('click',ev=>{
     case 'exdone':exDone(b.dataset.id);break;
     case 'player':showPlayer();break;
     case 'dungeon':sfx('tap');openDungeon();break;
+    case 'gquests':sfx('tap');showQuests();break;
+    case 'glogs':sfx('tap');showLogs();break;
     case 'gnode':enterNode(+b.dataset.f,+b.dataset.l);break;
     case 'gact':act(b.dataset.k);break;
     case 'gflee':flee();break;
