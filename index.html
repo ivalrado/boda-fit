@@ -414,6 +414,13 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .pxbar{position:relative;height:18px;border:2px solid #14142b;background:#3a1a1a;border-radius:3px;box-shadow:0 0 0 2px rgba(255,255,255,.55)}
 .pxbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(180deg,#5cf07a,#22a83c);border-radius:1px}
 .pxbar span{position:absolute;inset:0;display:grid;place-items:center;font-family:'PXB',ui-monospace,monospace;font-size:16px;line-height:1;text-shadow:0 1px 0 #000}
+.scene{position:relative;height:230px;border-radius:18px;overflow:hidden;border:2px solid #14142b;display:flex;align-items:flex-end;justify-content:center}
+.scene:after{content:'';position:absolute;left:0;right:0;bottom:0;height:40px;background:rgba(0,0,0,.35)}
+.scs{position:relative;z-index:1;display:flex;gap:26px;align-items:flex-end;margin-bottom:22px}
+.sca .spr{animation:bob 1.2s steps(2) infinite}
+.dbox{margin-top:10px;background:#fdf6e3;color:#14142b;border:3px solid #14142b;border-radius:8px;padding:10px 12px;min-height:96px;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+.dwho{font-family:'PXB',ui-monospace,monospace;font-size:19px;color:#8a3b12;line-height:1;margin-bottom:6px}
+.dtxt{font-family:'PXB',ui-monospace,monospace;font-size:21px;line-height:1.1}
 .ropts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .ropt{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(255,255,255,.1);background:var(--card2);border-radius:18px;padding:14px;color:#fff;width:100%}
 .ropt.rel{border-color:rgba(255,214,10,.45);background:linear-gradient(160deg,rgba(255,214,10,.10),var(--card2))}
@@ -679,7 +686,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125191244';
+const APP_V='20261125192557';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1805,6 +1812,7 @@ Object.assign(SPR,{"hero_mid":{"p":{"k":"#14142b","S":"#c9d1e0","E":"#3dff73","B
 Object.assign(SPR,{"sombra":{"p":{"k":"#0b0716","D":"#2a1b4a","M":"#4b2f7a","L":"#9a6bff","E":"#ff3b6b"},"d":[".....kkkkkk.....","....kDDDDDDk....","...kDMMMMMMDk...","..kDMkkkkkkMDk..","..kDkkEkkEkkDk..","..kDkkkkkkkkDk..","..kDMkkkkkkMDk..",".kDMMDkkkkDMMDk.","kDMMMMDDDDMMMMDk","kDMLMMMMMMMMLMDk",".kDMMMMMMMMMMDk.","..kDMMLMMLMMDk..","..kDMMMMMMMMDk..",".kDMDkDMMDkDMDk.","kDDk.kDDDDk.kDDk",".kk...kkkk...kk."]}});
 Object.assign(SPR,{"fire":{"p":{"k":"#14142b","R":"#e0313b","O":"#ff8a1f","Y":"#ffd23f","W":"#fff5b0","B":"#6b4f3a","D":"#4a3426","S":"#8f99ad"},"d":["................","................",".......R........","......RR........","......ROR..R....",".....ROOR.RR....",".....ROYORRO....","....ROYYYOOR....","....ROYWYYOR....","....RROYWYOR....",".....ROYYOR.....","...SBDBBDBBDS...","..SSkBDDBBDkSS..","..kBBkkDDkkBBk..","...kk..kk..kk...","................"]},"tent":{"p":{"k":"#14142b","T":"#c9a227","L":"#e6c75a","D":"#8a6d12","I":"#2a1f0e","P":"#6b4f3a"},"d":["................",".......kk.......","......kTLk......",".....kTTLLk.....","....kTTTLLLk....","....kTTTLLLk....","...kTTTkkLLLk...","...kTTkIIkLLk...","..kTTTkIIkLLLk..","..kTTkIIIIkLLk..",".kTTTkIIIIkLLLk.",".kTTkIIIIIIkLLk.","kDDDkIIIIIIkDDDk","kkkkkkkkkkkkkkkk","P..............P","................"]},"sign":{"p":{"k":"#14142b","W":"#b07a45","L":"#d9a066","D":"#7a4f28","P":"#e8dcc0","T":"#6b4f3a"},"d":["................",".kkkkkkkkkkkkkk.",".kLLLLLLLLLLLLk.",".kLPPPPPPPPPPLk.",".kLPkkPkkkPkPLk.",".kLPPPPPPPPPPLk.",".kLPkkkPkkPPPLk.",".kLPPPPPPPPPPLk.",".kWWWWWWWWWWWWk.",".kkkkkkkkkkkkkk.","......kWWk......","......kWDk......","......kWDk......","......kWDk......",".....kkWDkk.....","................"]},"portal":{"p":{"k":"#14142b","S":"#6b7385","L":"#a9b3c6","D":"#3d4352","P":"#7c4dff","Q":"#b388ff","V":"#3a1f7a","W":"#e9dcff"},"d":[".....kkkkkk.....","...kkLLLLLLkk...","..kLSSSSSSSSLk..",".kLSkkkkkkkkSLk.",".kSkVVPPPPVVkSk.","kLSkVPQQQQPVkSLk","kSSkPQWWWQQPkSSk","kSDkPQWWWWQPkDSk","kSSkPQQWWQQPkSSk","kLSkVPQQQQPVkSLk","kSSkVVPPPPVVkSSk","kSDkVVVPPVVVkDSk","kSSkVVVVVVVVkSSk","kLSkVVVVVVVVkSLk","kDDkkkkkkkkkkDDk","kkkk........kkkk"]},"spirit":{"p":{"k":"#14142b","W":"#dfe9ff","B":"#a9c4ff","D":"#6f8fd6","E":"#14142b","Y":"#ffd23f"},"d":["................",".....kkkkkk.....","....kWWWWWWk....","...kWWWWWWWWk...","...kWWkWWkWWk...","...kWWkWWkWWk...","..kBWWWWWWWWBk..","..kBWWWkkWWWBk..",".kBBWWWWWWWWBBk.",".kDBBWWWWWWBBDk.","..kDBBBWWBBBDk..","..kDDBBBBBBDDk..","...kDDBkkBDDk...","...kDk.kk.kDk...","....k......k....","................"]}});
 Object.assign(SPR,{"qblock":{"p":{"k":"#14142b","Y":"#ffb020","L":"#ffd96b","D":"#a8640a","W":"#fff5d6"},"d":["................",".kkkkkkkkkkkkkk.",".kLLLLLLLLLLLYk.",".kLkYYYYYYYYkDk.",".kLYYYWWWWYYYDk.",".kLYYWWYYWWYYDk.",".kLYYYYYYWWYYDk.",".kLYYYYYWWYYYDk.",".kLYYYYWWYYYYDk.",".kLYYYYWWYYYYDk.",".kLYYYYYYYYYYDk.",".kLYYYYWWYYYYDk.",".kLkYYYYYYYYkDk.",".kYDDDDDDDDDDDk.",".kkkkkkkkkkkkkk.","................"]},"stall":{"p":{"k":"#14142b","R":"#e0313b","W":"#fdf6e3","B":"#8a5a2b","D":"#5e3b1a","G":"#ffd23f","P":"#3dd6ff"},"d":["................","kkkkkkkkkkkkkkkk","kRRWWRRWWRRWWRRk","kRRWWRRWWRRWWRRk",".kRkWkRkWkRkWkk.","..k..........k..","..kB........Bk..","..kB.G..P...Bk..","..kB.kk.kk..Bk..","kkkkkkkkkkkkkkkk","kBBBBBBBBBBBBBBk","kBDDDDDDDDDDDDBk","kBBBBBBBBBBBBBBk","kDk..........kDk","kkk..........kkk","................"]},"rock":{"p":{"k":"#14142b","G":"#8f99ad","L":"#c9d1e0","D":"#5b6478"},"d":["................","................","................","................","................","................","................","......kkkk......",".....kLLGGk.....","....kLGGGGDk....","...kLGGGGGDDk...","...kGGGGGDDDk...","..kGGGGGGDDDDk..","..kDDDDDDDDDDk..","...kkkkkkkkkk...","................"]}});
+Object.assign(SPR,{"king":{"p":{"k":"#14142b","Y":"#ffd23f","O":"#e0a020","S":"#f2c49b","W":"#f5f5f5","R":"#c62828","D":"#8e1b1b","B":"#3b6ee8"},"d":["................","....k.k.k.k.....","....kYkYkYk.....","....kYYYYYk.....","....kOOOOOk.....","...kSSSSSSSk....","...kSkSSSkSk....","...kSSSSSSSk....","...kWWWWWWWk....","..kRWWWWWWWRk...",".kRRRWWWWWRRRk..",".kRDRRYYYRRDRk..",".kRDRRRRRRRDRk..",".kSkRRRRRRRkSk..","...kDDDkDDDk....","...kkkk.kkkk...."]},"princess":{"p":{"k":"#14142b","Y":"#ffd23f","H":"#f0b429","S":"#f2c49b","P":"#ff7ab6","L":"#ffb3d4","D":"#c2477f","R":"#e0313b"},"d":["......kYk.......",".....kYkYk......","....kHHHHHk.....","...kHSSSSSHk....","...kHSkSkSHk....","...kHSSRSSHk....","...kHHSSSHHk....","....kHkPkkHk....","....kLPPPLk.....","...kSkPPPkSk....","...kkPPLPPkk....","...kPPLPPPPk....","..kPPPPPLPPPk...","..kDPPPPPPPDk...",".kDDDDDDDDDDDk..",".kkkkkkkkkkkkk.."]},"prince":{"p":{"k":"#14142b","Y":"#ffd23f","H":"#6b4f3a","S":"#f2c49b","B":"#3b6ee8","L":"#7aa2ff","W":"#f5f5f5","G":"#2a2f45","R":"#e0313b"},"d":["................","....k.kYk.k.....","....kYYYYYk.....","....kHHHHHk.....","...kHSSSSSHk....","...kHSkSkSHk....","...kSSSSSSSk....","....kSSRSSk.....","...kWBBBBBWk....","..kBBBYBBBBBk...","..kBkBBYBBkBk...","..kSkBBBBBkSk...","....kBBBBBk.....","....kGGkGGk.....","....kGGkGGk.....","....kkk.kkk....."]},"goblina":{"p":{"k":"#14142b","Y":"#ffd23f","H":"#f0b429","G":"#7ac943","D":"#4e8a2a","R":"#e0313b","W":"#ffffff","P":"#ff7ab6","L":"#ffb3d4","Q":"#c2477f"},"d":["......kYk.......",".k...kYkYk...k..",".kGkkHHHHHkkGk..","..kGkHkHkHkGk...","...kGGGGGGGk....","...kGRkGkRGk....","...kGGGGGGGk....","...kGkWkWkGk....","....kkGGGkk.....","....kLPPPLk.....","...kGkPPPkGk....","...kkPPLPPkk....","..kPPPPPLPPPk...","..kQPPPPPPPQk...",".kQQQQQQQQQQQk..",".kDDk.....kDDk.."]}});
 const ART={};
 function spr(name,px,pal,key){const a=ART[key||name]||(!pal&&ART[name]);const W=Math.round(16*px);
   if(a)return `<img class="spr" src="${a}" alt="" style="width:${W}px;height:${W}px;image-rendering:pixelated;object-fit:contain">`;
@@ -1866,7 +1874,7 @@ const enPal=id=>id==='traje'&&isF()?VEST:null;
 const tierCls=id=>({elite:'mini',boss:'boss',final:'final'})[EN[id].tier]||'';
 
 function G(){if(!S.game)S.game={souls:0,meta:{},runs:0,trophies:[],log:[],first:null};const g=S.game;
-  if(g.run&&!g.run.v)g.run=null;g.qc=g.qc||{};g.bless=g.bless||[];g.daily=g.daily||{};return g;}
+  if(g.run&&!g.run.v)g.run=null;g.qc=g.qc||{};g.bless=g.bless||[];g.daily=g.daily||{};if(g.torch==null)g.torch=10;g.played=g.played||{};return g;}
 const lvU=k=>(G().meta[k]||0);
 const upCost=k=>{const u=UPG[k],l=lvU(k);return l<u.cost.length?u.cost[l]:null;};
 function glog(t){const g=G();g.log.unshift({t,d:today()});g.log=g.log.slice(0,40);}
@@ -1902,8 +1910,8 @@ function prOn(d){const s=S.workouts[d];if(!s)return false;
     Object.keys(S.workouts).filter(k=>k<d).forEach(k=>{const p=S.workouts[k].ex[id];if(p)p.sets.forEach(x=>{if(x.done)prev=Math.max(prev,num(x.kg)||0);});});
     return prev>0&&t>prev;});}
 const cardioOn=d=>{const s=S.workouts[d];return !!s&&Object.entries(s.ex).some(([id,e])=>EX[id]&&EX[id].type==='cardio'&&e.done);};
-const QS={gym:8,walk:4,cardio:3,pr:4,meals:4,prot:3,water:2,clean:3,peso:1};
-function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCount(d),q=[],a=k=>`+${QS[k]} 👻`;
+const QS={gym:8,walk:4,cardio:3,pr:4,meals:4,prot:3,water:2,clean:3,peso:1},QT={gym:4,walk:2,cardio:1,pr:1,meals:1,prot:1,water:1,clean:1,peso:1},TCAP=15;
+function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCount(d),q=[],a=k=>`+${QS[k]} 👻 · +${QT[k]} 🔥`;
   if(trainDay(d)){q.push({id:'gym',ic:'🏋️',n:`Completa tu entreno de ${RT(r).name.toLowerCase()}`,ok:dayDone(d),rw:a('gym')+' · y sube tu nivel'});
     q.push({id:'cardio',ic:'🫀',n:'Termina tu cardio',ok:cardioOn(d),rw:a('cardio')+' · sube tu esquiva'});
     q.push({id:'pr',ic:'📈',n:'Supera una marca (más peso que nunca)',ok:prOn(d),rw:a('pr')+' · sube tu crítico'});}
@@ -1916,8 +1924,9 @@ function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCoun
   return q;}
 const overDay=d=>{const tg=targets(),t=dayTot(d);return !!tg&&t.any&&t.k>tg.kcal*1.15;};
 function syncRun(){const g=G(),t=today(),cur=mondayOf(t),msgs=[];if(!g.first)g.first=cur;
+  try{autoExpedition();}catch(e){}
   if(g.run&&g.run.mon!==cur){if(!g.run.dead&&!g.run.won)glog(`⌛ La run #${g.run.id} se quedó a medias al cambiar de zona`);g.run=null;}
-  for(let d=cur;d<=t;d=addDays(d,1))questsFor(d).forEach(q=>{const k=d+'|'+q.id;if(!q.ok||g.qc[k])return;g.qc[k]=1;const s=QS[q.id]||0;g.souls+=s;msgs.push(`${q.ic} ${q.n}: +${s} almas`);});
+  for(let d=cur;d<=t;d=addDays(d,1))questsFor(d).forEach(q=>{const k=d+'|'+q.id;if(!q.ok||g.qc[k])return;g.qc[k]=1;const s=QS[q.id]||0,tt=QT[q.id]||0;g.souls+=s;g.torch=Math.min(TCAP,g.torch+tt);msgs.push(`${q.ic} ${q.n}: +${s} almas · +${tt} antorcha${tt>1?'s':''}`);});
   const old=addDays(t,-21);Object.keys(g.qc).forEach(k=>{if(k.slice(0,10)<old)delete g.qc[k];});
   if(msgs.length){msgs.slice().reverse().forEach(glog);try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
   return msgs;}
@@ -1943,15 +1952,124 @@ const edges=(r,f,l)=>{const n=nodeAt(r,f,l);return n.to||(f===9?[1]:[l-1,l,l+1].
 const nodeAt=(r,f,l)=>r.map[f-1][f===10?1:l];
 const canGo=(r,f,l)=>!!r&&!r.dead&&!r.won&&!r.reward&&f===r.f+1&&(f===1||f===10||edges(r,r.f,r.lane).includes(l));
 function randRelic(r,ex){const o=Object.keys(RELICS).filter(k=>!r.relics.includes(k)&&!(ex||[]).includes(k));return o.length?o[Math.floor(Math.random()*o.length)]:null;}
-function newRun(){const g=G(),mon=mondayOf(today());if(!g.first)g.first=mon;const seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0;
+function newRun(mon){const g=G();mon=mon||mondayOf(today());if(!g.first)g.first=mon;const seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0;
   const r={v:2,id:++g.runs,mon,seed,map:genMap(seed,isFinalWeek(mon)),f:0,lane:1,path:[],hpB:0,atkB:0,defB:0,agiB:0,critB:0,gold:0,potions:lvU('pot'),relics:[],foco0:0,dead:false,won:false,revived:false,bought:{},reward:null,cur:null};
   if(lvU('relic')){const k=randRelic(r);if(k)r.relics.push(k);}
   g.bless.forEach(k=>{if(RELICS[k]&&!r.relics.includes(k))r.relics.push(k);});const bl=g.bless.length;g.bless=[];
   r.hp=pMax(r);const y=addDays(today(),-1);if(overDay(y)){r.hp=Math.round(pMax(r)*0.85);r.curse=1;}
   g.run=r;glog(`⚔️ Comienza la run #${r.id} en ${zoneOf(mon)[0]}${bl?` con ${bl} bendición${bl>1?'es':''}`:''}`);}
 function advance(r){r.f=r.cur.f;r.lane=r.cur.f===10?1:r.cur.l;r.path.push(r.f+'|'+r.lane);r.cur=null;const s=addRunSouls(1);return s;}
-function enterNode(f,l){const r=G().run;if(!canGo(r,f,l))return;const n=nodeAt(r,f,l);r.cur={f,l};save();sfx('tap');
+function enterNode(f,l){const g=G(),r=g.run;if(!canGo(r,f,l))return;const n=nodeAt(r,f,l);
+  if(!(r.cur&&r.cur.f===f&&r.cur.l===l)){if(g.torch<1)return showNoTorch();g.torch--;g.played[today()]=1;}
+  r.cur={f,l};save();sfx('tap');
   if(n.t==='E'||n.t==='L'||n.t==='B')startFight(f,l);else if(n.t==='C')showCamp();else if(n.t==='S')showShopNode();else if(n.t==='Q')showEvent(n.q);else if(n.t==='T'){r.reward={kind:'treasure',opts:relicOpts(r,3)};advance(r);save();showReward();}}
+
+function showNoTorch(){const g=G();
+  openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:46px">🔥</div><div class="exn" style="font-size:24px">Sin antorchas</div>
+    <div class="small muted" style="margin-top:6px;line-height:1.5">Cada piso cuesta una antorcha, y las antorchas salen de tu vida real:<br><b>Entreno completo +4</b> · comidas, proteína, agua, cardio, récord, día limpio y pesarte +1 cada uno.<br>Tienes ${g.torch}/${TCAP}. Tu run te espera tal como la dejaste.</div></div>
+    <button class="btn block" style="margin-top:14px" data-act="gquests">📜 Ver misiones de hoy</button><button class="btn ghost block" style="margin-top:8px" data-act="closemodal">Cerrar</button>`);}
+/* ---- expedición automática: si no juegas, tu héroe avanza solo ---- */
+function dmgOut(r,m,blk){let d=pAtk(r)*rnd(0.85,1.15)*m;const c=Math.random()*100<pCrit(r);if(has(r,'rage'))d*=1+Math.min(0.5,1-r.hp/pMax(r));if(has(r,'belt')&&r.hp>=pMax(r)*0.8)d*=1.25;
+  if(c){d*=1.8;if(has(r,'critheal'))heal(r,8);}if(blk)d*=0.5;if(has(r,'vamp'))heal(r,3);return Math.max(1,Math.round(d));}
+function simFight(r,id,f){const st=enemyStats(id,f,r),ai=EN[id].ai,dg=EN[id].dodge||0;let eh=st.maxhp,ea=st.atk,turn=0,ch=false,blk=false,poison=0,foco=Math.min(fMax(r),1+(has(r,'hourglass')?1:0)+lvU('focus')+(r.foco0||0));
+  const intent=()=>{let k=ai[turn%ai.length];turn++;if(k==='heavy'&&!ch)k='atk';return k;};let it=intent();
+  for(let i=0;i<90;i++){let def=false;
+    if(r.hp<pMax(r)*0.3&&r.potions>0){r.potions--;heal(r,40+(has(r,'whey')?25:0));}
+    else if(it==='heavy'){def=true;foco=Math.min(fMax(r),foco+(has(r,'templar')?2:1));if(has(r,'templar'))heal(r,5);}
+    else if(foco>=3){eh-=dmgOut(r,(foco>=4&&has(r,'monk')?3.5:2.5)*(has(r,'gaunt')?1.3:1),blk);foco=0;}
+    else{(has(r,'twin')?[0.6,0.6]:[1]).forEach(m=>{if(Math.random()*100>=dg)eh-=dmgOut(r,m,blk);});foco=Math.min(fMax(r),foco+1);}
+    blk=false;if(eh<=0)return true;if(poison>0){r.hp-=3;poison--;}
+    if(it==='def')blk=true;else if(it==='charge')ch=true;else if(it==='buff')ea=Math.round(ea*1.08)+1;
+    else{if(Math.random()*100>=pAgi(r)){const v=it==='heavy'?ea*1.9:it==='steal'?ea*0.6:it==='poison'?ea*0.5:ea;let d=Math.max(1,Math.round(v*rnd(0.9,1.1)-pDef(r)));if(def)d=Math.max(1,Math.round(d*0.4));
+        r.hp-=d;if(has(r,'thorns'))eh-=Math.max(1,Math.round(d*0.3));if(it==='poison')poison=3;if(it==='steal')r.gold=Math.max(0,r.gold-10);}
+      if(it==='heavy')ch=false;}
+    if(r.hp<=0){if(lvU('revive')&&!r.revived){r.revived=true;r.hp=Math.round(pMax(r)*0.3);}else{r.hp=0;return false;}}
+    if(eh<=0)return true;it=intent();}
+  return false;}
+const AUTOPREF={hi:['E','L','T','Q','S','C'],lo:['C','Q','S','T','E','L']};
+function autoDay(day){const g=G(),L=[],mon=mondayOf(day);
+  if(g.trophies.some(x=>x.mon===mon))return L;
+  if(g.run&&g.run.mon!==mon)g.run=null;
+  if(!g.run||g.run.dead||g.run.won){if(g.run&&g.run.won)return L;newRun(mon);L.push(`⚔️ Tu héroe empezó una nueva run en ${zoneOf(mon)[0]}`);}
+  const r=g.run;let steps=0;
+  while(g.torch>0&&!r.dead&&!r.won&&r.f<10&&steps<10){steps++;
+    const opts=[0,1,2].filter(l=>canGo(r,r.f+1,l)),pref=AUTOPREF[r.hp<pMax(r)*0.5?'lo':'hi'];
+    const l=opts.sort((a,b)=>pref.indexOf(nodeAt(r,r.f+1,a).t)-pref.indexOf(nodeAt(r,r.f+1,b).t))[0];if(l==null)break;
+    const f=r.f+1,n=nodeAt(r,f,l);g.torch--;r.cur={f,l};
+    if(n.en){const win=simFight(r,n.en,f);
+      if(!win){r.dead=true;r.cur=null;L.push(`💀 Cayó ante ${enName(n.en)} en el piso ${f}`);break;}
+      const en=EN[n.en],big=en.tier==='boss'||en.tier==='final',gold=Math.round((big?40:en.tier==='elite'?22:8)*(has(r,'purse')?1.5:1));r.gold+=gold;advance(r);
+      if(big){r.won=true;const first=!g.trophies.some(x=>x.mon===r.mon),bs=first?15:4;g.souls+=bs;if(first)g.trophies.push({id:n.en,mon:r.mon,run:r.id});L.push(`👑 ¡Venció a ${enName(n.en)}! Zona conquistada · +${bs} almas`);break;}
+      if(en.tier==='elite'){const k=randRelic(r);if(k){r.relics.push(k);L.push(`💀 Venció al élite ${enName(n.en)} y ganó ${RELICS[k].ic} ${RELICS[k].n}`);}}
+      else{if(r.hp<pMax(r)*0.5)heal(r,pMax(r)*0.3);else r.atkB+=Math.max(3,Math.round(pAtk(r)*0.12));L.push(`⚔️ Venció a ${enName(n.en)} (+${gold} oro)`);}}
+    else if(n.t==='C'){if(r.hp<pMax(r)*0.7){heal(r,pMax(r)*0.35);L.push('🔥 Descansó en una fogata');}else{r.atkB+=Math.max(3,Math.round(pAtk(r)*0.12));L.push('🔥 Entrenó en una fogata');}advance(r);}
+    else if(n.t==='S'){if(r.gold>=sprice(20)&&r.potions<3){r.gold-=sprice(20);r.potions++;L.push('🛒 Compró una poción');}else L.push('🛒 Pasó por el mercader');advance(r);}
+    else if(n.t==='Q'){const E=EVENTS[n.q],i=E.n==='Fuente del manantial'?0:1,res=E.ch[i].f(r);L.push(`${E.ic} ${E.n}: ${res}`);advance(r);}
+    else if(n.t==='T'){const k=randRelic(r);if(k){r.relics.push(k);L.push(`🎁 Encontró ${RELICS[k].ic} ${RELICS[k].n}`);}advance(r);}}
+  return L;}
+function autoExpedition(){const g=G(),t=today(),y=addDays(t,-1);if(!g.autoD){g.autoD=y;return;}
+  const lines=[];let n=0;
+  while(g.autoD<y&&n<10){n++;g.autoD=addDays(g.autoD,1);const d=g.autoD;if(g.played[d]||g.torch<1)continue;const L=autoDay(d);if(L.length)lines.push({d,L});}
+  Object.keys(g.played).forEach(k=>{if(k<addDays(t,-14))delete g.played[k];});
+  if(lines.length){g.exped={seen:false,days:lines};lines.forEach(x=>x.L.forEach(l=>glog('🤖 '+l)));}}
+function showExped(){const g=G(),E=g.exped;if(!E)return;E.seen=true;save();
+  openSheet(`<div class="parch"><div class="ptitle">🗺️ Diario de la expedición</div>
+    <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Mientras no jugabas, tu héroe usó tus antorchas y avanzó solo.</div>
+    <div class="list">${E.days.map(x=>`<div class="it" style="display:block"><div class="t" style="font-weight:800;margin-bottom:4px">${relDay(x.d)}</div>${x.L.map(l=>`<div class="s" style="font-size:13.5px;line-height:1.45">${l}</div>`).join('')}</div>`).join('')}</div></div>
+    <div class="small muted" style="text-align:center;margin-top:10px;line-height:1.4">Si juegas tú, eliges ruta, reliquias y cómo pelear: te va mejor que en automático.</div>
+    <button class="btn block" style="margin-top:12px" data-act="closemodal">Continuar</button>`);}
+
+/* ---- modo historia ---- */
+const ZFLAV={'Pradera del Inicio':'Todo gran cambio empieza con un primer paso. Y con una primera sentadilla.','Bosque Sombrío':'Dicen que aquí se pierden los que dejan el gym en la segunda semana.','Cueva de Hierro':'El eco de las pesas retumba en las paredes. Aquí se forjan los fuertes.','Pantano del Antojo':'Huele a donas. No mires. No escuches. No pidas para llevar.','Desierto del Ayuno':'El calor aprieta y el agua vale oro. Hidrátate, héroe.','Montaña del Esfuerzo':'La subida es larga, pero la vista desde arriba vale cada repetición.','Volcán del Sudor':'Aquí no se suda: se derrite la grasa.','Tundra de la Disciplina':'Hace frío y nadie te ve entrenar. Ahí se nota quién es constante.','Ruinas del Gimnasio':'Antiguos héroes entrenaron aquí. Sus récords siguen grabados en piedra.','Castillo de la Sombra':'Llegó el día. Todo lo que hiciste te trajo hasta esta puerta.'};
+const amor=()=>S.settings.sex==='m'?{n:'el príncipe',N:'El príncipe',a:'al príncipe',sp:'prince'}:{n:'la princesa',N:'La princesa',a:'a la princesa',sp:'princess'};
+let SCN=null;
+function playScene(panels,done){SCN={p:panels,i:0,done};drawScene();MD().dataset.lock='1';}
+function drawScene(){const P=SCN.p[SCN.i],z=zoneOf(mondayOf(today()));
+  const sp=x=>x==='hero'?heroSpr(4.2):x==='sombra'?enSpr('traje',4.2):spr(x,4.2);
+  openSheet(`<div class="scene" style="background:linear-gradient(180deg,#0b0d1f,${z[3]} 70%,${z[2]})">
+      <div class="scs">${(P.s||[]).map(x=>`<div class="sca">${sp(x)}</div>`).join('')}</div></div>
+    <div class="dbox"><div class="dwho">${P.who||''}</div><div class="dtxt" id="dtxt"></div></div>
+    <div class="row" style="gap:8px;margin-top:10px"><button class="btn ghost" style="flex:none;padding:12px 14px" data-act="scskip">Saltar</button><button class="btn block" data-act="scnext">${SCN.i<SCN.p.length-1?'▶ Siguiente':(P.btn||'▶ Continuar')}</button></div>`);
+  const el=document.getElementById('dtxt'),txt=P.t;let k=0;clearInterval(SCN.tw);SCN.tw=setInterval(()=>{k+=2;if(el)el.textContent=txt.slice(0,k);if(k>=txt.length)clearInterval(SCN.tw);},22);sfx('tap');}
+function sceneNext(skip){if(!SCN)return;clearInterval(SCN.tw);if(!skip&&SCN.i<SCN.p.length-1){SCN.i++;drawScene();return;}const d=SCN.done;SCN=null;MD().dataset.lock='';MD().classList.remove('on');if(d)d();}
+function storyWeeks(){return Math.max(1,Math.round(daysBetween(mondayOf(today()),mondayOf(EV()))/7)+1);}
+function storyIntro(){const A=amor(),wk=storyWeeks(),nm=esc(S.settings.name||'Tú');
+  playScene([
+    {s:['king'],who:'Rey',t:'¡Héroe! Qué bueno que llegas. Tenemos una emergencia.'},
+    {s:['sombra',A.sp],who:'Narrador',t:`Anoche La Sombra entró al castillo y se llevó ${A.a}.`},
+    {s:['king'],who:'Rey',t:`Su guarida está a ${wk} semana${wk>1?'s':''} de camino. Tienes hasta el ${fmtLong(EV())}${HASEV()?'':' (la fecha estimada de tu meta)'}.`},
+    {s:['king'],who:'Rey',t:'No te voy a mentir: así como estás no llegas. Cada entreno, cada comida y cada kilo que bajes te harán más fuerte.'},
+    {s:['sombra'],who:'La Sombra',t:'Jajaja… ¿tú? Si te cansas subiendo escaleras.'},
+    {s:['hero'],who:nm,t:'Ya veremos.',btn:'⚔️ ¡Comienza la aventura!'}],
+    ()=>{const g=G();g.story=g.story||{};g.story.intro=1;g.story.start=g.story.start||today();g.story.ch=g.story.ch||{};g.story.ch[mondayOf(today())]=1;save();renderAventura();});}
+function storyChapter(){const g=G(),mon=mondayOf(today()),z=zoneOf(mon),n=Math.max(1,Math.round(daysBetween(mondayOf(g.story.start||today()),mon)/7)+1),A=amor();
+  playScene([{s:[isFinalWeek(mon)?'sombra':'king'],who:`Capítulo ${n} · ${z[1]} ${z[0]}`,t:(ZFLAV[z[0]]||'Un nuevo territorio te espera.')+(isFinalWeek(mon)?` ${A.N} te espera al final.`:'')}],
+    ()=>{g.story.ch[mon]=1;save();});}
+function storyEnding(kind){const A=amor(),nm=esc(S.settings.name||'Tú'),g=G();
+  const E={
+   rescue:[{s:['hero','sombra'],who:'Narrador',t:'Llegas al castillo en tu mejor forma. La Sombra retrocede: no te reconoce.'},
+     {s:['sombra'],who:'La Sombra',t:'¿Qué…? ¿Eres el mismo de hace unas semanas? ¡Imposible!'},
+     {s:['hero',A.sp],who:A.N,t:'¡Viniste por mí! Y te ves increíble.'},
+     {s:['king'],who:'Rey',t:'FIN · Final: El rescate. Cumpliste tu meta, héroe.',btn:'🏆 Ver mi logro'}],
+   goblin:[{s:['hero','sombra'],who:'Narrador',t:'Llegas al castillo con lo último de tus fuerzas. La Sombra se ríe y se hace a un lado.'},
+     {s:[A.sp],who:A.N,t:'Por fin… llegaste… acércate…'},
+     {s:['goblina'],who:'???',t:'*se quita la peluca* ¡JAJA! ¡Era un goblin todo el tiempo! Lo de verdad se fue con alguien que sí llegó a tiempo.'},
+     {s:['hero'],who:nm,t:'…'},
+     {s:['king'],who:'Rey',t:'FIN · Final: El goblin. Tranquilo: toda aventura se puede volver a empezar.',btn:'🔁 Continuar'}],
+   self:[{s:['hero','sombra'],who:'Narrador',t:'Llegas al castillo más fuerte que nunca. La Sombra ni siquiera intenta pelear.'},
+     {s:[A.sp],who:A.N,t:'¡Mi héroe! ¡Llévame contigo!'},
+     {s:['hero'],who:nm,t:'Mmm… ¿sabes qué? Esto nunca fue por ti.'},
+     {s:['hero'],who:nm,t:'Fue por mí.'},
+     {s:['hero'],who:'Narrador',t:`${nm} se da la vuelta y se va con su mejor versión. ${A.N} se queda en la torre, sin entender nada.`},
+     {s:['king'],who:'Rey',t:'FIN · Final secreto: Amor propio. Llegaste a tu peso ideal.',btn:'👑 Ver mi logro'}]};
+  playScene(E[kind],()=>{g.story.end=kind;g.story.endD=today();save();renderAventura();toast(kind==='goblin'?'Final desbloqueado: El goblin':kind==='self'?'Final secreto desbloqueado: Amor propio':'Final desbloqueado: El rescate');});}
+function storyCheck(){if(!S.settings.name||MD().classList.contains('on')||curTab!=='aventura')return;const g=G();g.story=g.story||{};const st=g.story;
+  if(!st.intro)return storyIntro();
+  if(!st.end){const w=latestW(),idl=idealW()[1],t=today();
+    if(HASEV()&&t>=EV())return storyEnding(w<=idl?'self':w<=S.settings.goalMax?'rescue':'goblin');
+    if(!HASEV()&&w<=S.settings.goalMax)return storyEnding(w<=idl?'self':'rescue');}
+  st.ch=st.ch||{};if(!st.end&&!st.ch[mondayOf(today())])return storyChapter();
+  if(g.exped&&!g.exped.seen)return showExped();}
 
 /* ---- combate ---- */
 let C=null;
@@ -2137,6 +2255,7 @@ function buyUpg(k){const g=G(),c=upCost(k);if(c==null||g.souls<c)return;g.souls-
 
 /* ---- pantalla principal ---- */
 function hubLine(g,r,b,rec,qd,qt){const t=today();
+  if(g.torch<1)return 'Te quedaste sin antorchas. Se recargan con tu vida real: el gym da 4.';
   if(r&&!r.dead&&!r.won)return `Tu run sigue abierta en el piso ${r.f}. ¡El portal te espera!`;
   if(rec-b.L>=2)return `Estás ${rec-b.L} niveles abajo de esta zona. Ve al gym y vuelve más fuerte.`;
   if(g.bless.length)return `Traes ${g.bless.length} bendición${g.bless.length>1?'es':''} del gym. Úsala${g.bless.length>1?'s':''} en tu próxima run.`;
@@ -2165,14 +2284,15 @@ function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldM
     <div class="hob fire" style="left:55%;bottom:50px">${spr('fire',2.4)}</div>
     <button class="hob spirit" style="left:68%;bottom:128px" data-act="gupg"><span class="hl ${ug?'go':''}">Altar 👻${g.souls}</span>${spr('spirit',2.4)}</button>
     <button class="hob portal" style="left:87%;bottom:46px" data-act="dungeon"><span class="hl go">${active?`Piso ${r.f}/10`:'¡Entrar!'}</span>${spr('portal',4.2)}</button>
-    <div class="hstat"><span>Nv ${b.L}</span><span>⚔️${pAtk(null)}</span><span>❤️${pMax(null)}</span><span>💨${pAgi(null)}%</span><span>🎯${pCrit(null)}%</span>${active?`<span>❤️ run ${r.hp}/${pMax(r)}</span>`:''}</div>
+    <div class="hstat"><span>🔥${g.torch}/${TCAP}</span><span>Nv ${b.L}</span><span>⚔️${pAtk(null)}</span><span>❤️${pMax(null)}</span><span>💨${pAgi(null)}%</span><span>🎯${pCrit(null)}%</span>${active?`<span>❤️ run ${r.hp}/${pMax(r)}</span>`:''}</div>
   </div>
   ${rec-b.L>=2?`<div class="zwarn" style="margin:-4px 0 12px">⚠️ Nivel recomendado ${rec} · tú eres ${b.L}. Sube entrenando y comiendo bien: tu nivel es tu fuerza.</div>`:''}
   <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
   ${g.trophies.length?`<div class="sec">Trofeos</div><div class="card trophies">${g.trophies.map(x=>`<div>${enSpr(x.id,2.4)}<span>Sem. ${fmtShort(x.mon)}</span></div>`).join('')}</div>`:''}
   <div class="foot">Toca el portal para jugar, el letrero para ver tus misiones, el espíritu para tus mejoras y la tienda para tu bitácora.</div>`;
-  if(msgs&&msgs.length){toast(`👻 ${msgs.length} misión${msgs.length>1?'es':''} cumplida${msgs.length>1?'s':''}`);sfx('coin');}
+  if(msgs&&msgs.length){toast(`👻🔥 ${msgs.length} misión${msgs.length>1?'es':''} cumplida${msgs.length>1?'s':''}`);sfx('coin');}
   const wm=document.getElementById('wmap');if(wm)wm.scrollLeft=Math.max(0,+wm.dataset.x-wm.clientWidth/2);
+  if(curTab==='aventura')setTimeout(storyCheck,350);
 }
 function showQuests(){const t=today(),Q=questsFor(t);
   openSheet(`<div class="parch"><div class="ptitle">📜 Tablón de misiones</div>
@@ -2183,7 +2303,7 @@ function showLogs(){const g=G();
   openSheet(`<div class="parch"><div class="ptitle">⛺ Bitácora</div>
     <div class="list">${g.log.slice(0,25).map(l=>`<div class="it"><div class="grow" style="font-size:14px">${l.t}</div><span class="s" style="font-size:12px">${relDay(l.d)}</span></div>`).join('')||'<div class="empty">Tu historia empieza hoy.</div>'}</div></div>
     <div class="small muted" style="margin-top:10px;line-height:1.45;text-align:center">${g.runs} run${g.runs===1?'':'s'} jugadas · ${g.trophies.length} zona${g.trophies.length===1?'':'s'} conquistada${g.trophies.length===1?'':'s'}</div>
-    <button class="btn block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`);}
+    <div class="grid2" style="margin-top:12px"><button class="btn ghost" style="font-size:15px" data-act="gstory">📖 Ver la historia</button><button class="btn" style="font-size:15px" data-act="closemodal">Cerrar</button></div>`);}
 
 /* ================= Sonido ================= */
 const SND={ctx:null,mg:null,music:null};
@@ -2321,7 +2441,7 @@ function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),mo
   const head=`<div class="dhead" style="${zBg(z)}"><div class="row between"><div><div style="font-size:11px;font-weight:900;letter-spacing:1.2px;color:rgba(255,255,255,.7)">SEMANA ${weekIdx(mon)+1} · <span class="stars">${zStars(mon)}</span></div>
       <div style="font-size:22px;font-weight:900;margin-top:2px">${z[1]} ${z[0]}</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>`;
   if(!r||r.dead||r.won){const b=heroBase(),rec=Math.round(Lstar(weekIdx(mon)));
-    openSheet(`${head}<div class="small" style="margin-top:8px;color:rgba(255,255,255,.85);line-height:1.45">Recorre 10 pisos: enemigos, élites, eventos, fogatas y el jefe al final. Si caes, empiezas de nuevo cuando quieras.</div></div>
+    openSheet(`${head}<div class="small" style="margin-top:8px;color:rgba(255,255,255,.85);line-height:1.45">Recorre 10 pisos: enemigos, élites, eventos, fogatas y el jefe al final. Cada piso cuesta 1 🔥 (tienes ${g.torch}). Si caes, empiezas de nuevo cuando quieras.</div></div>
       <div class="card" style="text-align:center"><div style="display:flex;justify-content:center">${heroSpr(4.2)}</div>
         <div style="font-weight:800;margin-top:6px">Nivel ${b.L} · ⚔️ ${pAtk(null)} · ❤️ ${pMax(null)} · 💨 ${pAgi(null)}% · 🎯 ${pCrit(null)}%</div>
         <div class="small muted" style="margin-top:4px">Nivel recomendado para esta zona: ${rec}</div>
@@ -2349,7 +2469,7 @@ function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),mo
   const chip=(t)=>`<span>${t}</span>`;
   openSheet(`<div class="dhud"><div class="row1"><div class="hzone"><div class="a">${z[1]} ${z[0]}</div><div class="b">Semana ${weekIdx(mon)+1} · Piso ${r.f}/10</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>
       <div class="row" style="gap:10px;align-items:center"><div>${heroSpr(2.2)}</div><div style="flex:1;min-width:0"><div class="pxbar"><i style="width:${clamp(r.hp/pMax(r),0,1)*100}%"></i><span>${r.hp} / ${pMax(r)}</span></div>
-        <div class="chips" style="margin-top:8px">${chip('⚔️'+pAtk(r))}${chip('🛡️'+pDef(r))}${chip('💨'+pAgi(r)+'%')}${chip('🎯'+pCrit(r)+'%')}${chip('🧪'+r.potions)}${chip('🪙'+r.gold)}</div></div></div>
+        <div class="chips" style="margin-top:8px">${chip('⚔️'+pAtk(r))}${chip('🛡️'+pDef(r))}${chip('💨'+pAgi(r)+'%')}${chip('🎯'+pCrit(r)+'%')}${chip('🔥'+G().torch)}${chip('🧪'+r.potions)}${chip('🪙'+r.gold)}</div></div></div>
       ${r.relics.length?`<div class="rels">${r.relics.map(k=>`<button class="relb" data-act="grel" data-k="${k}">${RELICS[k].ic}</button>`).join('')}</div>`:''}</div>
     <div class="rmap2" style="height:${H}px;background:linear-gradient(180deg,${z[2]},${z[3]})"><div class="tex"></div>
       <svg viewBox="0 0 100 ${H}" preserveAspectRatio="none">${low}${lines}</svg>${dec}${nodes}</div>
@@ -2467,6 +2587,9 @@ document.addEventListener('click',ev=>{
     case 'exdone':exDone(b.dataset.id);break;
     case 'player':showPlayer();break;
     case 'dungeon':sfx('tap');openDungeon();break;
+    case 'scnext':sceneNext(false);break;
+    case 'scskip':sceneNext(true);break;
+    case 'gstory':MD().classList.remove('on');storyIntro();break;
     case 'gquests':sfx('tap');showQuests();break;
     case 'glogs':sfx('tap');showLogs();break;
     case 'gnode':enterNode(+b.dataset.f,+b.dataset.l);break;
