@@ -518,6 +518,10 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .acard{position:absolute;left:44%;bottom:84px;width:16px;height:22px;background:#fdf6e3;border:2px solid #14142b;border-radius:2px;animation:deal 1.2s steps(6) infinite}
 @keyframes deal{0%{transform:translate(0,0) rotate(-10deg)}50%{transform:translate(14px,-10px) rotate(15deg)}100%{transform:translate(0,0) rotate(-10deg)}}
 
+.slpg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.slpb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px;border-radius:12px;background:rgba(255,255,255,.07);border:0;color:inherit;font-size:11.5px;font-weight:600;font-family:inherit}
+.slpb span{font-size:22px}
+.slpb:active{background:rgba(50,215,75,.25)}
 .ropts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .ropt{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(255,255,255,.1);background:var(--card2);border-radius:18px;padding:14px;color:#fff;width:100%}
 .ropt.rel{border-color:rgba(255,214,10,.45);background:linear-gradient(160deg,rgba(255,214,10,.10),var(--card2))}
@@ -783,7 +787,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261126075356';
+const APP_V='20261126080446';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1076,6 +1080,7 @@ function renderPeso(){
   <div class="row between" style="align-items:flex-end"><div><div class="eyebrow">${S.settings.name?'Hola, '+esc(S.settings.name):(HASEV()?'Rumbo a '+esc(evLabel()):'Rumbo a tu meta')}</div><h1>Peso</h1></div>
   <button class="pfbtn" data-act="profile" aria-label="Perfil">${esc((S.settings.name||'?')[0].toUpperCase())}</button></div>
   ${pushBanner()}
+  ${sleepCard()}
   ${playerCard()}
   <div class="card hero"><div class="row between">
     ${!HASEV()?`<div><div class="big">${wk||dd}</div><div class="lbl">${wk?(wk===1?'semana':'semanas'):(dd===1?'día':'días')} para tu meta</div>
@@ -2046,7 +2051,10 @@ const weekDays=()=>{const t=today(),m=mondayOf(t);return [...Array(7)].map((_,i)
 const weekProtDays=()=>{const tg=targets();return tg?weekDays().filter(d=>dayTot(d).p>=tg.p*0.95).length:0;};
 const weekCardio=()=>weekDays().filter(cardioOn).length;
 const pMax=r=>heroBase().maxhp+((r&&r.hpB)||0)+(has(r,'stone')?30:0);
-const pAtk=r=>heroBase().atk+((r&&r.atkB)||0)+(has(r,'dragon')?2*weekProtDays():0);
+const SLP=[['😵','Menos de 5 h'],['🥱','5–6 h'],['😐','6–7 h'],['😊','7–8 h'],['😴','8 h o más']];
+const slpOf=d=>(S.sleep||{})[d];
+const rested=()=>{const v=slpOf(today());return v!=null&&v>=3;};
+const pAtk=r=>Math.round((heroBase().atk+((r&&r.atkB)||0)+(has(r,'dragon')?2*weekProtDays():0))*(r&&rested()?1.1:1));
 const pDef=r=>(r&&r.defB)||0;
 const pAgi=r=>Math.max(0,Math.min(45,heroBase().agi+((r&&r.agiB)||0)+(has(r,'boots')?3*weekCardio():0)-(has(r,'stone')?5:0)));
 const pCrit=r=>Math.min(60,heroBase().crit+((r&&r.critB)||0)+(has(r,'hawk')?10:0));
@@ -2199,7 +2207,7 @@ function openDungeon(){DUN=true;const g=G();syncRun();let r=g.run;const t=today(
   const chip=t=>`<span>${t}</span>`,D=wDecor(r.seed+f*13+(r.at||r.fork===f?7:0));
   const hud=`<div class="dhud"><div class="row1"><div class="hzone"><div class="a">${z[1]} ${z[0]}</div><div class="b">${DN[sd]} · Etapa ${sd+1}/7<span class="wdots">${rows.map(i=>`<b class="${i<r.f?'on':''}"></b>`).join('')}</span></div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>
       <div class="row" style="gap:10px;align-items:center"><div style="flex:1;min-width:0"><div class="pxbar"><i style="width:${clamp(r.hp/pMax(r),0,1)*100}%"></i><span>${r.hp} / ${pMax(r)}</span></div>
-        <div class="chips" style="margin-top:8px">${chip('⚔️'+pAtk(r))}${chip('🛡️'+pDef(r))}${chip('🔥'+g.torch)}${chip('🧪'+r.potions)}${chip('🪙'+r.gold)}</div></div></div>
+        <div class="chips" style="margin-top:8px">${chip('⚔️'+pAtk(r)+(rested()?' 😴':''))}${chip('🛡️'+pDef(r))}${chip('🔥'+g.torch)}${chip('🧪'+r.potions)}${chip('🪙'+r.gold)}</div></div></div>
       ${r.relics.length?`<div class="rels">${r.relics.map(k=>`<button class="relb" data-act="grel" data-k="${k}">${RELICS[k].ic}</button>`).join('')}</div>`:''}
       <div class="wweek">${week}</div></div>`;
   let inner='',tt='',ts='',btns='';
@@ -2299,6 +2307,17 @@ async function pushOn(){if(!pushOK()){toast('Abre Liftbound desde el ícono de t
   let p=Notification.permission;if(p!=='granted')p=await Notification.requestPermission();
   if(p!=='granted'){toast('Sin permiso no te puedo avisar. Lo cambias en Ajustes › Notificaciones › Liftbound');rerender();return;}
   try{if(await pushSync(true)){toast('🔔 ¡Listo! Tu héroe te va a estar molestando');sfx('lvl');}}catch(e){toast('No se pudo activar: '+(e.message||e));}rerender();}
+function sleepCard(){if(!S.settings.name)return '';const t=today(),v=slpOf(t);
+  if(v==null)return `<div class="card"><div class="row between"><b>😴 ¿Cuánto dormiste anoche?</b><span class="small muted">1 toque</span></div>
+    <div class="slpg">${SLP.map(([e,l],i)=>`<button class="slpb" data-act="sleep" data-v="${i}"><span>${e}</span>${l.replace(' o más','+').replace('Menos de ','<')}</button>`).join('')}</div>
+    <div class="small muted" style="margin-top:8px;line-height:1.35">Dormir 7 h o más le da a tu héroe <b>+10% de ataque</b> hoy en la aventura.</div></div>`;
+  const msg=v>=3?'<b style="color:#32d74b">Descansado</b> · +10% de ataque hoy':v===0?'Tu héroe anda zombie. Hoy ve tranqui en el gym y duérmete temprano.':v===1?'Dormiste poco. Hoy procura acostarte más temprano.':'Casi. Con 7 h ya cuenta como descansado.';
+  return `<div class="card" style="padding:12px 16px"><div class="row between" style="gap:10px"><div style="font-size:26px">${SLP[v][0]}</div><div style="flex:1;min-width:0"><div style="font-weight:700">${SLP[v][1]} de sueño</div><div class="small muted" style="line-height:1.35">${msg}</div></div><button class="secbtn" data-act="sleepedit">Cambiar</button></div></div>`;}
+function setSleep(v){const t=today();S.sleep=S.sleep||{};S.sleep[t]=v;const old=addDays(t,-60);Object.keys(S.sleep).forEach(k=>{if(k<old)delete S.sleep[k];});
+  let msg=v>=3?'😴 ¡Descansado! +10% de ataque hoy':'Anotado';
+  const ok3=[0,1,2].every(i=>{const x=slpOf(addDays(t,-i));return x!=null&&x>=3;});
+  if(ok3&&S.slpPot!==t&&!(S.slpPot&&daysBetween(S.slpPot,t)<3)&&ED==='lb'){const g=G();if(g.run&&!g.run.won){g.run.potions++;S.slpPot=t;msg='😴 3 noches bien dormidas: ¡poción gratis! 🧪';glog('🧪 Tres noches durmiendo bien: tu héroe ganó una poción');}}
+  save();rerender();toast(msg);if(v>=3)sfx('heal');}
 function pushBanner(){if(!pushOK()||Notification.permission==='granted'||Notification.permission==='denied'||(S.settings.pushNo||0)>Date.now())return '';
   return `<div class="card" style="display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(255,159,10,.18),rgba(255,214,10,.06))"><div style="font-size:30px">🔔</div>
     <div style="flex:1;min-width:0"><b>Activa los avisos de tu héroe</b><div class="small muted" style="line-height:1.35;margin-top:2px">Te va a recordar el gym, el agua y la báscula… con cariño (y a veces sin él).</div></div>
@@ -2962,6 +2981,8 @@ document.addEventListener('click',ev=>{
     case 'gtoday':gymDate=today();renderGym();break;
     case 'setchk':setCheck(b.dataset.id,+b.dataset.i);break;
     case 'pushon':pushOn();break;
+    case 'sleep':setSleep(+b.dataset.v);break;
+    case 'sleepedit':delete S.sleep[today()];save();rerender();break;
     case 'pushno':S.settings.pushNo=Date.now()+3*864e5;save();rerender();break;
     case 'gxadd':case 'gxone':case 'gxall':case 'gxdel':case 'gfin':case 'gfinok':gymX(a,b);break;
     case 'exdone':exDone(b.dataset.id);break;
