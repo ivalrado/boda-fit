@@ -421,6 +421,68 @@ select{font:inherit;font-size:15px;background:var(--card2) url("data:image/svg+x
 .dbox{margin-top:10px;background:#fdf6e3;color:#14142b;border:3px solid #14142b;border-radius:8px;padding:10px 12px;min-height:96px;box-shadow:0 4px 0 rgba(0,0,0,.4)}
 .dwho{font-family:'PXB',ui-monospace,monospace;font-size:19px;color:#8a3b12;line-height:1;margin-bottom:6px}
 .dtxt{font-family:'PXB',ui-monospace,monospace;font-size:21px;line-height:1.1}
+.walk{position:relative;height:220px;border-radius:18px;overflow:hidden;border:2px solid #14142b;background:linear-gradient(180deg,#0b0d1f 0%,var(--z3) 55%,var(--z2) 100%)}
+.wstrip{position:absolute;left:0;bottom:0;width:200%;height:100%}
+.wstrip .wdc{position:absolute;transform:translateX(-50%)}
+.wground{position:absolute;left:0;right:0;bottom:0;height:46px;z-index:1;background:repeating-linear-gradient(90deg,#7a5a36 0 16px,#6c4f2f 16px 32px);border-top:4px solid #14142b;box-shadow:inset 0 5px 0 rgba(255,255,255,.12)}
+.walk.walking .far{animation:wscroll 1.25s linear forwards}
+.walk.walking .near{animation:wscroll2 1.25s linear forwards}
+.walk.walking .wground{animation:gscroll .25s linear infinite}
+.walk.walking .wkhero .spr{animation:bob .25s steps(2) infinite}
+.walk.walking .wthing,.walk.walking .wfork,.walk.walking .wtag{animation:wout 1.25s linear forwards}
+@keyframes wscroll{to{transform:translateX(-12%)}}
+@keyframes wscroll2{to{transform:translateX(-32%)}}
+@keyframes gscroll{to{background-position:-32px 0}}
+@keyframes wout{to{transform:translateX(-160%);opacity:0}}
+.wkhero{position:absolute;left:18%;bottom:40px;transform:translateX(-50%);z-index:3}
+.wkhero .spr{animation:bob 1.2s steps(2) infinite}
+.wkhero.ko{transform:translateX(-50%) rotate(-90deg);bottom:26px;filter:grayscale(.7)}
+.wkhero.ko .spr{animation:none}
+.wthing{position:absolute;left:70%;bottom:40px;transform:translateX(-50%);z-index:2}
+.wthing .spr{animation:bob 1s steps(2) infinite}
+.wthing.pop{animation:popin .55s steps(6) both}
+@keyframes popin{0%{transform:translateX(70%);opacity:0}50%{opacity:1}100%{transform:translateX(-50%)}}
+.wtag{position:absolute;left:70%;top:14px;transform:translateX(-50%);font-family:'PXB',ui-monospace,monospace;font-size:18px;line-height:1;color:#fff;background:rgba(10,10,20,.85);border:2px solid #32d74b;border-radius:4px;padding:4px 6px 3px;white-space:nowrap;z-index:4}
+.wtag.gold{border-color:#ffd60a}
+.wfork{position:absolute;right:3%;bottom:40px;display:flex;gap:8px;z-index:2;align-items:flex-end}
+.wsg{display:flex;flex-direction:column;align-items:center;gap:4px}
+.wsg span{font-family:'PXB',ui-monospace,monospace;font-size:14px;line-height:1;color:#fff;background:rgba(10,10,20,.85);border:2px solid #b8975c;border-radius:4px;padding:3px 5px 2px;white-space:nowrap}
+.wsg.lit span{border-color:#ffd60a}
+.wsg .wsp{margin-bottom:-4px}
+.wweek{display:flex;gap:4px}
+.wweek i{flex:1;text-align:center;font-style:normal;font-family:'PXB',ui-monospace,monospace;font-size:16px;line-height:1;padding:5px 0 4px;border-radius:4px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.45)}
+.wweek i.ok{background:#2f9e5b;color:#fff}
+.wweek i.now{background:#ffd60a;color:#14142b}
+.wdots{display:inline-flex;gap:4px;vertical-align:middle;margin-left:8px}
+.wdots b{width:9px;height:9px;border-radius:2px;background:rgba(255,255,255,.22)}
+.wdots b.on{background:#32d74b}
+.wcard{margin-top:10px;background:#fdf6e3;color:#14142b;border:3px solid #14142b;border-radius:8px;padding:10px 12px;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+.wcard .wt{font-family:'PXB',ui-monospace,monospace;font-size:22px;line-height:1.05}
+.wcard .ws{font-size:13.5px;color:#6b5a3a;margin-top:5px;line-height:1.38}
+.wbtns{display:flex;gap:8px;margin-top:10px}
+.wbtns .btn{flex:1}
+.anim{position:relative;height:250px;border-radius:18px;overflow:hidden;border:2px solid #14142b}
+.anim .agr{position:absolute;left:0;right:0;bottom:0;height:40px;background:repeating-linear-gradient(90deg,#7a5a36 0 16px,#6c4f2f 16px 32px);border-top:4px solid #14142b}
+.atrain .ahero{position:absolute;left:50%;bottom:36px;transform-origin:bottom center;animation:squat 1s steps(4) infinite}
+.atrain .abar{position:absolute;left:50%;bottom:44px;z-index:2;animation:lift 1s steps(4) infinite}
+@keyframes squat{0%,100%{transform:translateX(-50%) scaleY(.9)}50%{transform:translateX(-50%) scaleY(1)}}
+@keyframes lift{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-42px)}}
+.atrain .sw{position:absolute;left:50%;bottom:118px;width:7px;height:9px;background:#7fd6ff;border:2px solid #14142b;border-radius:3px 3px 6px 6px;animation:sweat 1s steps(5) infinite}
+@keyframes sweat{0%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--dx),46px);opacity:0}}
+.arep{position:absolute;right:12px;top:12px;font-family:'PX',ui-monospace,monospace;font-size:14px;color:#ffd60a;text-shadow:0 2px 0 #000}
+.achick .tower{position:absolute;left:7%;bottom:36px;width:96px;height:172px;background:repeating-linear-gradient(0deg,#5b5f6e 0 14px,#454958 14px 16px);border:3px solid #14142b;border-bottom:0}
+.achick .tower:before{content:'';position:absolute;left:-3px;right:-3px;top:-15px;height:12px;background:repeating-linear-gradient(90deg,#5b5f6e 0 14px,transparent 14px 24px)}
+.achick .twin{position:absolute;left:50%;top:20px;transform:translateX(-50%);width:58px;height:56px;background:#1a1230;border:3px solid #14142b;border-radius:28px 28px 0 0;overflow:hidden;display:flex;justify-content:center;padding-top:8px}
+.achick .tear{position:absolute;width:5px;height:7px;background:#7fd6ff;border-radius:2px;top:26px;animation:tear .9s linear infinite}
+.achick .tear.t1{left:17px}.achick .tear.t2{right:17px;animation-delay:.45s}
+@keyframes tear{0%{transform:translateY(0);opacity:1}100%{transform:translateY(26px);opacity:0}}
+.abub{position:absolute;left:50%;top:-34px;transform:translateX(-50%);background:#fff;color:#14142b;font-family:'PXB',ui-monospace,monospace;font-size:17px;line-height:1;padding:4px 7px 3px;border:2px solid #14142b;border-radius:6px;white-space:nowrap;animation:hop 1s steps(2) infinite}
+.tower .abub{top:30px;left:auto;right:-96px;transform:none}
+.achick .ahero2{position:absolute;left:70%;bottom:36px;transform:translateX(-50%)}
+.achick .leg{position:absolute;left:-14px;top:20px;animation:munch .8s steps(2) infinite}
+@keyframes munch{50%{transform:translate(10px,-10px) rotate(-25deg)}}
+.achick .bkt{position:absolute;left:47%;bottom:36px}
+
 .ropts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
 .ropt{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid rgba(255,255,255,.1);background:var(--card2);border-radius:18px;padding:14px;color:#fff;width:100%}
 .ropt.rel{border-color:rgba(255,214,10,.45);background:linear-gradient(160deg,rgba(255,214,10,.10),var(--card2))}
@@ -686,7 +748,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125192557';
+const APP_V='20261125194359';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1813,6 +1875,7 @@ Object.assign(SPR,{"sombra":{"p":{"k":"#0b0716","D":"#2a1b4a","M":"#4b2f7a","L":
 Object.assign(SPR,{"fire":{"p":{"k":"#14142b","R":"#e0313b","O":"#ff8a1f","Y":"#ffd23f","W":"#fff5b0","B":"#6b4f3a","D":"#4a3426","S":"#8f99ad"},"d":["................","................",".......R........","......RR........","......ROR..R....",".....ROOR.RR....",".....ROYORRO....","....ROYYYOOR....","....ROYWYYOR....","....RROYWYOR....",".....ROYYOR.....","...SBDBBDBBDS...","..SSkBDDBBDkSS..","..kBBkkDDkkBBk..","...kk..kk..kk...","................"]},"tent":{"p":{"k":"#14142b","T":"#c9a227","L":"#e6c75a","D":"#8a6d12","I":"#2a1f0e","P":"#6b4f3a"},"d":["................",".......kk.......","......kTLk......",".....kTTLLk.....","....kTTTLLLk....","....kTTTLLLk....","...kTTTkkLLLk...","...kTTkIIkLLk...","..kTTTkIIkLLLk..","..kTTkIIIIkLLk..",".kTTTkIIIIkLLLk.",".kTTkIIIIIIkLLk.","kDDDkIIIIIIkDDDk","kkkkkkkkkkkkkkkk","P..............P","................"]},"sign":{"p":{"k":"#14142b","W":"#b07a45","L":"#d9a066","D":"#7a4f28","P":"#e8dcc0","T":"#6b4f3a"},"d":["................",".kkkkkkkkkkkkkk.",".kLLLLLLLLLLLLk.",".kLPPPPPPPPPPLk.",".kLPkkPkkkPkPLk.",".kLPPPPPPPPPPLk.",".kLPkkkPkkPPPLk.",".kLPPPPPPPPPPLk.",".kWWWWWWWWWWWWk.",".kkkkkkkkkkkkkk.","......kWWk......","......kWDk......","......kWDk......","......kWDk......",".....kkWDkk.....","................"]},"portal":{"p":{"k":"#14142b","S":"#6b7385","L":"#a9b3c6","D":"#3d4352","P":"#7c4dff","Q":"#b388ff","V":"#3a1f7a","W":"#e9dcff"},"d":[".....kkkkkk.....","...kkLLLLLLkk...","..kLSSSSSSSSLk..",".kLSkkkkkkkkSLk.",".kSkVVPPPPVVkSk.","kLSkVPQQQQPVkSLk","kSSkPQWWWQQPkSSk","kSDkPQWWWWQPkDSk","kSSkPQQWWQQPkSSk","kLSkVPQQQQPVkSLk","kSSkVVPPPPVVkSSk","kSDkVVVPPVVVkDSk","kSSkVVVVVVVVkSSk","kLSkVVVVVVVVkSLk","kDDkkkkkkkkkkDDk","kkkk........kkkk"]},"spirit":{"p":{"k":"#14142b","W":"#dfe9ff","B":"#a9c4ff","D":"#6f8fd6","E":"#14142b","Y":"#ffd23f"},"d":["................",".....kkkkkk.....","....kWWWWWWk....","...kWWWWWWWWk...","...kWWkWWkWWk...","...kWWkWWkWWk...","..kBWWWWWWWWBk..","..kBWWWkkWWWBk..",".kBBWWWWWWWWBBk.",".kDBBWWWWWWBBDk.","..kDBBBWWBBBDk..","..kDDBBBBBBDDk..","...kDDBkkBDDk...","...kDk.kk.kDk...","....k......k....","................"]}});
 Object.assign(SPR,{"qblock":{"p":{"k":"#14142b","Y":"#ffb020","L":"#ffd96b","D":"#a8640a","W":"#fff5d6"},"d":["................",".kkkkkkkkkkkkkk.",".kLLLLLLLLLLLYk.",".kLkYYYYYYYYkDk.",".kLYYYWWWWYYYDk.",".kLYYWWYYWWYYDk.",".kLYYYYYYWWYYDk.",".kLYYYYYWWYYYDk.",".kLYYYYWWYYYYDk.",".kLYYYYWWYYYYDk.",".kLYYYYYYYYYYDk.",".kLYYYYWWYYYYDk.",".kLkYYYYYYYYkDk.",".kYDDDDDDDDDDDk.",".kkkkkkkkkkkkkk.","................"]},"stall":{"p":{"k":"#14142b","R":"#e0313b","W":"#fdf6e3","B":"#8a5a2b","D":"#5e3b1a","G":"#ffd23f","P":"#3dd6ff"},"d":["................","kkkkkkkkkkkkkkkk","kRRWWRRWWRRWWRRk","kRRWWRRWWRRWWRRk",".kRkWkRkWkRkWkk.","..k..........k..","..kB........Bk..","..kB.G..P...Bk..","..kB.kk.kk..Bk..","kkkkkkkkkkkkkkkk","kBBBBBBBBBBBBBBk","kBDDDDDDDDDDDDBk","kBBBBBBBBBBBBBBk","kDk..........kDk","kkk..........kkk","................"]},"rock":{"p":{"k":"#14142b","G":"#8f99ad","L":"#c9d1e0","D":"#5b6478"},"d":["................","................","................","................","................","................","................","......kkkk......",".....kLLGGk.....","....kLGGGGDk....","...kLGGGGGDDk...","...kGGGGGDDDk...","..kGGGGGGDDDDk..","..kDDDDDDDDDDk..","...kkkkkkkkkk...","................"]}});
 Object.assign(SPR,{"king":{"p":{"k":"#14142b","Y":"#ffd23f","O":"#e0a020","S":"#f2c49b","W":"#f5f5f5","R":"#c62828","D":"#8e1b1b","B":"#3b6ee8"},"d":["................","....k.k.k.k.....","....kYkYkYk.....","....kYYYYYk.....","....kOOOOOk.....","...kSSSSSSSk....","...kSkSSSkSk....","...kSSSSSSSk....","...kWWWWWWWk....","..kRWWWWWWWRk...",".kRRRWWWWWRRRk..",".kRDRRYYYRRDRk..",".kRDRRRRRRRDRk..",".kSkRRRRRRRkSk..","...kDDDkDDDk....","...kkkk.kkkk...."]},"princess":{"p":{"k":"#14142b","Y":"#ffd23f","H":"#f0b429","S":"#f2c49b","P":"#ff7ab6","L":"#ffb3d4","D":"#c2477f","R":"#e0313b"},"d":["......kYk.......",".....kYkYk......","....kHHHHHk.....","...kHSSSSSHk....","...kHSkSkSHk....","...kHSSRSSHk....","...kHHSSSHHk....","....kHkPkkHk....","....kLPPPLk.....","...kSkPPPkSk....","...kkPPLPPkk....","...kPPLPPPPk....","..kPPPPPLPPPk...","..kDPPPPPPPDk...",".kDDDDDDDDDDDk..",".kkkkkkkkkkkkk.."]},"prince":{"p":{"k":"#14142b","Y":"#ffd23f","H":"#6b4f3a","S":"#f2c49b","B":"#3b6ee8","L":"#7aa2ff","W":"#f5f5f5","G":"#2a2f45","R":"#e0313b"},"d":["................","....k.kYk.k.....","....kYYYYYk.....","....kHHHHHk.....","...kHSSSSSHk....","...kHSkSkSHk....","...kSSSSSSSk....","....kSSRSSk.....","...kWBBBBBWk....","..kBBBYBBBBBk...","..kBkBBYBBkBk...","..kSkBBBBBkSk...","....kBBBBBk.....","....kGGkGGk.....","....kGGkGGk.....","....kkk.kkk....."]},"goblina":{"p":{"k":"#14142b","Y":"#ffd23f","H":"#f0b429","G":"#7ac943","D":"#4e8a2a","R":"#e0313b","W":"#ffffff","P":"#ff7ab6","L":"#ffb3d4","Q":"#c2477f"},"d":["......kYk.......",".k...kYkYk...k..",".kGkkHHHHHkkGk..","..kGkHkHkHkGk...","...kGGGGGGGk....","...kGRkGkRGk....","...kGGGGGGGk....","...kGkWkWkGk....","....kkGGGkk.....","....kLPPPLk.....","...kGkPPPkGk....","...kkPPLPPkk....","..kPPPPPLPPPk...","..kQPPPPPPPQk...",".kQQQQQQQQQQQk..",".kDDk.....kDDk.."]}});
+Object.assign(SPR,{"barbell":{"p":{"k":"#14142b","R":"#e0313b","D":"#8f1c24","S":"#cfd6e0","s":"#8a93a6"},"d":["................","................","................","................",".kk..........kk.","kRRk........kRRk","kRDk........kDRk","kRDkkkkkkkkkkDRk","kRDSSSSSSSSSSDRk","kRDssssssssssDRk","kRDkkkkkkkkkkDRk","kRDk........kDRk","kRRk........kRRk",".kk..........kk.","................","................"]},"drum":{"p":{"k":"#14142b","O":"#d9822b","o":"#9c5418","Y":"#f2b25c","W":"#f4ecd8"},"d":["................","......kkkk......","....kkYYOOkk....","...kYYOOOoOOk...","...kYOoOOOOOk...","...kOOOOOoOOk...","...kOoOOOOOok...","....kOOOoOOk....",".....kOOOOk.....","......kOOk......","......kWWk......","......kWWk......",".....kWWWWk.....",".....kWkkWk.....","......k..k......","................"]},"bucket":{"p":{"k":"#14142b","O":"#d9822b","o":"#9c5418","Y":"#f2b25c","R":"#d7263d","W":"#f4f1ea"},"d":["................","....kk..kkk.....","...kYOkkOYOk.k..","..kOOoOkOOoOkOk.",".kOoOOOOOOOOOok.","kkkkkkkkkkkkkkkk","kWWRRWWRRWWRRWWk",".kWRRWWRRWWRRWk.",".kWRRWWRRWWRRWk.",".kWRRWWRRWWRRWk.","..kRRWWRRWWRRk..","..kRRWWRRWWRRk..","..kRRWWRRWWRRk..","...kRWWRRWWRk...","...kkkkkkkkkk...","................"]}});
 const ART={};
 function spr(name,px,pal,key){const a=ART[key||name]||(!pal&&ART[name]);const W=Math.round(16*px);
   if(a)return `<img class="spr" src="${a}" alt="" style="width:${W}px;height:${W}px;image-rendering:pixelated;object-fit:contain">`;
@@ -1925,7 +1988,7 @@ function questsFor(d){const r=routineFor(d),tg=targets(),t=dayTot(d),mc=mealCoun
 const overDay=d=>{const tg=targets(),t=dayTot(d);return !!tg&&t.any&&t.k>tg.kcal*1.15;};
 function syncRun(){const g=G(),t=today(),cur=mondayOf(t),msgs=[];if(!g.first)g.first=cur;
   try{autoExpedition();}catch(e){}
-  if(g.run&&g.run.mon!==cur){if(!g.run.dead&&!g.run.won)glog(`⌛ La run #${g.run.id} se quedó a medias al cambiar de zona`);g.run=null;}
+  runDaily();
   for(let d=cur;d<=t;d=addDays(d,1))questsFor(d).forEach(q=>{const k=d+'|'+q.id;if(!q.ok||g.qc[k])return;g.qc[k]=1;const s=QS[q.id]||0,tt=QT[q.id]||0;g.souls+=s;g.torch=Math.min(TCAP,g.torch+tt);msgs.push(`${q.ic} ${q.n}: +${s} almas · +${tt} antorcha${tt>1?'s':''}`);});
   const old=addDays(t,-21);Object.keys(g.qc).forEach(k=>{if(k.slice(0,10)<old)delete g.qc[k];});
   if(msgs.length){msgs.slice().reverse().forEach(glog);try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -1935,40 +1998,48 @@ function syncRun(){const g=G(),t=today(),cur=mondayOf(t),msgs=[];if(!g.first)g.f
 function rng(seed){let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 const pickW=(R,w)=>{let s=0;for(const k in w)s+=w[k];let x=R()*s;for(const k in w){x-=w[k];if(x<0)return k;}return Object.keys(w)[0];};
 const FW={2:{E:5,Q:3,S:1,C:1},3:{E:5,Q:3,S:1,C:1},4:{E:4,L:2,Q:2,C:1},6:{E:4,L:2,Q:2,S:1},7:{E:4,L:2,Q:2,S:1},8:{E:3,L:1,S:2,C:2}};
-function genMap(seed,fin){const R=rng(seed),M=[];
-  for(let f=1;f<=10;f++){const row=[];
-    for(let l=0;l<3;l++){const t=f===1?'E':f===5?'T':f===9?'C':f===10?'B':pickW(R,FW[f]),n={t};
-      if(t==='E'){const P=NORMALS[f<=3?0:f<=6?1:2];n.en=P[Math.floor(R()*P.length)];}
-      if(t==='L')n.en=ELITES[Math.floor(R()*ELITES.length)];
-      if(t==='B')n.en=fin?'traje':'rey';
-      if(t==='Q')n.q=Math.floor(R()*EVENTS.length);
-      row.push(n);}
-    if(FW[f]&&row.every(n=>n.t!=='E')){row[1]={t:'E',en:NORMALS[f<=3?0:f<=6?1:2][0]};}
-    M.push(row);}
-  for(let f=1;f<=9;f++)for(let l=0;l<3;l++){const n=M[f-1][l];if(f===9){n.to=[1];continue;}n.to=[l];
-    if(R()<0.55){const o=[l-1,l+1].filter(x=>x>=0&&x<=2);n.to.push(o[Math.floor(R()*o.length)]);}}
-  return M;}
-const edges=(r,f,l)=>{const n=nodeAt(r,f,l);return n.to||(f===9?[1]:[l-1,l,l+1].filter(x=>x>=0&&x<=2));};
-const nodeAt=(r,f,l)=>r.map[f-1][f===10?1:l];
-const canGo=(r,f,l)=>!!r&&!r.dead&&!r.won&&!r.reward&&f===r.f+1&&(f===1||f===10||edges(r,r.f,r.lane).includes(l));
 function randRelic(r,ex){const o=Object.keys(RELICS).filter(k=>!r.relics.includes(k)&&!(ex||[]).includes(k));return o.length?o[Math.floor(Math.random()*o.length)]:null;}
-function newRun(mon){const g=G();mon=mon||mondayOf(today());if(!g.first)g.first=mon;const seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0;
-  const r={v:2,id:++g.runs,mon,seed,map:genMap(seed,isFinalWeek(mon)),f:0,lane:1,path:[],hpB:0,atkB:0,defB:0,agiB:0,critB:0,gold:0,potions:lvU('pot'),relics:[],foco0:0,dead:false,won:false,revived:false,bought:{},reward:null,cur:null};
+/* ---- etapas diarias: una por día, el jefe el domingo ---- */
+const DN=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const dayIx=d=>daysBetween(mondayOf(d),d);
+function genWeek(seed,fin){const R=rng(seed),M=[],en=lv=>{const P=NORMALS[lv<=3?0:lv<=6?1:2];return P[Math.floor(R()*P.length)];};
+  const mk=(t,lv,d)=>{const n={t,lv,d};if(t==='E')n.en=en(lv);if(t==='L')n.en=ELITES[Math.floor(R()*ELITES.length)];if(t==='B')n.en=fin?'traje':'rey';if(t==='Q')n.q=Math.floor(R()*EVENTS.length);return n;};
+  const END=['C','S','C','T','C','S'];
+  for(let d=0;d<6;d++){const lv=k=>Math.min(9,1+Math.round(d*1.5+k*0.3)),w={E:4,Q:3,T:1,S:1,L:d>=2?2:0},a=pickW(R,w);delete w[a];const b=pickW(R,w);
+    M.push([mk('E',lv(0),d)],[mk(a,lv(1),d),mk(b,lv(1),d)],[mk(d===2||d===4?'L':'E',lv(2),d)],[mk(END[d],lv(3),d)]);}
+  M.push([mk('E',9,6)],[mk('C',9,6)],[mk('B',10,6)]);return M;}
+const nodeAt=(r,f,l)=>r.map[f-1][l]||r.map[f-1][0];
+const openDay=r=>r.mon===mondayOf(today())?dayIx(today()):6;
+const canGo=(r,f,l)=>!!r&&!r.dead&&!r.won&&!r.reward&&f===r.f+1&&f<=r.map.length&&!!r.map[f-1][l]&&r.map[f-1][0].d<=openDay(r);
+const stageLeft=r=>!!r&&!r.won&&r.f<r.map.length&&r.map[r.f][0].d<=openDay(r);
+function newRun(mon,sd){const g=G();mon=mon||mondayOf(today());if(!g.first)g.first=mon;if(sd==null)sd=mon===mondayOf(today())?dayIx(today()):0;
+  const seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0,map=genWeek(seed,isFinalWeek(mon)),st=map.findIndex(x=>x[0].d>=sd);
+  const r={v:3,id:++g.runs,mon,seed,map,f:Math.max(0,st),lane:0,path:[],hpB:0,atkB:0,defB:0,agiB:0,critB:0,gold:0,potions:lvU('pot'),relics:[],foco0:0,dead:false,won:false,revived:false,bought:{},reward:null,cur:null,at:null,fork:0,lit:0,last:today()};
   if(lvU('relic')){const k=randRelic(r);if(k)r.relics.push(k);}
   g.bless.forEach(k=>{if(RELICS[k]&&!r.relics.includes(k))r.relics.push(k);});const bl=g.bless.length;g.bless=[];
   r.hp=pMax(r);const y=addDays(today(),-1);if(overDay(y)){r.hp=Math.round(pMax(r)*0.85);r.curse=1;}
-  g.run=r;glog(`⚔️ Comienza la run #${r.id} en ${zoneOf(mon)[0]}${bl?` con ${bl} bendición${bl>1?'es':''}`:''}`);}
-function advance(r){r.f=r.cur.f;r.lane=r.cur.f===10?1:r.cur.l;r.path.push(r.f+'|'+r.lane);r.cur=null;const s=addRunSouls(1);return s;}
-function enterNode(f,l){const g=G(),r=g.run;if(!canGo(r,f,l))return;const n=nodeAt(r,f,l);
-  if(!(r.cur&&r.cur.f===f&&r.cur.l===l)){if(g.torch<1)return showNoTorch();g.torch--;g.played[today()]=1;}
-  r.cur={f,l};save();sfx('tap');
+  g.run=r;glog(`⚔️ Empieza la semana en ${zoneOf(mon)[0]}${bl?` con ${bl} bendición${bl>1?'es':''}`:''}`);}
+function advance(r){r.f=r.cur.f;r.lane=r.cur.l;r.path.push(r.f+'|'+r.lane);r.cur=null;r.at=null;r.fork=0;return addRunSouls(1);}
+function enterNode(f,l){const g=G(),r=g.run;if(!canGo(r,f,l))return;const n=nodeAt(r,f,l);g.played[today()]=1;r.cur={f,l};save();sfx('tap');
   if(n.t==='E'||n.t==='L'||n.t==='B')startFight(f,l);else if(n.t==='C')showCamp();else if(n.t==='S')showShopNode();else if(n.t==='Q')showEvent(n.q);else if(n.t==='T'){r.reward={kind:'treasure',opts:relicOpts(r,3)};advance(r);save();showReward();}}
+function runDaily(){const g=G(),t=today(),cur=mondayOf(t);
+  if(g.run&&(g.run.mon!==cur||g.run.v!==3)){if(g.run.v===3&&!g.run.won)glog(`⌛ Terminó la semana sin vencer al jefe de ${zoneOf(g.run.mon)[0]}`);g.run=null;}
+  if(!g.run&&S.settings.name)newRun(cur);
+  const r=g.run;if(!r)return;
+  if(r.last&&r.last<t){if(r.dead){r.dead=false;r.hp=Math.max(r.hp,Math.round(pMax(r)*0.5));}else heal(r,pMax(r)*0.3);}
+  r.last=t;
+  if(g.bless.length){g.bless.forEach(k=>{if(RELICS[k]&&!r.relics.includes(k))r.relics.push(k);});glog(`✨ ${g.bless.length} bendición${g.bless.length>1?'es':''} del gym se ${g.bless.length>1?'unieron':'unió'} a tu aventura`);g.bless=[];}
+  g.anims=g.anims||[];g.animK=g.animK||{};const y=addDays(t,-1),st=g.story&&g.story.start;
+  if(st&&y>=st&&trainDay(y)&&!dayDone(y)&&!g.animK[y+'c']){g.animK[y+'c']=1;g.anims.push('chicken');}
+  if(st&&trainDay(t)&&dayDone(t)&&!g.animK[t+'t']){g.animK[t+'t']=1;g.anims.push('train');}
+  Object.keys(g.animK).forEach(k=>{if(k.slice(0,10)<addDays(t,-14))delete g.animK[k];});}
 
 function showNoTorch(){const g=G();
-  openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:46px">🔥</div><div class="exn" style="font-size:24px">Sin antorchas</div>
-    <div class="small muted" style="margin-top:6px;line-height:1.5">Cada piso cuesta una antorcha, y las antorchas salen de tu vida real:<br><b>Entreno completo +4</b> · comidas, proteína, agua, cardio, récord, día limpio y pesarte +1 cada uno.<br>Tienes ${g.torch}/${TCAP}. Tu run te espera tal como la dejaste.</div></div>
-    <button class="btn block" style="margin-top:14px" data-act="gquests">📜 Ver misiones de hoy</button><button class="btn ghost block" style="margin-top:8px" data-act="closemodal">Cerrar</button>`);}
-/* ---- expedición automática: si no juegas, tu héroe avanza solo ---- */
+  openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:46px">🔥</div><div class="exn" style="font-size:24px">Te faltan antorchas</div>
+    <div class="small muted" style="margin-top:6px;line-height:1.5">Las antorchas iluminan caminos, te levantan si caes y prenden la fogata grande. Salen de tu vida real:<br><b>Entreno completo +4</b> · comidas, proteína, agua, cardio, récord, día limpio y pesarte +1 cada uno.<br>Tienes ${g.torch}/${TCAP}.</div></div>
+    <button class="btn block" style="margin-top:14px" data-act="gquests">📜 Ver misiones de hoy</button><button class="btn ghost block" style="margin-top:8px" data-act="dungeon">‹ Volver</button>`);}
+
+/* ---- expedición automática: si no juegas, tu héroe camina solo ---- */
 function dmgOut(r,m,blk){let d=pAtk(r)*rnd(0.85,1.15)*m;const c=Math.random()*100<pCrit(r);if(has(r,'rage'))d*=1+Math.min(0.5,1-r.hp/pMax(r));if(has(r,'belt')&&r.hp>=pMax(r)*0.8)d*=1.25;
   if(c){d*=1.8;if(has(r,'critheal'))heal(r,8);}if(blk)d*=0.5;if(has(r,'vamp'))heal(r,3);return Math.max(1,Math.round(d));}
 function simFight(r,id,f){const st=enemyStats(id,f,r),ai=EN[id].ai,dg=EN[id].dodge||0;let eh=st.maxhp,ea=st.atk,turn=0,ch=false,blk=false,poison=0,foco=Math.min(fMax(r),1+(has(r,'hourglass')?1:0)+lvU('focus')+(r.foco0||0));
@@ -1987,37 +2058,99 @@ function simFight(r,id,f){const st=enemyStats(id,f,r),ai=EN[id].ai,dg=EN[id].dod
     if(eh<=0)return true;it=intent();}
   return false;}
 const AUTOPREF={hi:['E','L','T','Q','S','C'],lo:['C','Q','S','T','E','L']};
-function autoDay(day){const g=G(),L=[],mon=mondayOf(day);
-  if(g.trophies.some(x=>x.mon===mon))return L;
-  if(g.run&&g.run.mon!==mon)g.run=null;
-  if(!g.run||g.run.dead||g.run.won){if(g.run&&g.run.won)return L;newRun(mon);L.push(`⚔️ Tu héroe empezó una nueva run en ${zoneOf(mon)[0]}`);}
-  const r=g.run;let steps=0;
-  while(g.torch>0&&!r.dead&&!r.won&&r.f<10&&steps<10){steps++;
-    const opts=[0,1,2].filter(l=>canGo(r,r.f+1,l)),pref=AUTOPREF[r.hp<pMax(r)*0.5?'lo':'hi'];
-    const l=opts.sort((a,b)=>pref.indexOf(nodeAt(r,r.f+1,a).t)-pref.indexOf(nodeAt(r,r.f+1,b).t))[0];if(l==null)break;
-    const f=r.f+1,n=nodeAt(r,f,l);g.torch--;r.cur={f,l};
-    if(n.en){const win=simFight(r,n.en,f);
-      if(!win){r.dead=true;r.cur=null;L.push(`💀 Cayó ante ${enName(n.en)} en el piso ${f}`);break;}
+function autoDay(day){const g=G(),L=[],mon=mondayOf(day),di=dayIx(day);
+  if(g.run&&g.run.v===3&&g.run.mon>mon)return L;
+  if(g.run&&(g.run.mon!==mon||g.run.v!==3))g.run=null;
+  if(!g.run){newRun(mon,di);L.push(`⚔️ Tu héroe llegó a ${zoneOf(mon)[0]}`);}
+  const r=g.run;if(r.won)return L;
+  if(r.reward){applyOpt(r,r.reward.opts[0]);r.reward=null;}r.cur=null;r.at=null;r.fork=0;
+  if(r.dead){r.dead=false;r.hp=Math.max(r.hp,Math.round(pMax(r)*0.5));}
+  let steps=0;
+  while(!r.dead&&!r.won&&r.f<r.map.length&&r.map[r.f][0].d<=di&&steps<12){steps++;
+    const f=r.f+1,row=r.map[f-1],pref=AUTOPREF[r.hp<pMax(r)*0.5?'lo':'hi'],l=row.length>1?[0,1].sort((a,b)=>pref.indexOf(row[a].t)-pref.indexOf(row[b].t))[0]:0,n=row[l];r.cur={f,l};
+    if(n.en){const win=simFight(r,n.en,n.lv||f);
+      if(!win){r.dead=true;r.cur=null;L.push(`💀 Cayó ante ${enName(n.en)}. Se levantó al día siguiente.`);break;}
       const en=EN[n.en],big=en.tier==='boss'||en.tier==='final',gold=Math.round((big?40:en.tier==='elite'?22:8)*(has(r,'purse')?1.5:1));r.gold+=gold;advance(r);
       if(big){r.won=true;const first=!g.trophies.some(x=>x.mon===r.mon),bs=first?15:4;g.souls+=bs;if(first)g.trophies.push({id:n.en,mon:r.mon,run:r.id});L.push(`👑 ¡Venció a ${enName(n.en)}! Zona conquistada · +${bs} almas`);break;}
       if(en.tier==='elite'){const k=randRelic(r);if(k){r.relics.push(k);L.push(`💀 Venció al élite ${enName(n.en)} y ganó ${RELICS[k].ic} ${RELICS[k].n}`);}}
       else{if(r.hp<pMax(r)*0.5)heal(r,pMax(r)*0.3);else r.atkB+=Math.max(3,Math.round(pAtk(r)*0.12));L.push(`⚔️ Venció a ${enName(n.en)} (+${gold} oro)`);}}
     else if(n.t==='C'){if(r.hp<pMax(r)*0.7){heal(r,pMax(r)*0.35);L.push('🔥 Descansó en una fogata');}else{r.atkB+=Math.max(3,Math.round(pAtk(r)*0.12));L.push('🔥 Entrenó en una fogata');}advance(r);}
-    else if(n.t==='S'){if(r.gold>=sprice(20)&&r.potions<3){r.gold-=sprice(20);r.potions++;L.push('🛒 Compró una poción');}else L.push('🛒 Pasó por el mercader');advance(r);}
+    else if(n.t==='S'){if(r.gold>=sprice(20)&&r.potions<3){r.gold-=sprice(20);r.potions++;L.push('🛒 Le compró una poción al mercader');}else L.push('🛒 Saludó al mercader y siguió');advance(r);}
     else if(n.t==='Q'){const E=EVENTS[n.q],i=E.n==='Fuente del manantial'?0:1,res=E.ch[i].f(r);L.push(`${E.ic} ${E.n}: ${res}`);advance(r);}
-    else if(n.t==='T'){const k=randRelic(r);if(k){r.relics.push(k);L.push(`🎁 Encontró ${RELICS[k].ic} ${RELICS[k].n}`);}advance(r);}}
-  return L;}
+    else if(n.t==='T'){const k=randRelic(r);if(k){r.relics.push(k);L.push(`🎁 Abrió un cofre: ${RELICS[k].ic} ${RELICS[k].n}`);}advance(r);}}
+  r.last=day;return L;}
 function autoExpedition(){const g=G(),t=today(),y=addDays(t,-1);if(!g.autoD){g.autoD=y;return;}
+  if(daysBetween(g.autoD,y)>8)g.autoD=addDays(y,-8);
   const lines=[];let n=0;
-  while(g.autoD<y&&n<10){n++;g.autoD=addDays(g.autoD,1);const d=g.autoD;if(g.played[d]||g.torch<1)continue;const L=autoDay(d);if(L.length)lines.push({d,L});}
+  while(g.autoD<y&&n<10){n++;g.autoD=addDays(g.autoD,1);const L=autoDay(g.autoD);if(L.length)lines.push({d:g.autoD,L});}
   Object.keys(g.played).forEach(k=>{if(k<addDays(t,-14))delete g.played[k];});
   if(lines.length){g.exped={seen:false,days:lines};lines.forEach(x=>x.L.forEach(l=>glog('🤖 '+l)));}}
 function showExped(){const g=G(),E=g.exped;if(!E)return;E.seen=true;save();
   openSheet(`<div class="parch"><div class="ptitle">🗺️ Diario de la expedición</div>
-    <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Mientras no jugabas, tu héroe usó tus antorchas y avanzó solo.</div>
+    <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Los días que no jugaste, tu héroe caminó solo la etapa.</div>
     <div class="list">${E.days.map(x=>`<div class="it" style="display:block"><div class="t" style="font-weight:800;margin-bottom:4px">${relDay(x.d)}</div>${x.L.map(l=>`<div class="s" style="font-size:13.5px;line-height:1.45">${l}</div>`).join('')}</div>`).join('')}</div></div>
-    <div class="small muted" style="text-align:center;margin-top:10px;line-height:1.4">Si juegas tú, eliges ruta, reliquias y cómo pelear: te va mejor que en automático.</div>
-    <button class="btn block" style="margin-top:12px" data-act="closemodal">Continuar</button>`);}
+    <div class="small muted" style="text-align:center;margin-top:10px;line-height:1.4">Si juegas tú, eliges camino, reliquias y cómo pelear: te va mejor que en automático.</div>
+    <button class="btn block" style="margin-top:12px" data-act="animok">Continuar</button>`);MD().dataset.lock='1';}
+
+/* ---- la escena de caminar ---- */
+function wDecor(seed){const R=rng(seed);let far='',near='';
+  for(let i=0;i<10;i++)far+=`<div class="wdc" style="left:${(i*10+R()*6).toFixed(1)}%;bottom:${66+Math.round(R()*10)}px;opacity:.55;filter:brightness(.5)">${spr(R()<0.7?'tree':'rock',1.3)}</div>`;
+  for(let i=0;i<7;i++){const tr=R()<0.55;near+=`<div class="wdc" style="left:${(i*14.5+R()*6).toFixed(1)}%;bottom:${tr?44:40}px">${spr(tr?'tree':'rock',tr?(R()<0.5?2.6:2.1):1.7)}</div>`;}
+  return {far,near};}
+const ENC={E:['⚔️ Pelear','te cierra el paso.'],L:['⚔️ Pelear','Es un élite: pega fuerte, pero suelta reliquias.'],B:['👑 Pelear contra el jefe','Todo lo que entrenaste esta semana fue para esto.'],
+  C:['🔥 Acercarte','Una fogata encendida a un lado del camino.'],S:['🛒 Ver qué vende','Un mercader ambulante te hace señas.'],Q:['❓ Investigar',''],T:['🎁 Abrirlo','Un cofre tirado a mitad del camino…']};
+const nSpr=(n,px)=>n.en?enSpr(n.en,px*(n.t==='B'?1.45:n.t==='L'?1.2:1)):spr({C:'fire',S:'stall',Q:'qblock',T:'chest'}[n.t],n.t==='C'?px*0.8:px*0.95);
+const nName=n=>n.en?enName(n.en):n.t==='Q'?EVENTS[n.q].n:NODE[n.t][1];
+function openDungeon(){DUN=true;const g=G();syncRun();let r=g.run;const t=today(),mon=mondayOf(t),z=zoneOf(mon);MD().dataset.lock='';
+  if(!r){newRun(mon);save();r=g.run;}
+  if(r.reward)return showReward();
+  if(r.cur&&!r.dead&&!r.won){const n=nodeAt(r,r.cur.f,r.cur.l);if(n.t==='S')return showShopNode();if(n.t==='C')return showCamp();if(n.t==='Q')return showEvent(n.q);r.cur=null;}
+  const od=openDay(r),f=r.f+1,left=stageLeft(r),sd=left?r.map[r.f][0].d:od,rows=r.map.map((x,i)=>i).filter(i=>r.map[i][0].d===sd);
+  const week=DN.map((n,i)=>{const rs=r.map.map((x,j)=>j).filter(j=>r.map[j][0].d===i),ok=rs.every(j=>j<r.f);return `<i class="${ok?'ok':i===sd?'now':''}">${i===6?'👑':n.slice(0,2)}</i>`;}).join('');
+  const chip=t=>`<span>${t}</span>`,D=wDecor(r.seed+f*13+(r.at||r.fork===f?7:0));
+  const hud=`<div class="dhud"><div class="row1"><div class="hzone"><div class="a">${z[1]} ${z[0]}</div><div class="b">${DN[sd]} · Etapa ${sd+1}/7<span class="wdots">${rows.map(i=>`<b class="${i<r.f?'on':''}"></b>`).join('')}</span></div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>
+      <div class="row" style="gap:10px;align-items:center"><div style="flex:1;min-width:0"><div class="pxbar"><i style="width:${clamp(r.hp/pMax(r),0,1)*100}%"></i><span>${r.hp} / ${pMax(r)}</span></div>
+        <div class="chips" style="margin-top:8px">${chip('⚔️'+pAtk(r))}${chip('🛡️'+pDef(r))}${chip('🔥'+g.torch)}${chip('🧪'+r.potions)}${chip('🪙'+r.gold)}</div></div></div>
+      ${r.relics.length?`<div class="rels">${r.relics.map(k=>`<button class="relb" data-act="grel" data-k="${k}">${RELICS[k].ic}</button>`).join('')}</div>`:''}
+      <div class="wweek">${week}</div></div>`;
+  let inner='',tt='',ts='',btns='';
+  if(r.won){inner=`<div class="wthing" style="left:62%">${spr('castle',3)}</div>`;tt='¡Zona conquistada! 👑';ts=`El lunes se abre la siguiente zona, más difícil. Mientras, a darle en el gym.`;btns=`<button class="btn block" data-act="closemodal">Volver al campamento</button>`;}
+  else if(r.dead){inner=`<div class="wthing" style="left:66%">${r.at?nSpr(nodeAt(r,r.at.f,r.at.l),3.4):''}</div>`;tt='Quedaste KO 💫';ts=`Mañana te levantas con 50% de vida y sigues desde aquí. O te levantas ya con 2 antorchas (tienes ${g.torch}).`;
+    btns=`<button class="btn ghost" data-act="closemodal">Mañana sigo</button><button class="btn ${g.torch>=2?'gold':'ghost'}" data-act="wup">🔥 Levantarme (2)</button>`;}
+  else if(!left){inner=`<div class="wthing" style="left:42%">${spr('fire',2.2)}</div><div class="wthing" style="left:74%">${spr('tent',3)}</div>`;
+    tt=`Etapa del ${DN[od]} completada ✓`;ts=od<6?`Tu héroe acampa aquí. Mañana (${DN[od+1]}) sigue el camino${od+1===6?' y te espera el jefe':''}. Si no juegas, avanza solo.`:'Ya no hay más camino esta semana.';btns=`<button class="btn block" data-act="closemodal">Volver al campamento</button>`;}
+  else if(r.at){const n=nodeAt(r,r.at.f,r.at.l),E=ENC[n.t];inner=`<div class="wthing pop">${nSpr(n,3.4)}</div><div class="wtag ${n.t==='L'||n.t==='B'?'gold':''}">${n.t==='Q'?EVENTS[n.q].ic+' ':''}${nName(n)}</div>`;
+    tt=n.en?`¡${nName(n)}!`:n.t==='Q'?`${EVENTS[n.q].ic} ${EVENTS[n.q].n}`:NODE[n.t][0]+' '+NODE[n.t][1];ts=n.t==='E'?`${nName(n)} ${E[1]}`:n.t==='Q'?EVENTS[n.q].t:E[1];
+    btns=`<button class="btn block wbtn ${n.t==='B'?'gold':''}" data-act="gnode" data-f="${r.at.f}" data-l="${r.at.l}">${E[0]}</button>`;}
+  else if(r.fork===f){const row=r.map[f-1],lit=r.lit===f;
+    inner=`<div class="wfork">${row.map((n,i)=>`<div class="wsg ${lit?'lit':''}">${lit?`<div class="wsp">${nSpr(n,1.8)}</div>`:''}${spr('sign',2)}<span>${lit?nName(n):i?'Derecha':'Izquierda'}</span></div>`).join('')}</div>`;
+    tt='El camino se divide';ts=lit?'Tu antorcha ilumina los dos caminos. Elige.':'No se ve qué hay en cada lado. Puedes ir a ciegas o gastar una antorcha para ver.';
+    btns=`${row.map((n,i)=>`<button class="btn wbtn" data-act="wfork" data-l="${i}">${i?'Derecha ›':'‹ Izquierda'}</button>`).join('')}`+(lit?'':`</div><div class="wbtns"><button class="btn ghost block wbtn" data-act="wlight">🔥 Iluminar (1) · tienes ${g.torch}</button>`);}
+  else{inner='';tt=r.f===rows[0]?`${DN[sd]}: comienza la etapa`:'El camino sigue…';ts=sd===6?'Hoy es el día del jefe. Llega con la vida alta.':'No sabes qué hay más adelante. Camina y descúbrelo.';btns=`<button class="btn block wbtn" data-act="wwalk">▶ Avanzar</button>`;}
+  openSheet(`${hud}<div class="walk" style="--z2:${z[2]};--z3:${z[3]}"><div class="wstrip far">${D.far}</div><div class="wstrip near">${D.near}</div><div class="wground"></div>
+      <div class="wkhero ${r.dead?'ko':''}">${heroSpr(3.2)}</div>${inner}</div>
+    <div class="wcard"><div class="wt">${tt}</div>${ts?`<div class="ws">${ts}</div>`:''}</div><div class="wbtns">${btns}</div>`);
+  musicStart('map');}
+function walkStep(after){const sc=document.querySelector('#sheet .walk');document.querySelectorAll('#sheet .wbtn').forEach(b=>b.disabled=true);
+  if(!sc)return after();sc.classList.add('walking');[0,0.3,0.6,0.9].forEach(d=>sfx('tap',d));setTimeout(after,1250);}
+function wAct(k,b){const g=G(),r=g.run;if(!r)return;const f=r.f+1;
+  if(k==='wwalk'){if(!canGo(r,f,0)||r.at||r.fork)return;g.played[today()]=1;walkStep(()=>{if(r.map[f-1].length>1)r.fork=f;else r.at={f,l:0};save();openDungeon();});}
+  else if(k==='wfork'){const l=+b.dataset.l;if(r.fork!==f||!canGo(r,f,l))return;walkStep(()=>{r.at={f,l};r.fork=0;save();openDungeon();});}
+  else if(k==='wlight'){if(r.fork!==f)return;if(g.torch<1)return showNoTorch();g.torch--;r.lit=f;save();sfx('ready');openDungeon();}
+  else if(k==='wup'){if(!r.dead)return;if(g.torch<2)return showNoTorch();g.torch-=2;r.dead=false;r.hp=Math.max(r.hp,Math.round(pMax(r)*0.5));save();sfx('heal');openDungeon();}}
+
+/* ---- animaciones del día ---- */
+function playAnim(k){const z=zoneOf(mondayOf(today())),A=amor(),b=heroBase(),bg=`background:linear-gradient(180deg,#0b0d1f,${z[3]} 60%,${z[2]})`;let st,cap,btn;
+  if(k==='train'){st=`<div class="anim atrain" style="${bg}"><div class="agr"></div><div class="ahero">${heroSpr(4.6)}</div><div class="abar">${spr('barbell',4.6)}</div>
+      <i class="sw" style="--dx:-46px"></i><i class="sw" style="--dx:40px;animation-delay:.33s"></i><i class="sw" style="--dx:-20px;animation-delay:.66s"></i><div class="arep" id="arep">REP 1</div></div>`;
+    cap=['¡Entreno completado!',`Cada serie cuenta. Tu héroe se pone más fuerte: nivel ${b.L} · ⚔️ ${pAtk(null)} · ❤️ ${pMax(null)}.`];btn='💪 ¡Vamos!';}
+  else{st=`<div class="anim achick" style="${bg}"><div class="agr"></div>
+      <div class="tower"><div class="twin">${spr(A.sp,2.6)}<i class="tear t1"></i><i class="tear t2"></i></div><div class="abub">snif… snif…</div></div>
+      <div class="bkt">${spr('bucket',2.6)}</div><div class="ahero2">${heroSpr(4)}<div class="leg">${spr('drum',2.2)}</div><div class="abub">ñam ñam</div></div></div>`;
+    cap=['Ayer no fuiste al gym…',`Mientras tú te comías una cubeta de pollo frito, ${A.n} lloraba en la torre de La Sombra. Hoy es buen día para compensar.`];btn='😤 Hoy sí voy';}
+  openSheet(`${st}<div class="dbox"><div class="dwho">${cap[0]}</div><div class="dtxt" style="font-size:20px">${cap[1]}</div></div>
+    <button class="btn block" style="margin-top:10px" data-act="animok">${btn}</button>`);MD().dataset.lock='1';
+  clearInterval(window.ARP);if(k==='train'){let n=1;window.ARP=setInterval(()=>{const e=document.getElementById('arep');if(!e)return clearInterval(window.ARP);n=n%12+1;e.textContent='REP '+n;},1000);sfx('lvl');}else sfx('lose');}
 
 /* ---- modo historia ---- */
 const ZFLAV={'Pradera del Inicio':'Todo gran cambio empieza con un primer paso. Y con una primera sentadilla.','Bosque Sombrío':'Dicen que aquí se pierden los que dejan el gym en la segunda semana.','Cueva de Hierro':'El eco de las pesas retumba en las paredes. Aquí se forjan los fuertes.','Pantano del Antojo':'Huele a donas. No mires. No escuches. No pidas para llevar.','Desierto del Ayuno':'El calor aprieta y el agua vale oro. Hidrátate, héroe.','Montaña del Esfuerzo':'La subida es larga, pero la vista desde arriba vale cada repetición.','Volcán del Sudor':'Aquí no se suda: se derrite la grasa.','Tundra de la Disciplina':'Hace frío y nadie te ve entrenar. Ahí se nota quién es constante.','Ruinas del Gimnasio':'Antiguos héroes entrenaron aquí. Sus récords siguen grabados en piedra.','Castillo de la Sombra':'Llegó el día. Todo lo que hiciste te trajo hasta esta puerta.'};
@@ -2031,7 +2164,7 @@ function drawScene(){const P=SCN.p[SCN.i],z=zoneOf(mondayOf(today()));
     <div class="dbox"><div class="dwho">${P.who||''}</div><div class="dtxt" id="dtxt"></div></div>
     <div class="row" style="gap:8px;margin-top:10px"><button class="btn ghost" style="flex:none;padding:12px 14px" data-act="scskip">Saltar</button><button class="btn block" data-act="scnext">${SCN.i<SCN.p.length-1?'▶ Siguiente':(P.btn||'▶ Continuar')}</button></div>`);
   const el=document.getElementById('dtxt'),txt=P.t;let k=0;clearInterval(SCN.tw);SCN.tw=setInterval(()=>{k+=2;if(el)el.textContent=txt.slice(0,k);if(k>=txt.length)clearInterval(SCN.tw);},22);sfx('tap');}
-function sceneNext(skip){if(!SCN)return;clearInterval(SCN.tw);if(!skip&&SCN.i<SCN.p.length-1){SCN.i++;drawScene();return;}const d=SCN.done;SCN=null;MD().dataset.lock='';MD().classList.remove('on');if(d)d();}
+function sceneNext(skip){if(!SCN)return;clearInterval(SCN.tw);if(!skip&&SCN.i<SCN.p.length-1){SCN.i++;drawScene();return;}const d=SCN.done;SCN=null;MD().dataset.lock='';MD().classList.remove('on');if(d)d();setTimeout(storyCheck,400);}
 function storyWeeks(){return Math.max(1,Math.round(daysBetween(mondayOf(today()),mondayOf(EV()))/7)+1);}
 function storyIntro(){const A=amor(),wk=storyWeeks(),nm=esc(S.settings.name||'Tú');
   playScene([
@@ -2069,7 +2202,9 @@ function storyCheck(){if(!S.settings.name||MD().classList.contains('on')||curTab
     if(HASEV()&&t>=EV())return storyEnding(w<=idl?'self':w<=S.settings.goalMax?'rescue':'goblin');
     if(!HASEV()&&w<=S.settings.goalMax)return storyEnding(w<=idl?'self':'rescue');}
   st.ch=st.ch||{};if(!st.end&&!st.ch[mondayOf(today())])return storyChapter();
-  if(g.exped&&!g.exped.seen)return showExped();}
+  if(g.anims&&g.anims[0]==='chicken'){g.anims.shift();save();return playAnim('chicken');}
+  if(g.exped&&!g.exped.seen)return showExped();
+  if(g.anims&&g.anims.length){const k=g.anims.shift();save();return playAnim(k);}}
 
 /* ---- combate ---- */
 let C=null;
@@ -2077,7 +2212,7 @@ function enemyStats(id,f,r){const z=weekIdx(r.mon),Ls=Lstar(z),A=6+2*Ls,H=80+8*L
   return {id,n:enName(id),maxhp:Math.round((big?15:3.6*fm)*A*e.h),atk:Math.round(0.2*H*e.a*(big?1:fm))};}
 function nextIntent(){const e=C.e,ai=EN[C.id].ai;let k=ai[e.turn%ai.length];e.turn++;if(k==='heavy'&&!e.charged)k='atk';
   const v=k==='heavy'?Math.round(e.atk*1.9):k==='steal'?Math.round(e.atk*0.6):k==='poison'?Math.round(e.atk*0.5):e.atk;return {k,v};}
-function startFight(f,l,override){const r=G().run,id=override||nodeAt(r,f,l).en,st=enemyStats(id,f,r);
+function startFight(f,l,override){const r=G().run,id=override||nodeAt(r,f,l).en,st=enemyStats(id,nodeAt(r,f,l).lv||f,r);
   C={f,l,id,e:{...st,hp:st.maxhp,block:false,turn:0,charged:false},foco:Math.min(fMax(r),1+(has(r,'hourglass')?1:0)+lvU('focus')+(r.foco0||0)),def:false,poison:0,fx:{},over:null,
     log:[`¡Aparece ${st.n}!`]};
   C.intent=nextIntent();renderFight();const m=document.getElementById('modal');m.dataset.lock='1';m.classList.add('on');musicStart('battle');}
@@ -2127,17 +2262,17 @@ function winFight(){const g=G(),r=g.run,en=EN[C.id],z=weekIdx(r.mon),big=en.tier
   save();fightSfx();sfx('win',0.3);renderFight();}
 function loseFight(){const g=G(),r=g.run;
   if(lvU('revive')&&!r.revived){r.revived=true;r.hp=Math.round(pMax(r)*0.3);C.log.unshift('🪽 ¡Segunda oportunidad! Revives con 30% de vida');C.intent=nextIntent();save();renderFight();return;}
-  r.dead=true;r.cur=null;C.over={win:false};glog(`💀 Caíste ante ${enName(C.id)} en el piso ${C.f}`);save();musicStop();sfx('lose');renderFight();}
+  r.dead=true;r.cur=null;C.over={win:false};glog(`💀 Caíste ante ${enName(C.id)} en la etapa del ${DN[nodeAt(r,C.f,C.l).d]}`);save();musicStop();sfx('lose');renderFight();}
 const gbar=(v,m,cls)=>`<div class="ghp ${cls}"><i style="width:${clamp(v/m,0,1)*100}%"></i><span>${v} / ${m}</span></div>`;
 function renderFight(){const r=G().run,e=C.e,en=EN[C.id],it=C.intent,fx=C.fx||{},tc=tierCls(C.id);let body;
   if(C.over){const o=C.over;
     body=o.win?`<div class="gover"><div class="gbig">${o.boss?'👑':'🏆'}</div><div class="gtitle">${o.boss?'¡Zona conquistada!':'¡Victoria!'}</div><div class="small muted">Venciste a ${enName(C.id)}</div>
       <div class="grew">🪙 +${o.gold} oro${o.xp?` · ⭐ +${o.xp} XP`:''}${o.souls?` · 👻 +${o.souls} almas`:''}</div>
-      ${o.boss?`<div class="banquet">${o.first?'🏆 Trofeo de la semana ganado. ':''}Puedes seguir jugando runs en esta zona; el lunes se abre la siguiente, más difícil.</div>`:''}
+      ${o.boss?`<div class="banquet">${o.first?'🏆 Trofeo de la semana ganado. ':''}El lunes se abre la siguiente zona, más difícil.</div>`:''}
       ${!o.xp&&!o.boss?'<div class="small muted" style="margin-top:8px">Ya juntaste el máximo de XP de aventura de hoy. Tu nivel sube entrenando.</div>':''}
       <button class="btn block" style="margin-top:14px" data-act="gclose">${o.boss?'Continuar':'Elegir recompensa'}</button></div>`
-    :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">Fin de la run</div><div class="small muted">${enName(C.id)} te derrotó en el piso ${C.f}.</div>
-      <div class="small muted" style="margin:10px 0 0;line-height:1.45">Puedes empezar otra run cuando quieras. Si ya no pasas de aquí, la llave está en el gym: entrenar y comer bien sube tu nivel, y tu nivel es tu fuerza.</div>
+    :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">KO</div><div class="small muted">${enName(C.id)} te derrotó.</div>
+      <div class="small muted" style="margin:10px 0 0;line-height:1.45">No pierdes lo que llevas de la semana: mañana te levantas con 50% de vida y sigues desde aquí (o ya mismo con 2 🔥). Si no pasas, la llave está en el gym: entrenar y comer bien sube tu nivel, y tu nivel es tu fuerza.</div>
       <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`;}
   else body=`<div class="arena"><button class="fleex" data-act="gflee" aria-label="Huir">🏃 Huir</button>
       <div class="foe ${fx.edmg?'hit':''} ${tc}">
@@ -2190,9 +2325,10 @@ function pickReward(i){const r=G().run;if(!r||!r.reward)return;const o=r.reward.
 function showCamp(){const r=G().run,a=Math.max(3,Math.round(pAtk(r)*0.12)),h=Math.round(pMax(r)*0.35);
   openSheet(`<div style="text-align:center"><div class="gbig" style="font-size:44px">🔥</div><div class="exn" style="font-size:24px">Fogata</div><div class="small muted">Puedes hacer una sola cosa</div></div>
   <div class="ropts"><button class="ropt" data-act="gcamp" data-k="rest"><span class="ric">😴</span><span><b>Descansar</b><small>Curas ${h} de vida (tienes ${r.hp}/${pMax(r)})</small></span></button>
-  <button class="ropt" data-act="gcamp" data-k="train"><span class="ric">🏋️</span><span><b>Entrenar</b><small>+${a} de ataque para el resto de la run</small></span></button></div>
-  <button class="btn ghost block" style="margin-top:10px" data-act="dungeon">‹ Volver al mapa</button>`);}
-function campDo(k){const r=G().run;if(!r||!r.cur)return;if(k==='rest'){const h=heal(r,pMax(r)*0.35);toast(`😴 +${h} de vida`);sfx('heal');}else{const a=Math.max(3,Math.round(pAtk(r)*0.12));r.atkB+=a;toast(`🏋️ +${a} de ataque`);sfx('coin');}
+  <button class="ropt" data-act="gcamp" data-k="train"><span class="ric">🏋️</span><span><b>Entrenar</b><small>+${a} de ataque para el resto de la semana</small></span></button>
+  <button class="ropt rel" data-act="gcamp" data-k="both"><span class="ric">🔥</span><span><b>Fogata grande · 1 antorcha</b><small>Descansas y entrenas (tienes ${G().torch} 🔥)</small></span></button></div>
+  <button class="btn ghost block" style="margin-top:10px" data-act="dungeon">‹ Volver</button>`);}
+function campDo(k){const g=G(),r=g.run;if(!r||!r.cur)return;if(k==='both'){if(g.torch<1)return showNoTorch();g.torch--;heal(r,pMax(r)*0.35);r.atkB+=Math.max(3,Math.round(pAtk(r)*0.12));toast('🔥 Descansaste y entrenaste');sfx('heal');}else if(k==='rest'){const h=heal(r,pMax(r)*0.35);toast(`😴 +${h} de vida`);sfx('heal');}else{const a=Math.max(3,Math.round(pAtk(r)*0.12));r.atkB+=a;toast(`🏋️ +${a} de ataque`);sfx('coin');}
   advance(r);save();openDungeon();}
 const SHOPR=r=>{const R=rng(r.seed+r.cur.f*31+r.cur.l*7),o=Object.keys(RELICS).filter(k=>!r.relics.includes(k)),L=[];for(let i=0;i<3&&o.length;i++)L.push(o.splice(Math.floor(R()*o.length),1)[0]);return L;};
 const sprice=c=>Math.round(c*(lvU('disc')?0.85:1));
@@ -2255,14 +2391,12 @@ function buyUpg(k){const g=G(),c=upCost(k);if(c==null||g.souls<c)return;g.souls-
 
 /* ---- pantalla principal ---- */
 function hubLine(g,r,b,rec,qd,qt){const t=today();
-  if(g.torch<1)return 'Te quedaste sin antorchas. Se recargan con tu vida real: el gym da 4.';
-  if(r&&!r.dead&&!r.won)return `Tu run sigue abierta en el piso ${r.f}. ¡El portal te espera!`;
+  if(r&&r.dead)return 'Quedaste KO. Mañana te levantas, o ahora mismo con 2 antorchas.';
   if(rec-b.L>=2)return `Estás ${rec-b.L} niveles abajo de esta zona. Ve al gym y vuelve más fuerte.`;
-  if(g.bless.length)return `Traes ${g.bless.length} bendición${g.bless.length>1?'es':''} del gym. Úsala${g.bless.length>1?'s':''} en tu próxima run.`;
   if(qd<qt&&!dayDone(t)&&trainDay(t))return 'Hoy te toca gym. Cada serie te hace más fuerte aquí.';
-  if(r&&r.dead)return 'Caer es parte del camino. Cuando quieras, cruzas el portal otra vez.';
-  if(g.trophies.some(x=>x.mon===mondayOf(t)))return 'Ya conquistaste esta zona. El lunes se abre una más difícil.';
-  return 'Bienvenido al campamento, héroe. Cruza el portal cuando estés listo.';}
+  if(stageLeft(r))return `La etapa del ${DN[openDay(r)]} te espera. Cruza el portal y camina.`;
+  if(r&&r.won)return 'Ya conquistaste esta zona. El lunes se abre una más difícil.';
+  return 'Etapa de hoy completada. Mañana sigue el camino.';}
 function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldMap(),b=heroBase(),mon=mondayOf(t),z=zoneOf(mon),zi=weekIdx(mon),rec=Math.round(Lstar(zi));
   const Q=questsFor(t),qd=Q.filter(q=>q.ok).length,active=r&&!r.dead&&!r.won,ug=Object.keys(UPG).some(k=>{const c=upCost(k);return c!=null&&g.souls>=c;});
   const hills=(seed,col,h)=>{const R=rng(seed);let p='0,120';for(let x=0;x<=100;x+=4){const y=Math.round(120-h-R()*h*0.8);p+=` ${x},${y} ${x+4},${y}`;}return `<polygon points="${p} 100,120" fill="${col}" shape-rendering="crispEdges"/>`;};
@@ -2283,8 +2417,8 @@ function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldM
     <button class="hob hero" style="left:43%;bottom:52px" data-act="player">${heroSpr(3)}</button>
     <div class="hob fire" style="left:55%;bottom:50px">${spr('fire',2.4)}</div>
     <button class="hob spirit" style="left:68%;bottom:128px" data-act="gupg"><span class="hl ${ug?'go':''}">Altar 👻${g.souls}</span>${spr('spirit',2.4)}</button>
-    <button class="hob portal" style="left:87%;bottom:46px" data-act="dungeon"><span class="hl go">${active?`Piso ${r.f}/10`:'¡Entrar!'}</span>${spr('portal',4.2)}</button>
-    <div class="hstat"><span>🔥${g.torch}/${TCAP}</span><span>Nv ${b.L}</span><span>⚔️${pAtk(null)}</span><span>❤️${pMax(null)}</span><span>💨${pAgi(null)}%</span><span>🎯${pCrit(null)}%</span>${active?`<span>❤️ run ${r.hp}/${pMax(r)}</span>`:''}</div>
+    <button class="hob portal" style="left:87%;bottom:46px" data-act="dungeon"><span class="hl ${stageLeft(r)?'go':''}">${stageLeft(r)?'¡Etapa de hoy!':r&&r.won?'👑 Conquistada':r&&r.dead?'💫 KO':'✓ Hoy listo'}</span>${spr('portal',4.2)}</button>
+    <div class="hstat"><span>🔥${g.torch}/${TCAP}</span><span>Nv ${b.L}</span><span>⚔️${pAtk(null)}</span><span>❤️${pMax(null)}</span>${r?`<span>💚 ${r.hp}/${pMax(r)}</span>`:''}</div>
   </div>
   ${rec-b.L>=2?`<div class="zwarn" style="margin:-4px 0 12px">⚠️ Nivel recomendado ${rec} · tú eres ${b.L}. Sube entrenando y comiendo bien: tu nivel es tu fuerza.</div>`:''}
   <div class="sec">Tu camino <small>${WM.left} semana${WM.left===1?'':'s'} para ${BOSS()[1]}</small></div>${WM.html}
@@ -2296,7 +2430,7 @@ function renderAventura(){const msgs=syncRun(),g=G(),r=g.run,t=today(),WM=worldM
 }
 function showQuests(){const t=today(),Q=questsFor(t);
   openSheet(`<div class="parch"><div class="ptitle">📜 Tablón de misiones</div>
-    <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Se cumplen solas con lo que registras. Dan almas 👻 para el altar.</div>
+    <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Se cumplen solas con lo que registras. Dan almas 👻 para el altar y antorchas 🔥.</div>
     <div class="list">${Q.map(q=>`<div class="it ${q.ok?'qok':''}"><span class="qic">${q.ok?'✅':q.ic}</span><div class="grow"><div class="t">${q.n}</div><div class="s">${q.rw}</div></div></div>`).join('')}</div></div>
     <button class="btn block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`);}
 function showLogs(){const g=G();
@@ -2394,7 +2528,7 @@ function raidWin(d){const L=raidLoot(d),m=raidMon(d);sfx('win');
   openSheet(`<div class="vict"><div class="vspr">${enSpr(m,5.5)}</div><div class="vt">¡VICTORIA!</div>
     <div class="small muted">Derrotaste a ${EN[m].n} con tu entreno de hoy</div>
     <div class="loot">${L.items.map(x=>`<div>${x}</div>`).join('')}<div>⭐ Tu entreno ya subió tu nivel: más ataque y vida en la Aventura</div></div>
-    ${L.opts&&!L.chosen?`<div style="font-weight:800;margin:16px 0 0">✨ Por romper récords, elige una bendición para tu próxima run:</div><div class="ropts">${L.opts.map(k=>`<button class="ropt rel" data-act="gbless" data-d="${d}" data-k="${k}"><span class="ric">${RELICS[k].ic}</span><span><b>${RELICS[k].n}</b><small>${RELICS[k].d}</small></span></button>`).join('')}</div>`
+    ${L.opts&&!L.chosen?`<div style="font-weight:800;margin:16px 0 0">✨ Por romper récords, elige una bendición para tu aventura:</div><div class="ropts">${L.opts.map(k=>`<button class="ropt rel" data-act="gbless" data-d="${d}" data-k="${k}"><span class="ric">${RELICS[k].ic}</span><span><b>${RELICS[k].n}</b><small>${RELICS[k].d}</small></span></button>`).join('')}</div>`
       :`<button class="btn block" style="margin-top:16px" data-act="closemodal">Continuar</button>`}</div>`);
   setTimeout(()=>sfx('coin'),700);}
 function raidCard(k){const t=today(),rs=raidState(k),en=EN[rs.mon],fx=RFX&&Date.now()-RFX.ts<900?RFX:null,fx2=RFX2&&Date.now()-RFX2.ts<900?RFX2:null,left=Math.max(0,rs.max-rs.dealt);
@@ -2435,47 +2569,6 @@ const zoneOf=mon=>isFinalWeek(mon)?FINALZ:ZONES[weekIdx(mon)%ZONES.length];
 const zStars=mon=>{const n=isFinalWeek(mon)?5:Math.min(5,1+Math.floor(weekIdx(mon)/2));return '★'.repeat(n)+`<i>${'★'.repeat(5-n)}</i>`;};
 const zBg=z=>`background:radial-gradient(120% 100% at 100% 0%,rgba(255,255,255,.08),rgba(0,0,0,0) 60%),linear-gradient(160deg,${z[2]},${z[3]})`;
 let DUN=false;
-function openDungeon(){DUN=true;const g=G();syncRun();const r=g.run,t=today(),mon=mondayOf(t),z=zoneOf(mon);MD().dataset.lock='';
-  if(r&&r.reward)return showReward();
-  if(r&&r.cur&&!r.dead&&!r.won){const n=nodeAt(r,r.cur.f,r.cur.l);if(n.t==='S')return showShopNode();if(n.t==='C')return showCamp();if(n.t==='Q')return showEvent(n.q);r.cur=null;}
-  const head=`<div class="dhead" style="${zBg(z)}"><div class="row between"><div><div style="font-size:11px;font-weight:900;letter-spacing:1.2px;color:rgba(255,255,255,.7)">SEMANA ${weekIdx(mon)+1} · <span class="stars">${zStars(mon)}</span></div>
-      <div style="font-size:22px;font-weight:900;margin-top:2px">${z[1]} ${z[0]}</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>`;
-  if(!r||r.dead||r.won){const b=heroBase(),rec=Math.round(Lstar(weekIdx(mon)));
-    openSheet(`${head}<div class="small" style="margin-top:8px;color:rgba(255,255,255,.85);line-height:1.45">Recorre 10 pisos: enemigos, élites, eventos, fogatas y el jefe al final. Cada piso cuesta 1 🔥 (tienes ${g.torch}). Si caes, empiezas de nuevo cuando quieras.</div></div>
-      <div class="card" style="text-align:center"><div style="display:flex;justify-content:center">${heroSpr(4.2)}</div>
-        <div style="font-weight:800;margin-top:6px">Nivel ${b.L} · ⚔️ ${pAtk(null)} · ❤️ ${pMax(null)} · 💨 ${pAgi(null)}% · 🎯 ${pCrit(null)}%</div>
-        <div class="small muted" style="margin-top:4px">Nivel recomendado para esta zona: ${rec}</div>
-        ${g.bless.length?`<div class="small" style="margin-top:8px">✨ Empiezas con: ${g.bless.map(k=>RELICS[k].ic+' '+RELICS[k].n).join(', ')}</div>`:''}
-        ${overDay(addDays(t,-1))?'<div class="small" style="margin-top:8px;color:#ffb3ad">🍩 Maldición del antojo: ayer te pasaste de calorías, empiezas con 85% de vida.</div>':''}
-        <button class="btn block" style="margin-top:14px" data-act="gnew">⚔️ Empezar run</button>
-        <button class="btn ghost block" style="margin-top:8px" data-act="gupg">👻 Mejoras permanentes</button></div>`);
-    musicStart('map');return;}
-  const RH=96,top=70,X=[18,50,82],H=top+9*RH+70,R=rng(r.seed+7);let lines='',low='',nodes='',dec='';
-  const SPRN={C:'fire',S:'stall',Q:'qblock',T:'chest'};
-  for(let i=0;i<22;i++){const f=Math.floor(R()*10),side=R(),x=side<0.5?(R()<0.5?4+R()*6:94-R()*6):(R()<0.5?34:66)+(R()*6-3),y=top+f*RH+RH*0.5+R()*10;
-    dec+=`<div class="mdec" style="left:${x.toFixed(1)}%;top:${Math.round(y)}px">${spr(R()<0.65?'tree':'rock',R()<0.5?1.6:1.3)}</div>`;}
-  for(let f=1;f<=10;f++){const ls=f===10?[1]:[0,1,2];
-    ls.forEach(l=>{const n=nodeAt(r,f,l),y=top+(f-1)*RH,vis=r.path.includes(f+'|'+l),go=canGo(r,f,l),here=r.f===f&&r.lane===l;
-      if(f<10)edges(r,f,l).forEach(x=>{const done=vis&&r.path.includes((f+1)+'|'+x),next=here&&canGo(r,f+1,x),y2=y+RH+(f===9?24:0);
-        low+=`<line x1="${X[l]}" y1="${y}" x2="${X[x]}" y2="${y2}" stroke="#14142b" stroke-width="${done||next?14:11}" vector-effect="non-scaling-stroke" stroke-linecap="round" opacity="${done||next?.9:.35}"/>`;
-        lines+=`<line x1="${X[l]}" y1="${y}" x2="${X[x]}" y2="${y2}" stroke="${done?'#f3dc9b':next?'#e2c47e':'#b8975c'}" stroke-width="${done||next?8:5}" vector-effect="non-scaling-stroke" stroke-linecap="round" opacity="${done||next?1:.4}" ${done?'':next?'stroke-dasharray="2 10"':''}/>`;});
-      const big=n.t==='B',sp=n.en?enSpr(n.en,big?4:n.t==='L'?2.6:2.2):spr(SPRN[n.t],n.t==='Q'?1.9:2.4);
-      nodes+=`<button class="mn2 t${n.t} ${vis?'vis':go?'go':'lock'}" style="left:${X[l]}%;top:${y+(big?24:0)}px" ${go?`data-act="gnode" data-f="${f}" data-l="${l}"`:'disabled'} aria-label="${NODE[n.t][1]}">
-        ${go?'<span class="arw">▼</span>':''}<div class="plat"></div>${big?'<span class="arw" style="color:#ff6961;animation:none">JEFE</span>':''}
-        <div class="sp">${sp}</div>${n.t==='L'?'<span class="skl">💀</span>':''}${vis?'<span class="ck">✓</span>':''}
-        ${go?`<span class="nm" style="${l===0&&!big?'left:-14px;transform:none':l===2&&!big?'right:-14px;transform:none':'left:50%;transform:translateX(-50%)'}">${n.en?enName(n.en):NODE[n.t][1]}</span>`:''}</button>`;
-      if(here)nodes+=`<div class="mhero2" style="left:calc(${X[l]}% - 30px);top:${y+8}px">${heroSpr(2)}</div>`;});}
-  if(r.f===0)nodes+=`<div class="mhero2" style="left:50%;top:${top-18}px">${heroSpr(2)}</div>`;
-  const chip=(t)=>`<span>${t}</span>`;
-  openSheet(`<div class="dhud"><div class="row1"><div class="hzone"><div class="a">${z[1]} ${z[0]}</div><div class="b">Semana ${weekIdx(mon)+1} · Piso ${r.f}/10</div></div><button class="sndbtn" data-act="closemodal" aria-label="Salir">✕</button></div>
-      <div class="row" style="gap:10px;align-items:center"><div>${heroSpr(2.2)}</div><div style="flex:1;min-width:0"><div class="pxbar"><i style="width:${clamp(r.hp/pMax(r),0,1)*100}%"></i><span>${r.hp} / ${pMax(r)}</span></div>
-        <div class="chips" style="margin-top:8px">${chip('⚔️'+pAtk(r))}${chip('🛡️'+pDef(r))}${chip('💨'+pAgi(r)+'%')}${chip('🎯'+pCrit(r)+'%')}${chip('🔥'+G().torch)}${chip('🧪'+r.potions)}${chip('🪙'+r.gold)}</div></div></div>
-      ${r.relics.length?`<div class="rels">${r.relics.map(k=>`<button class="relb" data-act="grel" data-k="${k}">${RELICS[k].ic}</button>`).join('')}</div>`:''}</div>
-    <div class="rmap2" style="height:${H}px;background:linear-gradient(180deg,${z[2]},${z[3]})"><div class="tex"></div>
-      <svg viewBox="0 0 100 ${H}" preserveAspectRatio="none">${low}${lines}</svg>${dec}${nodes}</div>
-    <div class="mleg">${Object.entries(NODE).map(([k,v])=>`<span>${v[0]} ${v[1]}</span>`).join('')}</div>`);
-  musicStart('map');setTimeout(()=>{const n=document.querySelector('#sheet .mn2.go')||document.querySelector('#sheet .mhero2');if(n)n.scrollIntoView({block:'center',behavior:'smooth'});},250);}
-
 /* ================= Mapa del mundo ================= */
 function worldMap(){const g=G(),w=sortedW(),cur=mondayOf(today());
   let start=g.first||cur;if(w.length&&mondayOf(w[0].date)<start)start=mondayOf(w[0].date);
@@ -2588,6 +2681,8 @@ document.addEventListener('click',ev=>{
     case 'player':showPlayer();break;
     case 'dungeon':sfx('tap');openDungeon();break;
     case 'scnext':sceneNext(false);break;
+    case 'wwalk':case 'wfork':case 'wlight':case 'wup':wAct(a,b);break;
+    case 'animok':clearInterval(window.ARP);MD().dataset.lock='';MD().classList.remove('on');setTimeout(storyCheck,350);break;
     case 'scskip':sceneNext(true);break;
     case 'gstory':MD().classList.remove('on');storyIntro();break;
     case 'gquests':sfx('tap');showQuests();break;
@@ -2606,7 +2701,7 @@ document.addEventListener('click',ev=>{
     case 'gsleave':{const r=G().run;if(r&&r.cur){advance(r);save();}openDungeon();break;}
     case 'gevent':eventDo(+b.dataset.q,+b.dataset.i);break;
     case 'grel':{const x=RELICS[b.dataset.k];toast(`${x.ic} ${x.n}: ${x.d}`);break;}
-    case 'gbless':{const g=G(),L=g.raids&&g.raids[b.dataset.d];if(L&&!L.chosen){L.chosen=b.dataset.k;g.bless.push(b.dataset.k);save();sfx('lvl');toast(`✨ ${RELICS[b.dataset.k].n} te espera en tu próxima run`);}MD().classList.remove('on');break;}
+    case 'gbless':{const g=G(),L=g.raids&&g.raids[b.dataset.d];if(L&&!L.chosen){L.chosen=b.dataset.k;g.bless.push(b.dataset.k);save();sfx('lvl');toast(`✨ ${RELICS[b.dataset.k].n} se une a tu aventura`);}MD().classList.remove('on');break;}
     case 'unit':{const id=b.dataset.id,nu=WU(id)==='lb'?'kg':'lb';S.exu=S.exu||{};S.exu[id]=nu;const ss=S.workouts[gymDate];if(ss&&ss.ex[id])ss.ex[id].u=nu;save();renderGym();toast(`${EX[id].n}: ahora en ${nu}`);break;}
     case 'zoom':zoom(b.dataset.id);break;
     case 'rest-':restAdj(-15);break;
