@@ -749,7 +749,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125231802';
+const APP_V='20261125232648';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1912,7 +1912,8 @@ function saveProfile(){const g=id=>document.getElementById(id).value,n=x=>num(g(
   const first=!S.settings.name;
   S.settings={...S.settings,name:name.slice(0,30),sex,age,height:h,start:st0,goalMax:mx,goalMin:mn,event:ev||(ED==='lb'?'':'2027-02-20'),evName:g('pfEvN').trim().slice(0,24),since:S.settings.since||today(),por:g('pfPor'),rv:g('pfRv')};
   save();const m=document.getElementById('modal');m.dataset.lock='';m.classList.remove('on');rerender();
-  toast(first?`¡Listo, ${name}! A darle 💪`:'Perfil guardado ✓');}
+  toast(first?`¡Listo, ${name}! A darle 💪`:'Perfil guardado ✓');
+  if(first&&ED==='lb'){const g=G();if(!(g.story&&g.story.intro))setTimeout(()=>storyIntro(true),700);}}
 function switchProfile(id,isNew){const p=profs();p.cur=id;saveProfs(p);KEY=dataKey(id);S=load();applyCustom();
   gymDate=today();foodDate=today();shopWeek=0;lastXP=computeXP().xp;S.seenLvl=S.seenLvl??computeXP().lvl;
   document.getElementById('modal').classList.remove('on');show('peso');
@@ -2140,7 +2141,7 @@ function showExped(){const g=G(),E=g.exped;if(!E)return;E.seen=true;save();
     <div style="text-align:center;font-size:13px;color:#6b5a3a;margin-bottom:8px">Los días que no jugaste, tu héroe caminó solo la etapa.</div>
     <div class="list">${E.days.map(x=>`<div class="it" style="display:block"><div class="t" style="font-weight:800;margin-bottom:4px">${relDay(x.d)}</div>${x.L.map(l=>`<div class="s" style="font-size:13.5px;line-height:1.45">${l}</div>`).join('')}</div>`).join('')}</div></div>
     <div class="small muted" style="text-align:center;margin-top:10px;line-height:1.4">Si juegas tú, eliges camino, reliquias y cómo pelear: te va mejor que en automático.</div>
-    <button class="btn block" style="margin-top:12px" data-act="animok">Continuar</button>`);MD().dataset.lock='1';}
+    <button class="btn block" style="margin-top:12px" data-act="animok">Continuar</button>`);MD().dataset.lock='1';window.ANIMT0=Date.now();}
 
 /* ---- la escena de caminar ---- */
 function wDecor(seed){const R=rng(seed);let far='',near='';
@@ -2199,7 +2200,7 @@ function playAnim(k){const z=zoneOf(mondayOf(today())),A=amor(),b=heroBase(),bg=
       <div class="bkt">${spr('bucket',2.6)}</div><div class="ahero2">${heroSpr(4)}<div class="leg">${spr('drum',2.2)}</div><div class="abub">ñam ñam</div></div></div>`;
     cap=['Ayer no fuiste al gym…',`Mientras tú te comías una cubeta de pollo frito, ${A.n} lloraba en la torre de La Sombra. Hoy es buen día para compensar.`];btn='😤 Hoy sí voy';}
   openSheet(`${st}<div class="dbox"><div class="dwho">${cap[0]}</div><div class="dtxt" style="font-size:20px">${cap[1]}</div></div>
-    <button class="btn block" style="margin-top:10px" data-act="animok">${btn}</button>`);MD().dataset.lock='1';
+    <button class="btn block" style="margin-top:10px" data-act="animok">${btn}</button>`);MD().dataset.lock='1';window.ANIMT0=Date.now();
   clearInterval(window.ARP);if(k==='train'){let n=1;window.ARP=setInterval(()=>{const e=document.getElementById('arep');if(!e)return clearInterval(window.ARP);n=n%12+1;e.textContent='REP '+n;},1000);sfx('lvl');}else sfx('lose');}
 
 /* ---- avisos push (estilo Duolingo) ---- */
@@ -2237,17 +2238,19 @@ function pushSetting(){if(ED!=='lb')return '';const on=pushOK()&&Notification.pe
 const ZFLAV={'Pradera del Inicio':'Todo gran cambio empieza con un primer paso. Y con una primera sentadilla.','Bosque Sombrío':'Dicen que aquí se pierden los que dejan el gym en la segunda semana.','Cueva de Hierro':'El eco de las pesas retumba en las paredes. Aquí se forjan los fuertes.','Pantano del Antojo':'Huele a donas. No mires. No escuches. No pidas para llevar.','Desierto del Ayuno':'El calor aprieta y el agua vale oro. Hidrátate, héroe.','Montaña del Esfuerzo':'La subida es larga, pero la vista desde arriba vale cada repetición.','Volcán del Sudor':'Aquí no se suda: se derrite la grasa.','Tundra de la Disciplina':'Hace frío y nadie te ve entrenar. Ahí se nota quién es constante.','Ruinas del Gimnasio':'Antiguos héroes entrenaron aquí. Sus récords siguen grabados en piedra.','Castillo de la Sombra':'Llegó el día. Todo lo que hiciste te trajo hasta esta puerta.'};
 const amor=()=>S.settings.sex==='m'?{n:'el príncipe',N:'El príncipe',a:'al príncipe',sp:'prince'}:{n:'la princesa',N:'La princesa',a:'a la princesa',sp:'princess'};
 let SCN=null;
-function playScene(panels,done){SCN={p:panels,i:0,done};drawScene();MD().dataset.lock='1';}
+function playScene(panels,done,noSkip){SCN={p:panels,i:0,done,noSkip:!!noSkip};drawScene();MD().dataset.lock='1';}
 function drawScene(){const P=SCN.p[SCN.i],z=zoneOf(mondayOf(today()));
   const sp=x=>x==='hero'?heroSpr(4.2):x==='sombra'?enSpr('traje',4.2):spr(x,4.2);
   openSheet(`<div class="scene" style="background:linear-gradient(180deg,#0b0d1f,${z[3]} 70%,${z[2]})">
       <div class="scs">${(P.s||[]).map(x=>`<div class="sca">${sp(x)}</div>`).join('')}</div></div>
     <div class="dbox"><div class="dwho">${P.who||''}</div><div class="dtxt" id="dtxt"></div></div>
-    <div class="row" style="gap:8px;margin-top:10px"><button class="btn ghost" style="flex:none;padding:12px 14px" data-act="scskip">Saltar</button><button class="btn block" data-act="scnext">${SCN.i<SCN.p.length-1?'▶ Siguiente':(P.btn||'▶ Continuar')}</button></div>`);
-  const el=document.getElementById('dtxt'),txt=P.t;let k=0;clearInterval(SCN.tw);SCN.tw=setInterval(()=>{k+=2;if(el)el.textContent=txt.slice(0,k);if(k>=txt.length)clearInterval(SCN.tw);},22);sfx('tap');}
-function sceneNext(skip){if(!SCN)return;clearInterval(SCN.tw);if(!skip&&SCN.i<SCN.p.length-1){SCN.i++;drawScene();return;}const d=SCN.done;SCN=null;MD().dataset.lock='';MD().classList.remove('on');if(d)d();setTimeout(storyCheck,400);}
+    <div class="row" style="gap:8px;margin-top:10px">${SCN.noSkip?'':'<button class="btn ghost" style="flex:none;padding:12px 14px" data-act="scskip">Saltar</button>'}<button class="btn block" data-act="scnext">${SCN.i<SCN.p.length-1?'▶ Siguiente':(P.btn||'▶ Continuar')}</button></div>`);
+  const el=document.getElementById('dtxt'),txt=P.t;let k=0;clearInterval(SCN.tw);SCN.t0=Date.now();SCN.typing=true;SCN.tw=setInterval(()=>{k+=2;if(el)el.textContent=txt.slice(0,k);if(k>=txt.length){clearInterval(SCN.tw);if(SCN)SCN.typing=false;}},22);sfx('tap');}
+function sceneNext(skip){if(!SCN||Date.now()-SCN.t0<450)return;if(skip&&SCN.noSkip)return;
+  if(!skip&&SCN.typing){clearInterval(SCN.tw);SCN.typing=false;SCN.t0=Date.now();const el=document.getElementById('dtxt');if(el)el.textContent=SCN.p[SCN.i].t;return;}
+  clearInterval(SCN.tw);if(!skip&&SCN.i<SCN.p.length-1){SCN.i++;drawScene();return;}const d=SCN.done;SCN=null;MD().dataset.lock='';MD().classList.remove('on');if(d)d();setTimeout(storyCheck,400);}
 function storyWeeks(){return Math.max(1,Math.round(daysBetween(mondayOf(today()),mondayOf(EV()))/7)+1);}
-function storyIntro(){const A=amor(),wk=storyWeeks(),nm=esc(S.settings.name||'Tú');
+function storyIntro(first){const A=amor(),wk=storyWeeks(),nm=esc(S.settings.name||'Tú');
   playScene([
     {s:['king'],who:'Rey',t:'¡Héroe! Qué bueno que llegas. Tenemos una emergencia.'},
     {s:['sombra',A.sp],who:'Narrador',t:`Anoche La Sombra entró al castillo y se llevó ${A.a}.`},
@@ -2255,7 +2258,7 @@ function storyIntro(){const A=amor(),wk=storyWeeks(),nm=esc(S.settings.name||'T�
     {s:['king'],who:'Rey',t:'No te voy a mentir: así como estás no llegas. Cada entreno, cada comida y cada kilo que bajes te harán más fuerte.'},
     {s:['sombra'],who:'La Sombra',t:'Jajaja… ¿tú? Si te cansas subiendo escaleras.'},
     {s:['hero'],who:nm,t:'Ya veremos.',btn:'⚔️ ¡Comienza la aventura!'}],
-    ()=>{const g=G();g.story=g.story||{};g.story.intro=1;g.story.start=g.story.start||today();g.story.ch=g.story.ch||{};g.story.ch[mondayOf(today())]=1;save();renderAventura();});}
+    ()=>{const g=G();g.story=g.story||{};g.story.intro=1;g.story.start=g.story.start||today();g.story.ch=g.story.ch||{};g.story.ch[mondayOf(today())]=1;save();renderAventura();},first);}
 function storyChapter(){const g=G(),mon=mondayOf(today()),z=zoneOf(mon),n=Math.max(1,Math.round(daysBetween(mondayOf(g.story.start||today()),mon)/7)+1),A=amor();
   playScene([{s:[isFinalWeek(mon)?'sombra':'king'],who:`Capítulo ${n} · ${z[1]} ${z[0]}`,t:(ZFLAV[z[0]]||'Un nuevo territorio te espera.')+(isFinalWeek(mon)?` ${A.N} te espera al final.`:'')}],
     ()=>{g.story.ch[mon]=1;save();});}
@@ -2767,7 +2770,7 @@ document.addEventListener('click',ev=>{
     case 'dungeon':sfx('tap');openDungeon();break;
     case 'scnext':sceneNext(false);break;
     case 'wwalk':case 'wfork':case 'wlight':case 'wup':wAct(a,b);break;
-    case 'animok':clearInterval(window.ARP);MD().dataset.lock='';MD().classList.remove('on');setTimeout(storyCheck,350);break;
+    case 'animok':if(Date.now()-(window.ANIMT0||0)<700)break;clearInterval(window.ARP);MD().dataset.lock='';MD().classList.remove('on');setTimeout(storyCheck,350);break;
     case 'scskip':sceneNext(true);break;
     case 'gstory':MD().classList.remove('on');storyIntro();break;
     case 'gquests':sfx('tap');showQuests();break;
