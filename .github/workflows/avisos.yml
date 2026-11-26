@@ -1,0 +1,47 @@
+name: Avisos del héroe
+on:
+  schedule:
+    - cron: '41 12 * * *'   # 6:41 am Monterrey · báscula
+    - cron: '57 21 * * *'   # 3:57 pm · agua
+    - cron: '27 0 * * *'    # 6:27 pm · gym
+    - cron: '43 3 * * *'    # 9:43 pm · cena / última llamada
+  push:
+    branches: [main, master]
+    paths: ['push/kick.txt']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: avisos
+  cancel-in-progress: false
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: .pushstate
+          key: pushstate-${{ github.run_id }}
+          restore-keys: pushstate-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i --no-save --no-package-lock web-push@3.6.7
+      - run: node push/send.mjs
+        env:
+          EVENT: ${{ github.event_name }}
+          TOPIC: lb-avisos-2e5de38a568a341b1c86
+      - uses: actions/cache/save@v4
+        with:
+          path: .pushstate
+          key: pushstate-${{ github.run_id }}
+      - name: Publicar llave pública
+        run: |
+          if [ -n "$(git status --porcelain push/vapid-public.txt)" ]; then
+            git config user.name "liftbound-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add push/vapid-public.txt
+            git commit -m "Llave pública de avisos"
+            git pull --rebase -q && git push
+          fi
