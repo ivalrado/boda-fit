@@ -783,7 +783,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261126074143';
+const APP_V='20261126075356';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -2037,7 +2037,7 @@ function addRunSouls(n){const dl=daily(),add=Math.max(0,Math.min(n,8-dl.souls));
 function addAxp(n){const dl=daily(),g=G(),add=Math.max(0,Math.min(n,40-dl.xp));dl.xp+=add;g.axp=(g.axp||0)+add;return add;}
 
 /* ---- poder del héroe: sale de la vida real ---- */
-const Lstar=z=>z<=0?3:Math.sqrt(2650*(z+0.5)/75)+0.3;
+const Lstar=z=>z<=0?2.2:Math.sqrt(2650*(z+0.5)/75)+0.3;
 let HBc=null,HBt=0;
 function heroBase(){if(HBc&&Date.now()-HBt<1500)return HBc;const L=heroLvl(),t=today(),d28=[...Array(28)].map((_,i)=>addDays(t,-i));
   const cardio=d28.filter(cardioOn).length,prs=d28.filter(prOn).length;
@@ -2113,7 +2113,10 @@ function runDaily(){const g=G(),t=today(),cur=mondayOf(t);
   if(g.run&&(g.run.mon!==cur||g.run.v!==3)){if(g.run.v===3&&!g.run.won)glog(`⌛ Terminó la semana sin vencer al jefe de ${zoneOf(g.run.mon)[0]}`);g.run=null;}
   if(!g.run&&S.settings.name)newRun(cur);
   const r=g.run;if(!r)return;
-  if(r.last&&r.last<t){if(r.dead){r.dead=false;r.hp=Math.max(r.hp,Math.round(pMax(r)*0.5));}else heal(r,pMax(r)*0.3);}
+  if(r.last&&r.last<t){r.dead=false;r.hp=pMax(r);}
+  if(!r.hv2){r.hv2=1;r.dead=false;r.hp=pMax(r);}
+  if(r.comp==null){const r0=r.path.length?+r.path[0].split('|')[0]-1:r.f,sd=(r.map[Math.min(r0,r.map.length-1)]||[{d:0}])[0].d;r.comp=sd;
+    if(sd>0){r.potions+=Math.min(2,sd);r.gold+=15*sd;if(sd>=2){const k=randRelic(r);if(k)r.relics.push(k);}glog(`🎒 Llegaste a media semana: el campamento te dio ${Math.min(2,sd)} poción${sd>1?'es':''}, ${15*sd} de oro${sd>=2?' y una reliquia':''}`);}}
   r.last=t;
   if(g.bless.length){g.bless.forEach(k=>{if(RELICS[k]&&!r.relics.includes(k))r.relics.push(k);});glog(`✨ ${g.bless.length} bendición${g.bless.length>1?'es':''} del gym se ${g.bless.length>1?'unieron':'unió'} a tu aventura`);g.bless=[];}
   g.anims=(g.anims||[]).filter(k=>k!=='train');g.gagD=g.gagD||{};
@@ -2150,12 +2153,12 @@ function autoDay(day){const g=G(),L=[],mon=mondayOf(day),di=dayIx(day);
   if(!g.run){newRun(mon,di);L.push(`⚔️ Tu héroe llegó a ${zoneOf(mon)[0]}`);}
   const r=g.run;if(r.won)return L;
   if(r.reward){applyOpt(r,r.reward.opts[0]);r.reward=null;}r.cur=null;r.at=null;r.fork=0;
-  if(r.dead){r.dead=false;r.hp=Math.max(r.hp,Math.round(pMax(r)*0.5));}
+  r.dead=false;r.hp=pMax(r);
   let steps=0;
   while(!r.dead&&!r.won&&r.f<r.map.length&&r.map[r.f][0].d<=di&&steps<12){steps++;
     const f=r.f+1,row=r.map[f-1],pref=AUTOPREF[r.hp<pMax(r)*0.5?'lo':'hi'],l=row.length>1?[0,1].sort((a,b)=>pref.indexOf(row[a].t)-pref.indexOf(row[b].t))[0]:0,n=row[l];r.cur={f,l};
     if(n.en){const win=simFight(r,n.en,n.lv||f);
-      if(!win){r.dead=true;r.cur=null;L.push(`💀 Cayó ante ${enName(n.en)}. Se levantó al día siguiente.`);break;}
+      if(!win){r.dead=true;r.cur=null;L.push(`💀 Cayó ante ${enName(n.en)}. Mañana lo vuelve a intentar.`);break;}
       const en=EN[n.en],big=en.tier==='boss'||en.tier==='final',gold=Math.round((big?40:en.tier==='elite'?22:8)*(has(r,'purse')?1.5:1));r.gold+=gold;advance(r);
       if(big){r.won=true;const first=!g.trophies.some(x=>x.mon===r.mon),bs=first?15:4;g.souls+=bs;if(first)g.trophies.push({id:n.en,mon:r.mon,run:r.id});L.push(`👑 ¡Venció a ${enName(n.en)}! Zona conquistada · +${bs} almas`);break;}
       if(en.tier==='elite'){const k=randRelic(r);if(k){r.relics.push(k);L.push(`💀 Venció al élite ${enName(n.en)} y ganó ${RELICS[k].ic} ${RELICS[k].n}`);}}
@@ -2201,7 +2204,7 @@ function openDungeon(){DUN=true;const g=G();syncRun();let r=g.run;const t=today(
       <div class="wweek">${week}</div></div>`;
   let inner='',tt='',ts='',btns='';
   if(r.won){inner=`<div class="wthing" style="left:62%">${spr('castle',3)}</div>`;tt='¡Zona conquistada! 👑';ts=`El lunes se abre la siguiente zona, más difícil. Mientras, a darle en el gym.`;btns=`<button class="btn block" data-act="closemodal">Volver al campamento</button>`;}
-  else if(r.dead){inner=`<div class="wthing" style="left:66%">${r.at?nSpr(nodeAt(r,r.at.f,r.at.l),3.4):''}</div>`;tt='Quedaste KO 💫';ts=`Mañana te levantas con 50% de vida y sigues desde aquí. O te levantas ya con 2 antorchas (tienes ${g.torch}).`;
+  else if(r.dead){inner=`<div class="wthing" style="left:66%">${r.at?nSpr(nodeAt(r,r.at.f,r.at.l),3.4):''}</div>`;tt='Quedaste KO 💫';ts=`Mañana te levantas con toda tu vida y sigues desde aquí. O te levantas ya, a media vida, con 2 antorchas (tienes ${g.torch}).`;
     btns=`<button class="btn ghost" data-act="closemodal">Mañana sigo</button><button class="btn ${g.torch>=2?'gold':'ghost'}" data-act="wup">🔥 Levantarme (2)</button>`;}
   else if(!left){inner=`<div class="wthing" style="left:42%">${spr('fire',2.2)}</div><div class="wthing" style="left:74%">${spr('tent',3)}</div>`;
     tt=`Etapa del ${DN[od]} completada ✓`;ts=od<6?`Tu héroe acampa aquí. Mañana (${DN[od+1]}) sigue el camino${od+1===6?' y te espera el jefe':''}. Si no juegas, avanza solo.`:'Ya no hay más camino esta semana.';btns=`<button class="btn block" data-act="closemodal">Volver al campamento</button>`;}
@@ -2362,7 +2365,7 @@ function storyCheck(){if(!S.settings.name||MD().classList.contains('on')||curTab
 /* ---- combate ---- */
 let C=null;
 function enemyStats(id,f,r){const z=weekIdx(r.mon),Ls=Lstar(z),A=6+2*Ls,H=80+8*Ls,e=EN[id],fm=0.8+0.045*f,big=e.tier==='boss'||e.tier==='final';
-  return {id,n:enName(id),maxhp:Math.round((big?15:3.6*fm)*A*e.h),atk:Math.round(0.2*H*e.a*(big?1:fm))};}
+  const tf=z<=0?0.8:1;return {id,n:enName(id),maxhp:Math.round((big?15:3.6*fm)*A*e.h*tf),atk:Math.round(0.2*H*e.a*(big?1:fm)*tf)};}
 function nextIntent(){const e=C.e,ai=EN[C.id].ai;let k=ai[e.turn%ai.length];e.turn++;if(k==='heavy'&&!e.charged)k='atk';
   const v=k==='heavy'?Math.round(e.atk*1.9):k==='steal'?Math.round(e.atk*0.6):k==='poison'?Math.round(e.atk*0.5):e.atk;return {k,v};}
 function startFight(f,l,override){const r=G().run,id=override||nodeAt(r,f,l).en,st=enemyStats(id,nodeAt(r,f,l).lv||f,r);
@@ -2425,7 +2428,7 @@ function renderFight(){const r=G().run,e=C.e,en=EN[C.id],it=C.intent,fx=C.fx||{}
       ${!o.xp&&!o.boss?'<div class="small muted" style="margin-top:8px">Ya juntaste el máximo de XP de aventura de hoy. Tu nivel sube entrenando.</div>':''}
       <button class="btn block" style="margin-top:14px" data-act="gclose">${o.boss?'Continuar':'Elegir recompensa'}</button></div>`
     :`<div class="gover"><div class="gbig">💀</div><div class="gtitle">KO</div><div class="small muted">${enName(C.id)} te derrotó.</div>
-      <div class="small muted" style="margin:10px 0 0;line-height:1.45">No pierdes lo que llevas de la semana: mañana te levantas con 50% de vida y sigues desde aquí (o ya mismo con 2 🔥). Si no pasas, la llave está en el gym: entrenar y comer bien sube tu nivel, y tu nivel es tu fuerza.</div>
+      <div class="small muted" style="margin:10px 0 0;line-height:1.45">No pierdes lo que llevas de la semana: mañana te levantas con toda tu vida y sigues desde aquí (o ya mismo, a media vida, con 2 🔥). Si no pasas, la llave está en el gym: entrenar y comer bien sube tu nivel, y tu nivel es tu fuerza.</div>
       <button class="btn block" style="margin-top:14px" data-act="gclose">Continuar</button></div>`;}
   else body=`<div class="arena"><button class="fleex" data-act="gflee" aria-label="Huir">🏃 Huir</button>
       <div class="foe ${fx.edmg?'hit':''} ${tc}">
