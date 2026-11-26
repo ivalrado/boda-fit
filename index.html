@@ -783,7 +783,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261125233652';
+const APP_V='20261126074143';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -1498,9 +1498,10 @@ function renderComida(){if(foodDate>today())return renderFoodPreview();
     const sug=menu[id]&&REC[menu[id]]&&!arr.length&&!(S.sugX||{})[k+'|'+id]?menu[id]:null;
     meals+=`<div class="card meal"><h3><span class="em">${em}</span>${name} <span class="small muted" style="font-weight:600">${hr}</span><span class="pill ${arr.length?'':'gray'} cnt">${mk?mk+' kcal':arr.length}</span></h3>
     ${sug?`<div class="sug" data-sk="${k}|${id}"><div class="grow"><div class="small muted">Del menú · ← desliza para quitar</div><div class="t">${REC[sug].n}</div><div class="small muted">${recMac(sug).k} kcal · ${recMac(sug).p} g proteína</div></div><button class="info" data-act="rec" data-rid="${sug}" aria-label="Ver receta">i</button><button class="btn" style="padding:10px 14px;font-size:14px" data-act="logmenu" data-meal="${id}" data-rid="${sug}">Registrar</button></div>`:''}
-    ${arr.map((x,i)=>`<div class="entry"><span class="h">${esc(x.h||'')}</span><span class="tx">${esc(x.t)}${x.kcal!=null?`<span class="ek">${x.kcal} kcal${x.p?` · ${x.p} g prot.`:''}</span>`:''}</span>${x.rid&&REC[x.rid]?`<button class="info" data-act="rec" data-rid="${x.rid}" aria-label="Ver receta">i</button>`:''}<button class="x" data-act="delmeal" data-meal="${id}" data-i="${i}" aria-label="Borrar">✕</button></div>`).join('')}
+    ${arr.map((x,i)=>`<div class="entry"><span class="h">${esc(x.h||'')}</span><span class="tx">${esc(x.t)}${x.kcal!=null?`<span class="ek">${x.est?'≈ ':''}${x.kcal} kcal${x.p?` · ${x.p} g prot.`:''}</span>`:''}</span>${x.rid&&REC[x.rid]?`<button class="info" data-act="rec" data-rid="${x.rid}" aria-label="Ver receta">i</button>`:''}<button class="x" data-act="delmeal" data-meal="${id}" data-i="${i}" aria-label="Borrar">✕</button></div>`).join('')}
     <button class="btn ghost block" style="margin-top:10px;padding:11px;font-size:15px" data-act="picker" data-meal="${id}">📖 Elegir receta</button>
-    <div class="addrow"><input data-mealin="${id}" placeholder="Otra cosa…" enterkeyhint="done" autocomplete="off"><input class="kin" data-kin="${id}" inputmode="numeric" placeholder="kcal"><button class="btn" data-act="addmeal" data-meal="${id}" aria-label="Agregar">+</button></div></div>`;});
+    <div class="addrow"><input data-mealin="${id}" placeholder="Escríbelo: 2 huevos con 2 tortillas…" enterkeyhint="done" autocomplete="off"><input class="kin" data-kin="${id}" inputmode="numeric" placeholder="kcal"><button class="btn" data-act="addmeal" data-meal="${id}" aria-label="Agregar">+</button></div>
+    <div class="small" data-qfh="${id}" style="color:#32d74b;margin:6px 4px 0;min-height:0;line-height:1.35"></div></div>`;});
   const days=Object.keys(S.meals).filter(d=>mealCount(d)>0).sort().reverse().slice(0,30);
   let hh='';
   days.forEach(d=>{const md=S.meals[d];const first=MEALS.flatMap(([id])=>(md[id]||[]).map(x=>x.t)).slice(0,3).join(' · ');
@@ -2794,6 +2795,133 @@ function zoom(id){const e=EX[id];
   <div class="frames"><div><img src="${IMG(e.img,0)}" alt=""><div class="cap">Posición 1</div></div><div><img src="${IMG(e.img,1)}" alt=""><div class="cap">Posición 2</div></div></div>
   <div class="tip">${e.tip}</div><button class="btn ghost block" style="margin-top:12px" data-act="closemodal">Cerrar</button>`;
   document.getElementById('modal').classList.add('on');}
+/* ---- "Escríbelo como lo dirías": calcula kcal y proteína de una descripción ---- */
+/* a: alias separados por | · k,p por 100 g · pz: g por pieza · d: porción por defecto (g) · tz: g por taza · rb: g por rebanada · fr: kcal extra por pieza si es frito/estrellado · dish: platillo (lo que sigue con "de" es el relleno) */
+const QF=[
+ {a:'huevo|blanquillo',n:'Huevo',k:143,p:12.6,pz:50,d:50,fr:20},
+ {a:'clara|claras de huevo',n:'Clara de huevo',k:52,p:11,pz:33,d:99},
+ {a:'tortilla de harina|tortilla harina',n:'Tortilla de harina',k:300,p:8,pz:45,d:45},
+ {a:'tortilla|tortilla de maiz',n:'Tortilla de maíz',k:218,p:5.7,pz:30,d:30},
+ {a:'tostada',n:'Tostada',k:420,p:8,pz:13,d:13},
+ {a:'espinaca|espinacas',n:'Espinaca',k:23,p:2.9,tz:30,d:40},
+ {a:'arroz rojo|arroz a la mexicana|arroz mexicano',n:'Arroz rojo',k:150,p:2.7,tz:160,d:150},
+ {a:'arroz|arroz blanco',n:'Arroz',k:130,p:2.7,tz:160,d:150},
+ {a:'pechuga|pechuga de pollo',n:'Pechuga de pollo',k:165,p:31,pz:220,d:150,frp:.3},
+ {a:'pollo|pollo deshebrado|pollo asado|pollo a la plancha',n:'Pollo',k:165,p:31,d:120,frp:.3},
+ {a:'muslo|pierna de pollo|pierna',n:'Pierna/muslo de pollo',k:210,p:26,pz:110,d:110},
+ {a:'flauta|taquito|taquito dorado|taco dorado|flautita',n:'Flauta/taquito dorado',k:250,p:11.7,pz:60,d:180,dish:1},
+ {a:'taco',n:'Taco',k:238,p:11,pz:80,d:80,dish:1,ord:4},
+ {a:'quesadilla',n:'Quesadilla',k:255,p:12,pz:90,d:90,dish:1},
+ {a:'enchilada',n:'Enchilada',k:178,p:8,pz:90,d:270,dish:1},
+ {a:'tamal',n:'Tamal',k:215,p:6,pz:130,d:130,dish:1},
+ {a:'torta',n:'Torta',k:217,p:10,pz:300,d:300,dish:1},
+ {a:'sandwich|sandwichito|sandwiche',n:'Sándwich',k:230,p:12,pz:180,d:180,dish:1},
+ {a:'hamburguesa',n:'Hamburguesa',k:220,p:11,pz:250,d:250,dish:1},
+ {a:'pizza|rebanada de pizza',n:'Pizza',k:264,p:11,pz:110,rb:110,d:220},
+ {a:'chilaquiles',n:'Chilaquiles',k:180,p:6,d:280,dish:1},
+ {a:'caldo|sopa|consome',n:'Caldo/sopa',k:45,p:4,tz:250,d:350,dish:1},
+ {a:'frijoles|frijol|frijoles refritos|frijoles de la olla',n:'Frijoles',k:109,p:6,tz:170,d:120},
+ {a:'barbacoa',n:'Barbacoa',k:210,p:24,d:100},
+ {a:'arrachera',n:'Arrachera',k:250,p:26,d:120},
+ {a:'carne molida|picadillo',n:'Carne molida',k:230,p:25,d:120},
+ {a:'bistec|carne asada|carne|res',n:'Carne de res',k:220,p:30,d:120},
+ {a:'atun',n:'Atún',k:116,p:25.5,pz:74,d:74},
+ {a:'tilapia|pescado|filete de pescado|salmon',n:'Pescado',k:128,p:26,pz:120,d:120,frp:.3},
+ {a:'camaron|camarones',n:'Camarón',k:99,p:24,d:120},
+ {a:'jamon|jamon de pavo',n:'Jamón',k:104,p:17,rb:20,d:40},
+ {a:'salchicha',n:'Salchicha',k:280,p:11,pz:45,d:45},
+ {a:'tocino',n:'Tocino',k:540,p:37,rb:8,pz:8,d:16},
+ {a:'queso panela|panela',n:'Queso panela',k:230,p:18,rb:30,d:40},
+ {a:'queso|queso oaxaca|queso manchego|queso amarillo',n:'Queso',k:350,p:25,rb:20,d:30},
+ {a:'crema',n:'Crema',k:290,p:2.5,d:15},
+ {a:'aguacate',n:'Aguacate',k:160,p:2,pz:150,d:50},
+ {a:'pan integral|pan de caja',n:'Pan de caja',k:247,p:13,rb:28,pz:28,d:56},
+ {a:'bolillo|telera|pan blanco',n:'Bolillo',k:270,p:9,pz:70,d:70},
+ {a:'pan dulce|concha|dona|cuernito|cuerno|pan',n:'Pan dulce',k:380,p:7,pz:80,d:80},
+ {a:'galleta|galletas',n:'Galletas',k:480,p:6,pz:10,d:30},
+ {a:'avena',n:'Avena',k:379,p:13.2,tz:80,d:40},
+ {a:'cereal',n:'Cereal',k:380,p:7,tz:30,d:30},
+ {a:'cafe con leche|cafeconleche|latte',n:'Café con leche',k:25,p:1.6,tz:240,d:240},
+ {a:'leche entera',n:'Leche entera',k:61,p:3.2,tz:240,d:240},
+ {a:'leche',n:'Leche',k:42,p:3.4,tz:240,d:240},
+ {a:'yogur|yogurt|yogur griego',n:'Yogur',k:59,p:10,tz:245,d:150},
+ {a:'proteina|whey|scoop de proteina|batido de proteina|licuado de proteina',n:'Proteína en polvo',k:400,p:75,pz:30,d:30},
+ {a:'platano',n:'Plátano',k:89,p:1.1,pz:120,d:120},
+ {a:'manzana',n:'Manzana',k:52,p:.3,pz:180,d:180},
+ {a:'mango',n:'Mango',k:60,p:.8,pz:200,d:200},
+ {a:'papaya|melon|sandia|fresa|fresas|fruta|uvas|pina',n:'Fruta',k:40,p:.6,tz:150,d:150},
+ {a:'papa|papas cocidas|pure de papa',n:'Papa',k:87,p:2,pz:150,d:150},
+ {a:'papas fritas|papitas|sabritas|chips',n:'Papas fritas',k:536,p:7,d:45},
+ {a:'pasta|espagueti|spaghetti|sopa de pasta|fideo',n:'Pasta',k:158,p:5.8,tz:140,d:150},
+ {a:'ensalada|lechuga',n:'Ensalada',k:20,p:1.4,tz:60,d:80},
+ {a:'brocoli|calabacita|calabacitas|zanahoria|ejotes|nopal|nopales|verdura|verduras|chayote|champinones|pepino|jitomate|tomate',n:'Verdura',k:30,p:2,tz:100,d:100},
+ {a:'nuez|nueces|almendra|almendras|cacahuate|cacahuates',n:'Nueces',k:600,p:20,d:28},
+ {a:'crema de cacahuate',n:'Crema de cacahuate',k:588,p:25,d:16},
+ {a:'buldak|maruchan|sopa instantanea|ramen',n:'Sopa instantánea',k:393,p:9.3,pz:140,d:140},
+ {a:'refresco|coca|coca cola|soda',n:'Refresco',k:42,p:0,pz:355,d:355},
+ {a:'coca zero|refresco light|coca light|agua mineral|cafe|cafe negro|te',n:'Sin calorías',k:1,p:0,tz:240,d:240},
+ {a:'cerveza|cheve|chela',n:'Cerveza',k:43,p:.5,pz:355,d:355},
+ {a:'jugo|jugo de naranja',n:'Jugo',k:45,p:.7,tz:250,d:250},
+ {a:'azucar',n:'Azúcar',k:400,p:0,d:8},
+ {a:'aceite|mantequilla',n:'Aceite/mantequilla',k:884,p:0,d:5},
+ {a:'salsa|pico de gallo',n:'Salsa',k:30,p:1,d:30}];
+const qnorm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const QFR=QF.map(e=>{const forms=new Set();e.a.split('|').forEach(a=>{const w=a.split(' '),l=w[0];[l,l+'s',l+'es',l.replace(/z$/,'ces')].forEach(f=>forms.add([f,...w.slice(1)].join(' ')));});
+  return new RegExp('\\b('+[...forms].sort((x,y)=>y.length-x.length).map(f=>f.replace(/ /g,'\\s+')).join('|')+')\\b','g');});
+const QNUM={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,doce:12,medio:.5,media:.5,par:2};
+function qQty(w,e){w=' '+w+' ';let n=null,m;
+  if((m=w.match(/(\d+(?:[.,]\d+)?)\s*(?:\/\s*(\d+))?/)))n=m[2]?(+m[1])/(+m[2]):parseFloat(m[1].replace(',','.'));
+  else{for(const k in QNUM)if(new RegExp('\\s'+k+'\\s').test(w)){n=QNUM[k];if(k!=='un'&&k!=='una'&&k!=='uno')break;}}
+  if(/½/.test(w))n=(n&&n!==1?n:0)+.5;
+  const has=r=>r.test(w),N=n==null?1:n;
+  if(has(/\s(kg|kilo|kilos)\s/))return N*1000;
+  if(has(/\s(g|gr|grs|gramo|gramos)\s/)||/\d\s*g\b/.test(w))return N;
+  if(has(/\s(ml|mililitros)\s/))return N;
+  if(has(/\s(litro|litros|lt|l)\s/))return N*1000;
+  if(has(/\s(taza|tazas)\s/))return N*(e.tz||240);
+  if(has(/\s(cucharadita|cucharaditas|cdta|cdita)\s/))return N*5;
+  if(has(/\s(cucharada|cucharadas|cda|cdas)\s/))return N*15;
+  if(has(/\s(rebanada|rebanadas|feta|fetas)\s/))return N*(e.rb||e.pz||25);
+  if(has(/\s(lata|latas)\s/))return N*355;
+  if(has(/\s(vaso|vasos)\s/))return N*250;
+  if(has(/\s(scoop|scoops|medida|medidas)\s/))return N*30;
+  if(has(/\s(puno|punado|punados|punos)\s/))return N*28;
+  if(has(/\s(orden|ordenes)\s/))return N*(e.ord&&e.pz?e.ord*e.pz:e.d);
+  if(has(/\s(plato|platos|porcion|porciones|racion)\s/))return N*e.d*1.2;
+  if(has(/\s(poco|poquito|poca|poquita|tantito)\s/))return e.d*.5;
+  if(has(/\s(mucho|mucha|bastante|buen)\s/))return e.d*1.6;
+  if(n!=null)return n*(e.pz||e.d);
+  return e.d;}
+function parseFood(txt){const raw=qnorm(txt).replace(/cafe con leche/g,'cafeconleche').replace(/\bmas\b/g,',');
+  const chunks=raw.split(/,|;|\+|\n|\s+y\s+|\s+con\s+|\s+e\s+|\.\s/).map(x=>x.trim()).filter(Boolean),items=[],miss=[];
+  chunks.forEach(ch=>{let ms=[];QFR.forEach((re,i)=>{re.lastIndex=0;let m;while((m=re.exec(ch)))ms.push({i,s:m.index,e:m.index+m[0].length});});
+    ms.sort((a,b)=>a.s-b.s||(b.e-b.s)-(a.e-a.s));const keep=[];ms.forEach(m=>{const l=keep[keep.length-1];if(l&&m.s<l.e)return;keep.push(m);});
+    let prev=0,dish=false,last=null;
+    keep.forEach(m=>{const gap=ch.slice(prev,m.s);
+      if(dish||(last&&last.i===m.i&&/^[\s\/o]*$/.test(gap))||(last&&QF[last.i].n===QF[m.i].n)){prev=m.e;return;}
+      const e=QF[m.i],g=qQty(gap,e),fried=/frit|estrellad|guisad|revuelt|empanizad|capead|dorad/.test(ch);
+      let k=e.k*g/100,p=e.p*g/100;if(fried&&e.fr)k+=e.fr*g/(e.pz||e.d);if(fried&&e.frp)k*=1+e.frp;
+      const pcs=e.pz&&Math.abs(g/e.pz-Math.round(g/e.pz))<.01&&!/\d\s*(g|gr|gramos?)\b/.test(gap)?Math.round(g/e.pz):0;
+      items.push({n:e.n,q:pcs?`${pcs} pz`:`${Math.round(g)} g`,k:Math.round(k),p:Math.round(p*10)/10});
+      if(e.dish)dish=true;last=m;prev=m.e;});
+    if(!keep.length&&ch.replace(/[^a-z]/g,'').length>2)miss.push(ch);});
+  return {items,miss,k:items.reduce((a,x)=>a+x.k,0),p:Math.round(items.reduce((a,x)=>a+x.p,0))};}
+let QFP=null;
+function addMealSmart(id){const inp=document.querySelector(`[data-mealin="${id}"]`),kin=document.querySelector(`[data-kin="${id}"]`),v=(inp.value||'').trim();
+  if(!v){inp.focus();return;}if(num(kin&&kin.value)!=null)return addMeal(id);
+  const r=parseFood(v);if(!r.items.length)return addMeal(id);
+  QFP={id,t:v,r};
+  openSheet(`<div class="exn" style="font-size:22px">Esto calculé</div><div class="small muted" style="margin:4px 0 12px">“${esc(v)}”</div>
+    <div class="list">${r.items.map(x=>`<div class="it"><div class="grow"><div class="t">${esc(x.n)}</div><div class="s">${x.q}</div></div><div style="text-align:right"><b>${x.k} kcal</b><div class="small muted">${x.p} g prot.</div></div></div>`).join('')}</div>
+    ${r.miss.length?`<div class="small" style="color:#ff9f0a;margin-top:10px;line-height:1.4">No reconocí: ${r.miss.map(esc).join(', ')}. Si importa, corrígelo poniendo las kcal a mano.</div>`:''}
+    <div class="row between" style="margin-top:12px;padding:0 4px"><b>Total</b><b style="font-size:20px">≈ ${r.k} kcal · ${r.p} g prot.</b></div>
+    <div class="small muted" style="margin-top:6px;line-height:1.4">Es un estimado con porciones típicas. Si dices gramos o piezas ("80 g de pollo", "2 tortillas") sale más exacto.</div>
+    <button class="btn block" style="margin-top:12px" data-act="qfok">Agregar ≈ ${r.k} kcal</button><button class="btn ghost block" style="margin-top:8px" data-act="closemodal">Corregir</button>`);}
+function qfOk(){if(!QFP)return;const {id,t,r}=QFP;QFP=null;const m=S.meals[foodDate]||(S.meals[foodDate]={desayuno:[],comida:[],cena:[]});
+  (m[id]||(m[id]=[])).push({t:t.slice(0,200),h:foodDate===today()?nowHM():'',kcal:r.k,p:r.p,est:1});save();MD().classList.remove('on');renderComida();toast(`Agregado ✓ ≈ ${r.k} kcal`);}
+function qfHint(el){const id=el.dataset.mealin,h=document.querySelector(`[data-qfh="${id}"]`);if(!h)return;const v=el.value.trim();
+  if(v.length<3){h.textContent='';return;}const r=parseFood(v);h.textContent=r.items.length?`≈ ${r.k} kcal · ${r.p} g prot. · ${r.items.map(x=>x.n.toLowerCase()).join(', ')}`:'';}
+
 function addMeal(id){
   const inp=document.querySelector(`[data-mealin="${id}"]`),kin=document.querySelector(`[data-kin="${id}"]`);const v=(inp.value||'').trim();if(!v){inp.focus();return;}
   const kc=num(kin&&kin.value);
@@ -2868,7 +2996,8 @@ document.addEventListener('click',ev=>{
     case 'fnext':if(daysBetween(today(),foodDate)<13){foodDate=addDays(foodDate,1);renderComida();}break;
     case 'ftoday':foodDate=today();renderComida();break;
     case 'fgo':foodDate=b.dataset.date;renderComida();window.scrollTo({top:0,behavior:'smooth'});break;
-    case 'addmeal':addMeal(b.dataset.meal);break;
+    case 'addmeal':addMealSmart(b.dataset.meal);break;
+    case 'qfok':qfOk();break;
     case 'delmeal':{const m=S.meals[foodDate];if(m&&m[b.dataset.meal]){m[b.dataset.meal].splice(+b.dataset.i,1);if(!mealCount(foodDate))delete S.meals[foodDate];save();renderComida();}break;}
     case 'cut':{const c=S.cuts[foodDate]||(S.cuts[foodDate]={});c[b.dataset.id]=!c[b.dataset.id];save();renderComida();
       if(CUTS.every(x=>c[x.id]))toast('✨ ¡Día limpio!');break;}
@@ -2922,6 +3051,7 @@ document.addEventListener('input',ev=>{
     if(lock===1&&Math.abs(dx)>90){t.style.transform=`translateX(${dx>0?120:-120}%)`;t.style.opacity='0';S.sugX=S.sugX||{};S.sugX[t.dataset.sk]=1;
       const old=addDays(today(),-30);Object.keys(S.sugX).forEach(k=>{if(k.slice(0,10)<old)delete S.sugX[k];});save();setTimeout(()=>{t.style.height=t.offsetHeight+'px';t.style.transition='height .2s,margin .2s,padding .2s';requestAnimationFrame(()=>{t.style.height='0';t.style.margin='0';t.style.padding='0';t.style.overflow='hidden';});setTimeout(renderComida,260);},220);}
     else{t.style.transform='';t.style.opacity='';}});})();
+document.addEventListener('input',ev=>{const el=ev.target;if(el&&el.dataset&&el.dataset.mealin)qfHint(el);});
 document.addEventListener('change',ev=>{
   const el=ev.target;
   if(el.dataset.plan!=null){S.plan=weekPlan().slice();S.plan[+el.dataset.plan]=el.value;syncSessions();save();rerender();showWeekEd();toast(`${DOW[+el.dataset.plan]}: ${RT(el.value).name}`);return;}
@@ -2930,7 +3060,7 @@ document.addEventListener('change',ev=>{
 });
 document.addEventListener('keydown',ev=>{
   const el=ev.target;
-  if(ev.key==='Enter'&&el.dataset&&(el.dataset.mealin||el.dataset.kin)){ev.preventDefault();addMeal(el.dataset.mealin||el.dataset.kin);return;}
+  if(ev.key==='Enter'&&el.dataset&&(el.dataset.mealin||el.dataset.kin)){ev.preventDefault();addMealSmart(el.dataset.mealin||el.dataset.kin);return;}
   if(ev.key==='Enter'&&el.dataset&&el.dataset.mealin){ev.preventDefault();addMeal(el.dataset.mealin);}
   if(ev.key==='Enter'&&el.id==='wKg'){ev.preventDefault();document.querySelector('[data-act="savew"]').click();}
 });
