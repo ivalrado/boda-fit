@@ -787,7 +787,7 @@ body.pixel .celebrate{border-radius:0}
 
 <script>
 "use strict";
-const APP_V='20261126080446';
+const APP_V='20261127082349';
 function checkUpdate(){try{fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=t.match(/APP_V='([^']+)'/);
   if(m&&m[1]!==APP_V&&!document.getElementById('updbar')){const d=document.createElement('button');d.id='updbar';d.className='updbar';d.textContent='✨ Hay una versión nueva · toca para actualizar';
   d.onclick=()=>location.replace(location.pathname+'?v='+encodeURIComponent(m[1]));document.body.appendChild(d);}}).catch(()=>{});}catch(e){}}
@@ -2820,7 +2820,105 @@ function zoom(id){const e=EX[id];
 /* ---- "Escríbelo como lo dirías": calcula kcal y proteína de una descripción ---- */
 /* a: alias separados por | · k,p por 100 g · pz: g por pieza · d: porción por defecto (g) · tz: g por taza · rb: g por rebanada · fr: kcal extra por pieza si es frito/estrellado · dish: platillo (lo que sigue con "de" es el relleno) */
 const QF=[
- {a:'huevo|blanquillo',n:'Huevo',k:143,p:12.6,pz:50,d:50,fr:20},
+ {a:'bulgogi|bulgoki|bulgogui',n:'Bulgogi',k:200,p:18,d:150},
+ {a:'fideos negros|jjajangmyeon|jajangmyeon|jjajangmyun|jajangmyun|tallarines negros|fideos con salsa negra',n:'Jjajangmyeon (fideos negros)',k:125,p:5,d:550,dish:1,inc:['Carne molida','Carne de res','Verdura','Cerdo','Cebolla']},
+ {a:'chapagetti|chapaguri|chapaguetti|jjapaguri',n:'Chapagetti',k:430,p:9,pz:140,d:140},
+ {a:'kimbap|gimbap|kimbab|gimbab',n:'Kimbap',k:160,p:5,pz:230,pc:25,d:230,dish:1,inc:['Arroz','Verdura','Huevo','Atún','Jamón','Carne de res']},
+ {a:'bibimbap|bibimbab',n:'Bibimbap',k:120,p:5,d:500,dish:1,inc:['Arroz','Verdura','Huevo','Carne de res','Carne molida']},
+ {a:'tteokbokki|topokki|toppokki|tteokbokki|ddeokbokki|tokbokki',n:'Tteokbokki',k:180,p:3,d:250},
+ {a:'kimchi',n:'Kimchi',k:15,p:1.1,d:50},
+ {a:'samgyeopsal|samgyupsal|panceta|pork belly',n:'Samgyeopsal (panceta)',k:400,p:14,d:150},
+ {a:'pollo coreano|pollo frito coreano|korean fried chicken|yangnyeom',n:'Pollo frito coreano',k:290,p:17,d:250},
+ {a:'japchae',n:'Japchae',k:160,p:4,d:250},
+ {a:'kimchi jjigae|sundubu|jjigae|sopa de kimchi',n:'Sopa coreana (jjigae)',k:60,p:5,d:400,dish:1,inc:['Kimchi','Verdura','Cerdo','Tofu']},
+ {a:'mandu|dumpling|gyoza|dim sum|wonton|baozi|bao',n:'Dumplings/gyoza',k:200,p:8,pz:30,d:180},
+ {a:'corn dog|corndog|banderilla',n:'Corn dog',k:280,p:9,pz:150,d:150},
+ {a:'hotteok',n:'Hotteok',k:280,p:5,pz:100,d:100},
+ {a:'soju',n:'Soju',k:120,p:0,pz:360,d:180},
+ {a:'onigiri',n:'Onigiri',k:170,p:4,pz:110,d:110},
+ {a:'sushi|rollo de sushi|roll de sushi|maki',n:'Sushi',k:190,p:6,pz:280,pc:35,d:280,dish:1,inc:['Arroz','Queso','Pescado','Camarón','Verdura','Aguacate']},
+ {a:'nigiri',n:'Nigiri',k:150,p:7,pz:35,d:105},
+ {a:'sashimi',n:'Sashimi',k:140,p:22,pc:15,d:120},
+ {a:'ramen|ramen japones|tonkotsu',n:'Ramen',k:100,p:4.5,d:600,dish:1,inc:['Huevo','Cerdo','Verdura','Pollo']},
+ {a:'udon|soba',n:'Udon/soba',k:90,p:4,d:500,dish:1,inc:['Verdura','Huevo']},
+ {a:'tempura',n:'Tempura',k:250,p:9,d:150},
+ {a:'teriyaki|pollo teriyaki',n:'Pollo teriyaki',k:180,p:20,d:200},
+ {a:'yakimeshi|arroz frito|arroz chino|chaufa|fried rice',n:'Arroz frito',k:170,p:5,tz:200,d:300,dish:1,inc:['Huevo','Verdura','Arroz','Pollo','Jamón','Camarón']},
+ {a:'sopa miso|miso',n:'Sopa miso',k:35,p:2.5,tz:240,d:240},
+ {a:'edamame|edamames',n:'Edamame',k:120,p:11,d:100},
+ {a:'katsu|tonkatsu|katsudon|pollo katsu|pollo empanizado|milanesa',n:'Empanizado/katsu',k:280,p:18,d:180},
+ {a:'gyudon|donburi|oyakodon',n:'Donburi',k:150,p:7,d:450,dish:1,inc:['Arroz','Huevo','Carne de res','Pollo','Verdura']},
+ {a:'curry japones|curry|kare',n:'Curry',k:140,p:5,d:450,dish:1,inc:['Arroz','Verdura','Pollo','Carne de res','Papa']},
+ {a:'takoyaki',n:'Takoyaki',k:200,p:7,pz:25,d:150},
+ {a:'mochi',n:'Mochi',k:230,p:3,pz:45,d:90},
+ {a:'poke|poke bowl',n:'Poke bowl',k:130,p:9,d:450,dish:1,inc:['Arroz','Pescado','Verdura','Aguacate','Edamame']},
+ {a:'matcha|matcha latte',n:'Matcha latte',k:55,p:3,tz:350,d:350},
+ {a:'chow mein|lo mein|fideos chinos|tallarines chinos|yakisoba',n:'Fideos chinos',k:160,p:6,d:350,dish:1,inc:['Verdura','Pollo','Carne de res','Huevo']},
+ {a:'pollo agridulce|pollo a la naranja|orange chicken|pollo kung pao|kung pao|pollo mongol|res mongol|panda express',n:'Comida china (pollo/res)',k:250,p:12,d:200},
+ {a:'rollo primavera|rollito primavera|egg roll|spring roll',n:'Rollo primavera',k:220,p:6,pz:90,d:90},
+ {a:'pad thai',n:'Pad thai',k:170,p:7,d:400,dish:1,inc:['Huevo','Pollo','Camarón','Verdura']},
+ {a:'pho',n:'Pho',k:70,p:5,d:600,dish:1,inc:['Carne de res','Pollo','Verdura']},
+ {a:'tofu',n:'Tofu',k:80,p:8,d:150},
+ {a:'burrito',n:'Burrito',k:210,p:10,pz:300,d:300,dish:1,inc:['Arroz','Frijoles','Carne de res','Pollo','Queso','Verdura','Crema']},
+ {a:'gringa|volcan|sincronizada',n:'Gringa/sincronizada',k:260,p:13,pz:170,d:170,dish:1,inc:['Queso','Jamón','Pastor']},
+ {a:'gordita|gorditas',n:'Gordita',k:280,p:9,pz:120,d:120,dish:1},
+ {a:'sope|sopes|huarache|tlayuda',n:'Sope/huarache',k:220,p:8,pz:150,d:150,dish:1,inc:['Frijoles','Queso','Crema','Verdura','Salsa']},
+ {a:'mollete|molletes',n:'Molletes',k:230,p:9,pz:110,d:220,dish:1,inc:['Frijoles','Queso','Salsa']},
+ {a:'empanada',n:'Empanada',k:300,p:8,pz:100,d:100,dish:1},
+ {a:'chimichanga',n:'Chimichanga',k:270,p:11,pz:250,d:250,dish:1},
+ {a:'pozole|menudo|birria|consome de birria',n:'Pozole/menudo/birria',k:95,p:7,tz:300,d:500,dish:1,inc:['Cerdo','Pollo','Carne de res','Verdura','Cebolla']},
+ {a:'tinga|tinga de pollo',n:'Tinga',k:150,p:14,d:150},
+ {a:'cochinita|cochinita pibil',n:'Cochinita pibil',k:220,p:20,d:150},
+ {a:'carnitas',n:'Carnitas',k:300,p:23,d:120},
+ {a:'pastor|al pastor|trompo',n:'Pastor',k:240,p:18,d:100},
+ {a:'machacado|carne seca|machaca',n:'Machacado',k:220,p:30,d:80},
+ {a:'discada',n:'Discada',k:250,p:18,d:250},
+ {a:'cabrito',n:'Cabrito',k:200,p:25,d:250},
+ {a:'mole|mole poblano',n:'Mole (con pollo)',k:140,p:10,d:300},
+ {a:'enfrijoladas|entomatadas|enmoladas',n:'Enfrijoladas',k:170,p:7,pz:100,d:300,dish:1},
+ {a:'chicharron',n:'Chicharrón',k:540,p:60,d:30},
+ {a:'ceviche|aguachile|coctel de camaron|coctel',n:'Ceviche/coctel',k:80,p:11,d:300},
+ {a:'elote|esquite|esquites|vaso de elote',n:'Elote/esquites',k:150,p:4,pz:200,d:250},
+ {a:'atole|champurrado',n:'Atole',k:95,p:2,tz:250,d:250},
+ {a:'cerdo|puerco|chuleta|lomo de cerdo|lomo',n:'Cerdo',k:240,p:27,d:150},
+ {a:'costilla|ribs|costillas de cerdo',n:'Costillas',k:300,p:22,d:250},
+ {a:'pavo|pechuga de pavo',n:'Pavo',k:150,p:29,d:120},
+ {a:'pollo frito|pieza de pollo|kfc|pollo kentucky',n:'Pollo frito',k:260,p:22,pz:140,d:280},
+ {a:'alitas|alas|boneless',n:'Alitas/boneless',k:270,p:20,pz:35,d:280},
+ {a:'nuggets|nugget',n:'Nuggets',k:290,p:15,pz:18,d:108},
+ {a:'hot dog|hotdog|jocho|perro caliente',n:'Hot dog',k:260,p:10,pz:150,d:150,dish:1},
+ {a:'nachos',n:'Nachos',k:330,p:9,d:200,dish:1,inc:['Queso','Frijoles','Carne molida','Salsa','Crema']},
+ {a:'totopos|tortilla chips',n:'Totopos',k:480,p:7,d:40},
+ {a:'guacamole',n:'Guacamole',k:160,p:2,d:60},
+ {a:'papas a la francesa|papas francesas|french fries|papas del mcdonalds',n:'Papas a la francesa',k:312,p:3.4,d:120},
+ {a:'lasagna|lasana',n:'Lasaña',k:150,p:9,d:300,dish:1},
+ {a:'pasta alfredo|fettuccine|carbonara|mac and cheese',n:'Pasta cremosa',k:200,p:7,d:350},
+ {a:'calzone',n:'Calzone',k:270,p:11,pz:300,d:300,dish:1},
+ {a:'sub|subway|baguette',n:'Sub/baguette',k:200,p:11,pz:230,d:230,dish:1,inc:['Jamón','Queso','Pollo','Verdura','Pavo']},
+ {a:'hot cakes|hotcakes|hot cake|panqueques|pancakes',n:'Hot cakes',k:230,p:6,pz:80,d:240},
+ {a:'waffle|wafle',n:'Waffle',k:290,p:8,pz:75,d:75},
+ {a:'omelette|omelet|omellette|huevos rancheros|huevos a la mexicana',n:'Omelette/huevos guisados',k:155,p:11,d:180,dish:1,inc:['Huevo','Jamón','Queso','Verdura','Salsa','Cebolla']},
+ {a:'granola',n:'Granola',k:470,p:10,d:50},
+ {a:'mermelada|cajeta|nutella',n:'Untable dulce',k:300,p:1,d:20},
+ {a:'miel|maple|jarabe',n:'Miel/jarabe',k:300,p:0,d:21},
+ {a:'pastel|cheesecake|pay|tarta|brownie',n:'Pastel/postre',k:350,p:5,rb:120,pz:120,d:120},
+ {a:'helado|nieve|paleta de hielo|paleta',n:'Helado',k:200,p:3.5,tz:140,pz:70,d:100},
+ {a:'chocolate|snickers|carlos v|kitkat|barra de chocolate',n:'Chocolate',k:530,p:7,pz:45,d:45},
+ {a:'gomitas|dulces|dulce',n:'Dulces',k:330,p:3,d:40},
+ {a:'palomitas',n:'Palomitas',k:400,p:12,tz:10,d:60},
+ {a:'malteada|frappe|frappuccino|milkshake',n:'Malteada/frappé',k:120,p:3,tz:400,d:400},
+ {a:'licuado|smoothie|licuado de fruta',n:'Licuado',k:80,p:3,tz:350,d:400},
+ {a:'horchata|agua de horchata|agua de jamaica|jamaica|agua fresca|agua de sabor|limonada|naranjada',n:'Agua fresca',k:50,p:.3,tz:250,d:500},
+ {a:'bebida energetica|monster|red bull|vive 100',n:'Energética',k:45,p:0,pz:473,d:473},
+ {a:'gatorade|electrolit|powerade|suero',n:'Bebida deportiva',k:25,p:0,pz:600,d:600},
+ {a:'vino|copa de vino',n:'Vino',k:85,p:0,pz:150,d:150},
+ {a:'tequila|mezcal|whisky|ron|vodka|shot|cuba|cubita',n:'Destilado',k:230,p:0,pz:45,d:45},
+ {a:'michelada|chelada',n:'Michelada',k:50,p:.5,pz:500,d:500},
+ {a:'naranja|mandarina',n:'Naranja/mandarina',k:47,p:.9,pz:140,d:140},
+ {a:'pera|durazno|kiwi|guayaba',n:'Fruta (pieza)',k:55,p:.8,pz:150,d:150},
+ {a:'arandanos|moras|frutos rojos|zarzamoras|frambuesas',n:'Frutos rojos',k:57,p:.7,tz:150,d:100},
+ {a:'cebolla|cebollita|cebollitas',n:'Cebolla',k:40,p:1.1,d:50},
+ {a:'huevo|blanquillo|huevito|huevitos',n:'Huevo',k:143,p:12.6,pz:50,d:50,fr:20},
  {a:'clara|claras de huevo',n:'Clara de huevo',k:52,p:11,pz:33,d:99},
  {a:'tortilla de harina|tortilla harina',n:'Tortilla de harina',k:300,p:8,pz:45,d:45},
  {a:'tortilla|tortilla de maiz',n:'Tortilla de maíz',k:218,p:5.7,pz:30,d:30},
@@ -2831,17 +2929,17 @@ const QF=[
  {a:'pechuga|pechuga de pollo',n:'Pechuga de pollo',k:165,p:31,pz:220,d:150,frp:.3},
  {a:'pollo|pollo deshebrado|pollo asado|pollo a la plancha',n:'Pollo',k:165,p:31,d:120,frp:.3},
  {a:'muslo|pierna de pollo|pierna',n:'Pierna/muslo de pollo',k:210,p:26,pz:110,d:110},
- {a:'flauta|taquito|taquito dorado|taco dorado|flautita',n:'Flauta/taquito dorado',k:250,p:11.7,pz:60,d:180,dish:1},
- {a:'taco',n:'Taco',k:238,p:11,pz:80,d:80,dish:1,ord:4},
- {a:'quesadilla',n:'Quesadilla',k:255,p:12,pz:90,d:90,dish:1},
- {a:'enchilada',n:'Enchilada',k:178,p:8,pz:90,d:270,dish:1},
- {a:'tamal',n:'Tamal',k:215,p:6,pz:130,d:130,dish:1},
- {a:'torta',n:'Torta',k:217,p:10,pz:300,d:300,dish:1},
- {a:'sandwich|sandwichito|sandwiche',n:'Sándwich',k:230,p:12,pz:180,d:180,dish:1},
- {a:'hamburguesa',n:'Hamburguesa',k:220,p:11,pz:250,d:250,dish:1},
+ {a:'flauta|taquito|taquito dorado|taco dorado|flautita',n:'Flauta/taquito dorado',k:250,p:11.7,pz:60,d:180,dish:1,inc:['Salsa','Verdura','Ensalada']},
+ {a:'taco',n:'Taco',k:238,p:11,pz:80,d:80,dish:1,ord:4,inc:['Salsa','Verdura','Cebolla','Guacamole']},
+ {a:'quesadilla',n:'Quesadilla',k:255,p:12,pz:90,d:90,dish:1,inc:['Queso']},
+ {a:'enchilada|enchiladas suizas',n:'Enchilada',k:178,p:8,pz:90,d:270,dish:1,inc:['Pollo','Queso','Crema','Salsa','Verdura']},
+ {a:'tamal|tamalito',n:'Tamal',k:215,p:6,pz:130,d:130,dish:1},
+ {a:'torta|torta ahogada',n:'Torta',k:217,p:10,pz:300,d:300,dish:1,inc:['Jamón','Queso','Queso panela','Aguacate','Verdura','Frijoles','Crema','Salsa']},
+ {a:'sandwich|sandwichito|sandwiche|sandwhich',n:'Sándwich',k:230,p:12,pz:180,d:180,dish:1,inc:['Jamón','Queso','Queso panela','Verdura','Pavo','Aguacate']},
+ {a:'hamburguesa|burger|big mac|whopper',n:'Hamburguesa',k:220,p:11,pz:250,d:250,dish:1,inc:['Queso','Verdura','Cebolla','Salsa']},
  {a:'pizza|rebanada de pizza',n:'Pizza',k:264,p:11,pz:110,rb:110,d:220},
- {a:'chilaquiles',n:'Chilaquiles',k:180,p:6,d:280,dish:1},
- {a:'caldo|sopa|consome',n:'Caldo/sopa',k:45,p:4,tz:250,d:350,dish:1},
+ {a:'chilaquiles',n:'Chilaquiles',k:180,p:6,d:280,dish:1,inc:['Crema','Queso','Salsa','Cebolla']},
+ {a:'caldo|sopa|consome|caldo de pollo|caldo de res',n:'Caldo/sopa',k:45,p:4,tz:250,d:350,dish:1,inc:['Verdura','Arroz','Pollo','Carne de res','Cebolla','Papa']},
  {a:'frijoles|frijol|frijoles refritos|frijoles de la olla',n:'Frijoles',k:109,p:6,tz:170,d:120},
  {a:'barbacoa',n:'Barbacoa',k:210,p:24,d:100},
  {a:'arrachera',n:'Arrachera',k:250,p:26,d:120},
@@ -2857,7 +2955,7 @@ const QF=[
  {a:'queso|queso oaxaca|queso manchego|queso amarillo',n:'Queso',k:350,p:25,rb:20,d:30},
  {a:'crema',n:'Crema',k:290,p:2.5,d:15},
  {a:'aguacate',n:'Aguacate',k:160,p:2,pz:150,d:50},
- {a:'pan integral|pan de caja',n:'Pan de caja',k:247,p:13,rb:28,pz:28,d:56},
+ {a:'pan integral|pan de caja|pan tostado|pan blanco de caja',n:'Pan de caja',k:247,p:13,rb:28,pz:28,d:56},
  {a:'bolillo|telera|pan blanco',n:'Bolillo',k:270,p:9,pz:70,d:70},
  {a:'pan dulce|concha|dona|cuernito|cuerno|pan',n:'Pan dulce',k:380,p:7,pz:80,d:80},
  {a:'galleta|galletas',n:'Galletas',k:480,p:6,pz:10,d:30},
@@ -2874,12 +2972,12 @@ const QF=[
  {a:'papaya|melon|sandia|fresa|fresas|fruta|uvas|pina',n:'Fruta',k:40,p:.6,tz:150,d:150},
  {a:'papa|papas cocidas|pure de papa',n:'Papa',k:87,p:2,pz:150,d:150},
  {a:'papas fritas|papitas|sabritas|chips',n:'Papas fritas',k:536,p:7,d:45},
- {a:'pasta|espagueti|spaghetti|sopa de pasta|fideo',n:'Pasta',k:158,p:5.8,tz:140,d:150},
+ {a:'pasta|espagueti|spaghetti|sopa de pasta|fideo|fideos|sopa de fideo|macarrones|coditos',n:'Pasta',k:158,p:5.8,tz:140,d:150},
  {a:'ensalada|lechuga',n:'Ensalada',k:20,p:1.4,tz:60,d:80},
- {a:'brocoli|calabacita|calabacitas|zanahoria|ejotes|nopal|nopales|verdura|verduras|chayote|champinones|pepino|jitomate|tomate',n:'Verdura',k:30,p:2,tz:100,d:100},
+ {a:'brocoli|calabacita|calabacitas|zanahoria|ejotes|nopal|nopales|verdura|verduras|verdurita|verduritas|vegetales|chayote|champinones|hongos|pepino|jitomate|tomate|pimiento|pimientos|apio|coliflor|esparragos',n:'Verdura',k:30,p:2,tz:100,d:100},
  {a:'nuez|nueces|almendra|almendras|cacahuate|cacahuates',n:'Nueces',k:600,p:20,d:28},
  {a:'crema de cacahuate',n:'Crema de cacahuate',k:588,p:25,d:16},
- {a:'buldak|maruchan|sopa instantanea|ramen',n:'Sopa instantánea',k:393,p:9.3,pz:140,d:140},
+ {a:'buldak|maruchan|sopa instantanea|ramen instantaneo|ramyeon|ramyun|shin ramyun|nissin|cup noodles|sopa maruchan',n:'Ramen instantáneo/buldak',k:393,p:9.3,pz:140,d:140},
  {a:'refresco|coca|coca cola|soda',n:'Refresco',k:42,p:0,pz:355,d:355},
  {a:'coca zero|refresco light|coca light|agua mineral|cafe|cafe negro|te',n:'Sin calorías',k:1,p:0,tz:240,d:240},
  {a:'cerveza|cheve|chela',n:'Cerveza',k:43,p:.5,pz:355,d:355},
@@ -2890,6 +2988,11 @@ const QF=[
 const qnorm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const QFR=QF.map(e=>{const forms=new Set();e.a.split('|').forEach(a=>{const w=a.split(' '),l=w[0];[l,l+'s',l+'es',l.replace(/z$/,'ces')].forEach(f=>forms.add([f,...w.slice(1)].join(' ')));});
   return new RegExp('\\b('+[...forms].sort((x,y)=>y.length-x.length).map(f=>f.replace(/ /g,'\\s+')).join('|')+')\\b','g');});
+const QVOC=(()=>{const v=new Set();QF.forEach(e=>e.a.split('|').forEach(a=>a.split(' ').forEach(w=>{if(w.length>=4)[w,w+'s',w+'es'].forEach(x=>v.add(x));})));return [...v];})();
+const QSTOP=new Set('comi comida comidas cena desayuno almuerzo merienda snack botana hoy ayer tambien otra otro otros otras unos unas algo poco poquito poca poquita tantito medio media cucharada cucharadas cucharadita taza tazas gramos gramo rebanada rebanadas pieza piezas plato platos orden ordenes vaso vasos litro litros lata latas mucho mucha muchos muchas bastante casero caseros casera caseras frito fritos frita fritas estrellado estrellados guisado guisados revuelto revueltos asado asada asados tostado tostados dorado doradas dorados plancha horno natural light grande grandes chico chica chicos mediano mediana porcion como desayune cene almorce tome bebi pedi cuatro cinco siete ocho nueve diez doce tres sobre sobres scoop rollo rollos bowl tazon cada mitad entero entera sola solo puro pura nada unas cuantas pocas pocos'.split(' '));
+function qlev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>2)return 9;let p=[...Array(n+1).keys()];for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c;}return p[n];}
+function qfix(t){return t.replace(/[a-z]+/g,w=>{if(/^(fon|von|xon|cpn|cin|kon)$/.test(w))return 'con';if(w.length<4||QSTOP.has(w)||QVOC.includes(w))return w;
+  let best=w,bd=9;for(const v of QVOC){const d=qlev(w,v);if(d<bd){bd=d;best=v;}}return bd<=(w.length>=7?2:1)?best:w;});}
 const QNUM={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,doce:12,medio:.5,media:.5,par:2};
 function qQty(w,e){w=' '+w+' ';let n=null,m;
   if((m=w.match(/(\d+(?:[.,]\d+)?)\s*(?:\/\s*(\d+))?/)))n=m[2]?(+m[1])/(+m[2]):parseFloat(m[1].replace(',','.'));
@@ -2904,29 +3007,37 @@ function qQty(w,e){w=' '+w+' ';let n=null,m;
   if(has(/\s(cucharadita|cucharaditas|cdta|cdita)\s/))return N*5;
   if(has(/\s(cucharada|cucharadas|cda|cdas)\s/))return N*15;
   if(has(/\s(rebanada|rebanadas|feta|fetas)\s/))return N*(e.rb||e.pz||25);
+  if(has(/\s(pieza|piezas|pz|pzas|pzs)\s/))return N*(e.pc||e.pz||e.d);
   if(has(/\s(lata|latas)\s/))return N*355;
   if(has(/\s(vaso|vasos)\s/))return N*250;
   if(has(/\s(scoop|scoops|medida|medidas)\s/))return N*30;
   if(has(/\s(puno|punado|punados|punos)\s/))return N*28;
   if(has(/\s(orden|ordenes)\s/))return N*(e.ord&&e.pz?e.ord*e.pz:e.d);
-  if(has(/\s(plato|platos|porcion|porciones|racion)\s/))return N*e.d*1.2;
+  if(has(/\s(plato|platos|porcion|porciones|racion|bowl|bowls|tazon|tazones)\s/))return N*e.d*(/(plato|porcion|racion)/.test(w)?1.2:1);
   if(has(/\s(poco|poquito|poca|poquita|tantito)\s/))return e.d*.5;
   if(has(/\s(mucho|mucha|bastante|buen)\s/))return e.d*1.6;
   if(n!=null)return n*(e.pz||e.d);
   return e.d;}
-function parseFood(txt){const raw=qnorm(txt).replace(/cafe con leche/g,'cafeconleche').replace(/\bmas\b/g,',');
-  const chunks=raw.split(/,|;|\+|\n|\s+y\s+|\s+con\s+|\s+e\s+|\.\s/).map(x=>x.trim()).filter(Boolean),items=[],miss=[];
-  chunks.forEach(ch=>{let ms=[];QFR.forEach((re,i)=>{re.lastIndex=0;let m;while((m=re.exec(ch)))ms.push({i,s:m.index,e:m.index+m[0].length});});
+function parseFood(txt){const raw=qfix(qnorm(txt)).replace(/cafe con leche/g,'cafeconleche').replace(/\bmas\b/g,',');
+  const parts=raw.split(/(,|;|\+|\n|\s+y\s+|\s+con\s+|\s+e\s+|\.\s)/),items=[],miss=[];let dish=null,top=false;
+  for(let pi=0;pi<parts.length;pi+=2){const ch=(parts[pi]||'').trim(),sep=pi?parts[pi-1].trim():',';
+    if(sep==='con')top=!!dish;else if(sep!=='y'&&sep!=='e'){dish=null;top=false;}
+    if(!ch)continue;
+    let ms=[];QFR.forEach((re,i)=>{re.lastIndex=0;let m;while((m=re.exec(ch)))ms.push({i,s:m.index,e:m.index+m[0].length});});
     ms.sort((a,b)=>a.s-b.s||(b.e-b.s)-(a.e-a.s));const keep=[];ms.forEach(m=>{const l=keep[keep.length-1];if(l&&m.s<l.e)return;keep.push(m);});
-    let prev=0,dish=false,last=null;
-    keep.forEach(m=>{const gap=ch.slice(prev,m.s);
-      if(dish||(last&&last.i===m.i&&/^[\s\/o]*$/.test(gap))||(last&&QF[last.i].n===QF[m.i].n)){prev=m.e;return;}
-      const e=QF[m.i],g=qQty(gap,e),fried=/frit|estrellad|guisad|revuelt|empanizad|capead|dorad/.test(ch);
+    let prev=0,inDish=false,last=null;
+    keep.forEach((m,mi)=>{let gap=ch.slice(prev,m.s);const og=gap,e=QF[m.i];prev=m.e;
+      if(last&&QF[last.i].n===e.n&&/^[\s\/o]*$/.test(og))return;
+      if(!/\d|\b(un|una|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|doce|medio|media|par|poco|poquito|tantito)\b/.test(gap)&&!keep.slice(mi+1).some(x=>x.i!==m.i)){const tl=ch.slice(m.e).match(/^\s*(?:\w+\s+)?(\d+(?:[.,]\d+)?\s*(?:g|gr|grs|gramos?|piezas?|pz|ml|kg)?)\b/);if(tl)gap=' '+tl[1]+' ';}
+      if(inDish&&/\bde\b/.test(gap))return;
+      if((last&&last.i===m.i&&/^[\s\/o]*$/.test(gap))||(last&&QF[last.i].n===e.n&&/^[\s\/o]*$/.test(gap)))return;
+      if(top&&dish&&dish.inc&&dish.inc.includes(e.n))return;
+      const g=qQty(gap,e),fried=/frit|estrellad|guisad|revuelt|empanizad|capead|dorad/.test(ch);
       let k=e.k*g/100,p=e.p*g/100;if(fried&&e.fr)k+=e.fr*g/(e.pz||e.d);if(fried&&e.frp)k*=1+e.frp;
-      const pcs=e.pz&&Math.abs(g/e.pz-Math.round(g/e.pz))<.01&&!/\d\s*(g|gr|gramos?)\b/.test(gap)?Math.round(g/e.pz):0;
-      items.push({n:e.n,q:pcs?`${pcs} pz`:`${Math.round(g)} g`,k:Math.round(k),p:Math.round(p*10)/10});
-      if(e.dish)dish=true;last=m;prev=m.e;});
-    if(!keep.length&&ch.replace(/[^a-z]/g,'').length>2)miss.push(ch);});
+      const byPc=e.pc&&/(pieza|pz)/.test(gap),unit=byPc?e.pc:e.pz,pcs=unit&&Math.abs(g/unit-Math.round(g/unit))<.01&&!/\d\s*(g|gr|gramos?)\b/.test(gap)?Math.round(g/unit):0;
+      items.push({n:e.n,q:pcs?`${pcs} ${byPc?'piezas':'pz'}`:`${Math.round(g)} g`,k:Math.round(k),p:Math.round(p*10)/10});
+      if(e.dish){dish=e;top=false;inDish=true;}last=m;});
+    if(!keep.length&&ch.replace(/[^a-z]/g,'').length>2&&!/^(me |hoy |ayer |de |el |la |un |una )?(comi|desayune|cene|almorce|tome|bebi)?\s*$/.test(ch))miss.push(ch);}
   return {items,miss,k:items.reduce((a,x)=>a+x.k,0),p:Math.round(items.reduce((a,x)=>a+x.p,0))};}
 let QFP=null;
 function addMealSmart(id){const inp=document.querySelector(`[data-mealin="${id}"]`),kin=document.querySelector(`[data-kin="${id}"]`),v=(inp.value||'').trim();
